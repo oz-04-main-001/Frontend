@@ -8,22 +8,52 @@
     font-family: 'Spoqa Han Sans Neo', 'sans-serif', 'ui-sans-serif',
       'system-ui';
   }
+  .d1 {
+    @apply font-bold text-7xl;
+  }
+  .d2 {
+    @apply font-bold text-6xl;
+  }
   h1 {
-    @apply font-medium;
+    @apply font-medium text-5xl;
   }
   h2 {
-    @apply font-medium;
+    @apply font-medium text-4xl;
   }
   h3 {
-    @apply font-bold;
+    @apply font-bold text-3xl;
   }
   h4 {
-    @apply font-medium;
+    @apply font-medium text-2xl;
   }
   h5 {
-    @apply font-medium;
+    @apply font-medium text-xl;
   }
   h6 {
-    @apply font-bold;
+    @apply font-bold text-large;
+  }
+  .s1 {
+    @apply font-medium text-medium;
+  }
+  .s2 {
+    @apply font-medium text-base;
+  }
+  .b1 {
+    @apply font-medium text-base;
+  }
+  .b2 {
+    @apply font-regular text-xs;
+  }
+  .btn1 {
+    @apply font-regular text-base;
+  }
+  .btn2 {
+    @apply font-light text-xs;
+  }
+  .c1 {
+    @apply font-regular text-2xs;
+  }
+  .c2 {
+    @apply font-bold text-2xs;
   }
 }
