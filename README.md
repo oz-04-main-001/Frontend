@@ -1,50 +1,33 @@
-# React + TypeScript + Vite
+# cummunity Front-End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- 메인 레포지토리 : side-project-a.vercel.app
 
-Currently, two official plugins are available:
+## 프로젝트 소개
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+오즈코딩스쿨 심화반에서 진행되는 커뮤니티 사이트입니다.
+멘토님께서 supabase를 이용해 만들어주신 API를 활용하여 제작하였습니다.
 
-## Expanding the ESLint configuration
+## 팀원 구성
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+| 한기선(FE)                                                                                    | 이상민(FE)                                                                                   | 손수민(FE) | 김예진(FE) |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------- | ---------- |
+| <img src ="https://avatars.githubusercontent.com/u/176655935?v=4" width=200> <br /> @kiseon77 | <img src ="https://avatars.githubusercontent.com/u/173327797?v=4" width=200> <br /> @unong14 |
 
-- Configure the top-level `parserOptions` property like this:
+## 1. 개발환경
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Front : HTML, React, Tailwind CSS <br />
+버전 및 이슈관리 : Github, Github Issues <br />
+협업 툴 : Discord, Notion <br />
+디자인 : Figma
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 2. 채택한 개발 기술과 브랜치 전략
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### React
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- React
+  - 컴포넌트화를 통해 추후 유지보수와 재사용성을 고려했습니다.
+  - 유저 배너, 상단과 하단 배너 등 중복되어 사용되는 부분이 많아 컴포넌트화를 통해 리소스 절약이 가능했습니다.
+
+## 3. 프로젝트 프론트엔드 구조
+
+## 4. 역할분담
