@@ -1,68 +1,59 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* font-thin font-light font-regular font-medium font-bold */
+@layer base {
+  html {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif', 'ui-sans-serif',
+      'system-ui';
   }
-  a:hover {
-    color: #747bff;
+  .d1 {
+    @apply font-bold text-7xl;
   }
-  button {
-    background-color: #f9f9f9;
+  .d2 {
+    @apply font-bold text-6xl;
+  }
+  h1 {
+    @apply font-medium text-5xl;
+  }
+  h2 {
+    @apply font-medium text-4xl;
+  }
+  h3 {
+    @apply font-bold text-3xl;
+  }
+  h4 {
+    @apply font-medium text-2xl;
+  }
+  h5 {
+    @apply font-medium text-xl;
+  }
+  h6 {
+    @apply font-bold text-large;
+  }
+  .s1 {
+    @apply font-medium text-medium;
+  }
+  .s2 {
+    @apply font-medium text-base;
+  }
+  .b1 {
+    @apply font-medium text-base;
+  }
+  .b2 {
+    @apply font-regular text-xs;
+  }
+  .btn1 {
+    @apply font-regular text-base;
+  }
+  .btn2 {
+    @apply font-light text-xs;
+  }
+  .c1 {
+    @apply font-regular text-2xs;
+  }
+  .c2 {
+    @apply font-bold text-2xs;
   }
 }
