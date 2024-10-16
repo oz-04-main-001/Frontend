@@ -1,16 +1,38 @@
 //기선
-export default function Button({ size = 'm', text = 'Button', type = 'err' }) {
-  const btnSize = (size: string) => {
-    switch (size) {
-      case 'm':
-        return 'b2';
-      case 'l':
-        return 'b1';
-      default:
-        return 'b2';
-    }
-  };
-  const btnType = (type: string) => {
+
+type ButtonProps = {
+  size?: BtnSize;
+  text?: string;
+  type?: BtnType;
+};
+enum BtnSize {
+  m = 'm',
+  l = 'l',
+}
+enum BtnType {
+  normal = 'normal',
+  disabled = 'disabled',
+  popup = 'popup',
+  line = 'line',
+  err = 'err',
+}
+const btnSize = (size: BtnSize) => {
+  switch (size) {
+    case 'm':
+      return 'b2';
+    case 'l':
+      return 'b1';
+    default:
+      return 'b2';
+  }
+};
+
+export default function Button({
+  size = BtnSize.m,
+  text = 'Button',
+  type = BtnType.disabled,
+}: ButtonProps) {
+  const btnType = (type: BtnType) => {
     switch (type) {
       case 'normal':
         return 'bg-primary-600 text-white ';
