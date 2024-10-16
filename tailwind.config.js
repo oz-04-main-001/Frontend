@@ -1,20 +1,22 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/**/*.{html, js}'],
   theme: {
+    colors: {
+      white: '#FFFFFF',
+      black: '#15161A',
+      gray: {
+        50: '#F1F2F2',
+        100: '#BDC8DA',
+        200: '#98A6C',
+        300: '#8490A6',
+        400: '#71798C',
+        500: '#5C6373',
+        700: '#474D59',
+        800: '#292C33',
+      },
+    },
     extend: {
-      color: {
-        white: '#FFFFFF',
-        black: '#15161A',
-        gray: {
-          50: '#F1F2F2',
-          100: '#BDC8DA',
-          200: '#98A6C',
-          300: '#8490A6',
-          400: '#71798C',
-          500: '#5C6373',
-          700: '#474D59',
-          800: '#292C33',
-        },
+      colors: {
         state: {
           err: '#FF8A80',
           warn: '#FFD275',
