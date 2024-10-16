@@ -1,5 +1,3 @@
-//기선
-
 import { useState } from 'react';
 
 export default function Chips({ text = 'chip' }) {

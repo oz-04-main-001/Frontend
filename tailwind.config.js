@@ -7,7 +7,7 @@ module.exports = {
       gray: {
         50: '#F1F2F2',
         100: '#BDC8DA',
-        200: '#98A6C',
+        200: '#98A6C1',
         300: '#8490A6',
         400: '#71798C',
         500: '#5C6373',
@@ -21,6 +21,11 @@ module.exports = {
           err: '#FF8A80',
           warn: '#FFD275',
           safe: '#A5C18F',
+        },
+        primary: {
+          100: '#E0E0E0',
+          300: '#A0D8F1',
+          600: '#0378D6',
         },
       },
       fontFamily: {
