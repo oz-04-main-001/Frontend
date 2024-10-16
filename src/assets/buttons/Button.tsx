@@ -1,5 +1,3 @@
-//기선
-
 type ButtonProps = {
   size?: BtnSize;
   text?: string;
@@ -28,9 +26,9 @@ const btnSize = (size: BtnSize) => {
 };
 
 export default function Button({
-  size = BtnSize.m,
+  size = BtnSize.l,
   text = 'Button',
-  type = BtnType.disabled,
+  type = BtnType.err,
 }: ButtonProps) {
   const btnType = (type: BtnType) => {
     switch (type) {
