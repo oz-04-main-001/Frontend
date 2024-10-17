@@ -10,6 +10,7 @@
     box-sizing: border-box;
     color: #15161a;
   }
+
   .d1 {
     @apply font-bold text-7xl;
   }
