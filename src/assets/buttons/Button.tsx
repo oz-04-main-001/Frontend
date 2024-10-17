@@ -3,11 +3,11 @@ type ButtonProps = {
   text?: string;
   type?: BtnType;
 };
-enum BtnSize {
+export enum BtnSize {
   m = 'm',
   l = 'l',
 }
-enum BtnType {
+export enum BtnType {
   normal = 'normal',
   disabled = 'disabled',
   popup = 'popup',
