@@ -1,4 +1,4 @@
-import { Input } from './assets/input';
+import { Input } from "../../assets/Input";
 
 interface ButtonProps {
   label: string;
@@ -23,22 +23,22 @@ const Logo = () => (
 // SignIn 컴포넌트로 이름 변경
 function SignIn() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
       <Logo /> {/* 로고 컴포넌트 추가 */}
       
       <div className="w-full max-w-[400px] flex flex-col">
-        <label className="text-sm font-regular mt-4 text-left">이메일</label>
+        <label className="mt-4 text-sm text-left font-regular">이메일</label>
         <Input type="email" id="email" placeholder="이메일" />
 
-        <label className="text-sm font-regular mt-4 text-left">비밀번호</label>
+        <label className="mt-4 text-sm text-left font-regular">비밀번호</label>
         <Input type="password" id="password" placeholder="비밀번호" />
       </div>
 
       <Button label="로그인" />
       <div className="mt-4">
-        <a href="#" className="text-blue-500 text-sm mr-4">회원가입</a>
-        <a href="#" className="text-blue-500 text-sm">아이디 /</a>
-        <a href="#" className="text-blue-500 text-sm"> 비밀번호 찾기</a>
+        <a href="#" className="mr-4 text-sm text-blue-500">회원가입</a>
+        <a href="#" className="text-sm text-blue-500">아이디 /</a>
+        <a href="#" className="text-sm text-blue-500"> 비밀번호 찾기</a>
       </div>
     </div>
   );
