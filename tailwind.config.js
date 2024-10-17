@@ -17,6 +17,11 @@ module.exports = {
     },
     extend: {
       colors: {
+        blue: {
+          100: '#E0F2FE', // 하늘색 계열 추가
+          500: '#3B82F6',
+          700: '#1D4ED8',
+        },
         state: {
           err: '#FF8A80',
           warn: '#FFD275',
