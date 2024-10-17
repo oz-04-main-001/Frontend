@@ -27,3 +27,14 @@
   opacity: 0.75;
   color: #fff;
 }
+
+.slick-prev {
+  left: -50px; /* 화살표 왼쪽 위치 */
+}
+
+.slick-next {
+  right: -50px; /* 화살표 오른쪽 위치 */
+}
+.arrow-button:hover {
+  transform: scale(1.2);
+}

@@ -15,8 +15,6 @@ export default function Carousel({ imgs }: CarouselProps) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: <Arrow />,
-    prevArrow: <Arrow />,
   };
   return (
     <div className="">
