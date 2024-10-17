@@ -1,28 +1,31 @@
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import Arrow from './Arrow';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import './carouselStyle.css';
 
-export default function Carousel() {
+interface CarouselProps {
+  imgs: string[];
+}
+export default function Carousel({ imgs }: CarouselProps) {
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    arrows: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    initialSlide: 2,
     nextArrow: <Arrow />,
     prevArrow: <Arrow />,
-    dotsClass: 'custom-dots',
   };
   return (
     <div className="">
-      <Slider
-        {...settings}
-        className="flex items-center justify-center w-full gap-9"
-      >
-        <div className="w-full bg-gray-100 min-h-96"></div>
-        <div className="w-3 h-5 bg-gray-100"></div>
+      <Slider {...settings} className="">
+        {imgs?.map((img, idx) => (
+          <div key={idx} className="w-full bg-gray-200">
+            <img className="w-fll" src={img} alt={img} />
+          </div>
+        ))}
       </Slider>
     </div>
   );
