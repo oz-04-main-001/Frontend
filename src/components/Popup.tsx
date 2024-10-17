@@ -33,7 +33,6 @@ const Popup: React.FC<PopupProps> = ({
       <div
         className={`relative bg-white rounded-md shadow-lg px-10 py-[30px] flex justify-center items-center flex-col ${containerClass}`}
       >
-        {/* 부모 요소에 relative를 추가하여 버튼의 위치 기준 설정 */}
         <button
           onClick={onClose}
           className="absolute top-[30px] left-10 text-xl w-6 h-6 font-bold text-white bg-black rounded-xl"
@@ -44,21 +43,8 @@ const Popup: React.FC<PopupProps> = ({
         <p className={`text-center pt-2 pb-3 ${subTitleClass}`}>{subTitle}</p>
         <div className="mt-4">{children}</div>
         <div className="flex justify-between mt-6 mx-10 w-full">
-          {/* <button
-            onClick={onPrev}
-            className="bg-gray-200 text-black w-[14.25rem] h-[3.75rem] rounded"
-          >
-            이전
-          </button>
-         
-          <button
-            onClick={onNext}
-            className="bg-primary-600 text-white w-[14.25rem] h-[3.75rem] rounded"
-          >
-            다음
-          </button> */}
           <div className="flex justify-between w-[30rem] h-[3.75rem]">
-            <div className="w-[14.25rem]">
+            <div className="w-56">
               <Button
                 size={BtnSize.l}
                 text={buttonText.text1}
@@ -66,11 +52,11 @@ const Popup: React.FC<PopupProps> = ({
                 onClick={onClickLogic1}
               />
             </div>
-            <div className="w-[14.25rem]">
+            <div className="w-56">
               <Button
                 size={BtnSize.l}
                 text={buttonText.text2}
-                type={BtnType.popup}
+                type={BtnType.normal}
                 onClick={onClickLogic2}
               />
             </div>
