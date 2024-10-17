@@ -1,8 +1,9 @@
-type ButtonProps = {
+interface ButtonProps {
   size?: BtnSize;
   text?: string;
   type?: BtnType;
-};
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
 export enum BtnSize {
   m = 'm',
   l = 'l',
@@ -29,6 +30,7 @@ export default function Button({
   size = BtnSize.l,
   text = 'Button',
   type = BtnType.err,
+  onClick,
 }: ButtonProps) {
   const btnType = (type: BtnType) => {
     switch (type) {
@@ -48,6 +50,7 @@ export default function Button({
   };
   return (
     <button
+      onClick={onClick}
       type="button"
       className={`w-full p-2 rounded-md ${btnType(type)} ${btnSize(size)} transition duration-300 ease-in-out hover:scale-105 focus:opacity-75`}
     >
