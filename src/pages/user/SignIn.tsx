@@ -1,4 +1,4 @@
-import { Input } from './assets/input';
+import { Input } from './assets/Input';
 
 interface ButtonProps {
   label: string;
