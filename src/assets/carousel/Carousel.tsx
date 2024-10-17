@@ -1,6 +1,6 @@
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
-import Arrow from './Arrow';
+//import Arrow from './Arrow';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './carouselStyle.css';
