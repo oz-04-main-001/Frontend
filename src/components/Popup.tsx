@@ -42,7 +42,7 @@ const Popup: React.FC<PopupProps> = ({
         <h2 className={`text-center pt- ${titleClass}`}>{title}</h2>
         <p className={`text-center pt-2 pb-3 ${subTitleClass}`}>{subTitle}</p>
         <div className="mt-4">{children}</div>
-        <div className="flex justify-between mt-6 mx-10 w-full">
+        <div className="flex justify-center mt-6 mx-10 w-full">
           <div className="flex justify-between w-[30rem] h-[3.75rem]">
             <div className="w-56">
               <Button
