@@ -3,7 +3,7 @@ import DetailInfo from '../../components/DetailInfo';
 import InfoTemp1 from '../../components/InfoTemp1';
 import InfoTemp2 from '../../components/InfoTemp2';
 import CardStateroom from '../../components/cards/CardStateroom';
-import Layout from '../../layouts/Layout';
+import Layout from '../../layouts/Layout1';
 import { DetailType } from '../../components/DetailInfo';
 export default function Accommodations() {
   const texts = ['주차가능', '조식운영'];
