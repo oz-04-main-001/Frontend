@@ -5,7 +5,7 @@ import { BtnSize, BtnType } from '../assets/buttons/Button';
 interface PopupProps {
   title: string;
   onClose: () => void;
-  subTitle: string;
+  subTitle?: string;
   children: React.ReactNode;
   buttonText: { text1?: string; text2?: string };
   onClickLogic1: () => void;
@@ -19,7 +19,7 @@ interface PopupProps {
 const Popup: React.FC<PopupProps> = ({
   title = 'Title',
   onClose,
-  subTitle = 'subTitle',
+  subTitle,
   titleClass = 'font-bold text-3xl',
   subTitleClass = 'text-sm',
   containerClass = 'w-[560px] h-auto',
@@ -31,7 +31,7 @@ const Popup: React.FC<PopupProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div
-        className={`relative bg-white rounded-md shadow-lg px-10 py-[30px] flex justify-center items-center flex-col ${containerClass}`}
+        className={`relative bg-white rounded-md shadow-lg px-10 py-[30px] flex flex-col ${containerClass}`} // 호환성에 문제가 있어서 이 부분 조금 수정했어요. 필요하면 containerClass 프롭으로 받아서 넣어주시면 됩니다.
       >
         <button
           onClick={onClose}
@@ -42,8 +42,8 @@ const Popup: React.FC<PopupProps> = ({
         <h2 className={`text-center pt- ${titleClass}`}>{title}</h2>
         <p className={`text-center pt-2 pb-3 ${subTitleClass}`}>{subTitle}</p>
         <div className="mt-4">{children}</div>
-        <div className="flex justify-between mt-6 mx-10 w-full">
-          <div className="flex justify-between w-[30rem] h-[3.75rem]">
+        <div className="flex justify-center mt-6 mx-10">
+          <div className="flex justify-between w-[30rem] h-[3.75rem] ">
             <div className="w-56">
               <Button
                 size={BtnSize.l}
