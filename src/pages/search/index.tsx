@@ -1,13 +1,9 @@
-import Button from '../../assets/buttons/Button';
-import Carousel from '../../assets/carousel/Carousel';
-import Chips from '../../assets/Chips';
+import CardAccommodations from '../../components/cards/CardAccommodations';
 
 export default function index() {
   return (
     <>
-      <Chips />
-      <Button />
-      <Carousel />
+      <CardAccommodations />
     </>
   );
 }
