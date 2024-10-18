@@ -8,7 +8,7 @@ interface PaymentInfoProps {
 }
 
 export default function PaymentInfo({
-  title = '예약 취소',
+  title = '결제 정보',
   text = '객실 가격(2박)',
   divStyle = 'flex flex-col w-11/12',
   won = '34,000원',

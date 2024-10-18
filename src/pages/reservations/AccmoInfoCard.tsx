@@ -26,7 +26,7 @@ export default function AccmoInfoCard({ state = '완료' }) {
           <ReservAccoCard />
         </div>
       </div>
-      <div className="flex flex-row mt-6 mr-8">
+      <div className="flex flex-row mt-6">
         <CheckInOut />
         <CheckInOut title="체크아웃" date="2025.12.04(수)" time="11:00" />
       </div>
