@@ -4,9 +4,11 @@ import React, { useState } from 'react';
 interface CheckboxProps {
   label?: string;
   size?: number;
+  bold?: boolean;  // true = 굵게, flase = 기본값 
+  fontSize?: string;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ label = 'Label', size = 20 }) => {
+const Checkbox: React.FC<CheckboxProps> = ({ label = 'Label', size = 20, bold = false, fontSize = '1rem' }) => {
   const [checked, setChecked] = useState(false);
 
   const handleCheckboxClick = () => {
@@ -31,7 +33,12 @@ const Checkbox: React.FC<CheckboxProps> = ({ label = 'Label', size = 20 }) => {
           </svg>
         )}
       </div>
-      <span className="ml-2 font-sans text-black">{label}</span>
+      <span
+        className={`ml-2 font-sans text-black ${bold ? 'font-bold' : 'font-normal'}`}
+        style={{ fontSize }}
+      >
+        {label}
+      </span>
     </div>
   );
 };
