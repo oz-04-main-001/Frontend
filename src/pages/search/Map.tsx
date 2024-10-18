@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-// import Marker from '../../assets/icons/marker.svg';
 
 declare global {
   interface Window {
