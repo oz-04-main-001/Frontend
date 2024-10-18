@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '../assets/buttons/Button';
 import { BtnSize, BtnType } from '../assets/buttons/Button';
 
-
 interface PopupProps {
   title: string;
   onClose: () => void;
@@ -43,8 +42,9 @@ const Popup: React.FC<PopupProps> = ({
         <h2 className={`text-center pt- ${titleClass}`}>{title}</h2>
         <p className={`text-center pt-2 pb-3 ${subTitleClass}`}>{subTitle}</p>
         <div className="mt-4">{children}</div>
-        <div className="flex justify-center mx-10 mt-6">
-          <div className="flex justify-between w-[30rem] h-[3.75rem] ">
+        <div className="flex justify-center mt-6 mx-10 space-x-4">
+          <div className="flex justify-between w-[30rem] h-[3.75rem]">
+
             <div className="w-56">
               <Button
                 size={BtnSize.l}
