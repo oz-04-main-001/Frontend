@@ -10,17 +10,19 @@ const StructureType: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedOption } = location.state || { selectedOption: '선택된 유형 없음' };
+
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
+
+  const buildings = ['펜션', '아파트', '빌라', '단독주택', '호텔', '아파트2', '빌라2'];
 
   const handleBuildingClick = (building: string) => {
     setSelectedBuilding(building);
   };
-
   const handleNextClick = () => {
     if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {
-      navigate('/only-starter-room', { state: { selectedBuilding } }); 
+      navigate('/only-starter-room', { state: { selectedBuilding } });
     } else if (selectedOption === '하나의 숙소에 객실이 여러개 있어요.') {
-      navigate('/multi-accommodations', { state: { selectedBuilding } }); 
+      navigate('/multi-accommodations', { state: { selectedBuilding } });
     }
   };
 
@@ -37,30 +39,11 @@ const StructureType: React.FC = () => {
         <div className="flex flex-col items-center w-full mb-10">
           <h3 className="w-full mb-8 text-2xl font-bold text-left">{selectedOption}</h3>
           <div className="grid w-full grid-cols-5 gap-4">
-            <div onClick={() => handleBuildingClick('펜션')}>
-              <Chips text="펜션" />
-            </div>
-            <div onClick={() => handleBuildingClick('아파트')}>
-              <Chips text="아파트" />
-            </div>
-            <div onClick={() => handleBuildingClick('빌라')}>
-              <Chips text="빌라" />
-            </div>
-            <div onClick={() => handleBuildingClick('단독주택')}>
-              <Chips text="단독주택" />
-            </div>
-            <div onClick={() => handleBuildingClick('모텔')}>
-              <Chips text="호텔" />
-            </div>
-            <div onClick={() => handleBuildingClick('펜션')}>
-              <Chips text="펜션" />
-            </div>
-            <div onClick={() => handleBuildingClick('아파트')}>
-              <Chips text="아파트" />
-            </div>
-            <div onClick={() => handleBuildingClick('빌라')}>
-              <Chips text="빌라" />
-            </div>
+            {buildings.map((building, index) => (
+              <div key={index} onClick={() => handleBuildingClick(building)}>
+                <Chips text={building} />
+              </div>
+            ))}
           </div>
 
           <div className="flex justify-between w-3/4 gap-4 mt-36">
