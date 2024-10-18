@@ -1,58 +1,68 @@
-// import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+// import Marker from '../../assets/icons/marker.svg';
 
-// declare global {
-//   interface Window {
-//     kakao: any;
-//   }
-// }
-// export default function Map() {
-//   useEffect(() => {
-//     let container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-//     let options = {
-//       //지도를 생성할 때 필요한 기본 옵션
-//       center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-//       level: 3, //지도의 레벨(확대, 축소 정도)
-//     };
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+export default function Map() {
+  const mapContainer = useRef(null);
+  const markerdata = [
+    {
+      title: '콜드스퀘어',
+      lat: 37.62197524055062,
+      lng: 127.16017523675508,
+    },
+    {
+      title: '하남돼지집',
+      lat: 37.620842424005616,
+      lng: 127.1583774403176,
+    },
+    {
+      title: '수유리우동',
+      lat: 37.624915253753194,
+      lng: 127.15122688059974,
+    },
+    {
+      title: '맛닭꼬',
+      lat: 37.62456273069659,
+      lng: 127.15211256646381,
+    },
+  ];
+  useEffect(() => {
+    const markerSize = new window.kakao.maps.Size(16, 16);
+    const markerImage = '/marker.png';
+    let options = {
+      //지도를 생성할 때 필요한 기본 옵션
+      center: new window.kakao.maps.LatLng(37.6243, 127.1498), //지도의 중심좌표.
+      level: 5, //지도의 레벨(확대, 축소 정도)
+    };
 
-//     let map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-//     for (let i = 0; i < dummy.data.length; i++) {
-//       displayMarker(dummy.data[i], i);
-//     }
+    //지도 생성 및 객체 리턴
+    let map = new window.kakao.maps.Map(mapContainer.current, options);
 
-//     function displayMarker<
-//       T extends {
-//         name: string;
-//         location_y: number;
-//         location_x: number;
-//         active: boolean;
-//         point: number;
-//       },
-//     >(data: T, i: number) {
-//       // 인포윈도우 표시될 위치(좌표)
-//       let iwPosition = new window.kakao.maps.LatLng(
-//         data.location_y,
-//         data.location_x
-//       );
+    markerdata.forEach(el => {
+      const marker = new window.kakao.maps.MarkerImage(markerImage, markerSize);
 
-//       // 인포윈도우에 표출될 내용. HTML 문자열이나 document element 등이 가능하다.
-//       var inactiveInfoWindow = `<div class="inactive infowindow""><span>${data.name}</span></div>`;
+      // 마커를 생성합니다
+      new window.kakao.maps.Marker({
+        //마커가 표시 될 지도
+        map: map,
+        //마커가 표시 될 위치
+        position: new window.kakao.maps.LatLng(el.lat, el.lng),
+        //마커에 hover시 나타날 title
+        title: el.title,
+        image: marker,
+      });
+    });
+  }, []);
 
-//       //인포윈도우
-//       let infowindow;
-
-//       infowindow = new window.kakao.maps.InfoWindow({
-//         zIndex: 1,
-//         position: iwPosition,
-//         content: inactiveInfoWindow,
-//         disableAutoPan: false,
-//         map: map, //map에 해당 인포윈도우를 적용한다.
-//       });
-//     }
-
-//     //중심좌표 재설정
-//     var position = new window.kakao.maps.LatLng(37.586272, 127.029005);
-//     map.setCenter(position);
-//   }, []);
-
-//   return <div id="map" style={{ width: '100vw', height: '100vh' }} />;
-// }
+  return (
+    <div
+      id="map"
+      ref={mapContainer}
+      style={{ width: '100vw', height: '100vh' }}
+    />
+  );
+}
