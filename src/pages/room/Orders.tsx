@@ -4,6 +4,7 @@ import Checkbox from '../../assets/Checkbox';
 import Divider from '../../assets/Divider';
 import InfoTemp from '../../components/InfoTemp1';
 import Layout from '../../layouts/Layout1';
+import CheckInOut from '../../components/CheckInOut';
 
 export default function Orders({ subTitle = '숙소', title = '객실' }) {
   const navigate = useNavigate();
@@ -20,16 +21,8 @@ export default function Orders({ subTitle = '숙소', title = '객실' }) {
             <p className="text-gray-400 b2">기준 2인, 싱글침대 1개, 방 1개</p>
           </div>
           <div className="flex mt-8">
-            <div className="grow">
-              <p className="text-gray-800 b1">체크인</p>
-              <p className="mt-2 s1">2025.12.02(월)</p>
-              <p className="text-gray-700 s2">15:00</p>
-            </div>
-            <div className="grow">
-              <p className="text-gray-800 b1">체크인</p>
-              <p className="mt-2 s1">2025.12.02(월)</p>
-              <p className="text-gray-700 s2">15:00</p>
-            </div>
+            <CheckInOut title="체크인" date="2025.12.02(월)" time="15:00" />
+            <CheckInOut title="체크아웃" date="2025.12.03(화)" time="11:00" />
           </div>
           <p className="mt-6 b2">
             인원<span className="ml-1 b1">성인 명 유아 명</span>

@@ -1,6 +1,6 @@
 import CardAccommodations from '../../components/cards/CardAccommodations';
 import Layout2 from '../../layouts/Layout2';
-import Map from './Map';
+// import Map from './Map';
 export default function index() {
   return (
     <Layout2>
@@ -25,7 +25,7 @@ export default function index() {
           <CardAccommodations />
         </div>
         <div className="sticky h-screen overflow-hidden bg-gray-200 border-2 border-solid rounded-md border-gray-50 top-14">
-          <Map />
+          {/* <Map /> */}
         </div>
       </div>
     </Layout2>
