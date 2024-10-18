@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Main from './pages/Main';
+
 import Search from './pages/search';
 import Accommodations from './pages/room/Accommodations';
 import Stateroom from './pages/room/Stateroom';
@@ -11,8 +11,8 @@ import SelectType from './pages/host/setAccommodations/SelectType';
 import StructureType from './pages/host/setAccommodations/StructureType';
 import MultiAccommodations from './pages/host/setAccommodations/MultiAccommodations';
 import OnlyStaterRoom from './pages/host/setAccommodations/OnlyStaterRoom';
-import IsReservationConfirmed from './pages/reservations/isReservationComfirmed';
 import Popup from './components/Popup';
+import IsReservationConfirmed from './pages/reservations/IsReservationComfirmed';
 
 function App() {
   return (
