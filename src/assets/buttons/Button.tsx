@@ -3,11 +3,14 @@ interface ButtonProps {
   text?: string;
   type?: BtnType;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  className?: string; // className 추가
 }
+
 export enum BtnSize {
   m = 'm',
   l = 'l',
 }
+
 export enum BtnType {
   normal = 'normal',
   disabled = 'disabled',
@@ -15,11 +18,12 @@ export enum BtnType {
   line = 'line',
   err = 'err',
 }
+
 const btnSize = (size: BtnSize) => {
   switch (size) {
-    case 'm':
+    case BtnSize.m: // 'm' 대신 enum 사용
       return 'b2';
-    case 'l':
+    case BtnSize.l: // 'l' 대신 enum 사용
       return 'b1';
     default:
       return 'b2';
@@ -34,20 +38,21 @@ export default function Button({
 }: ButtonProps) {
   const btnType = (type: BtnType) => {
     switch (type) {
-      case 'normal':
+      case BtnType.normal:
         return 'bg-primary-600 text-white h-full';
-      case 'disabled':
+      case BtnType.disabled:
         return 'bg-gray-200 text-gray-400';
-      case 'line':
+      case BtnType.line:
         return 'bg-gray-100 text-gray-400 border-2 border-gray-100 border-solid';
-      case 'popup':
+      case BtnType.popup:
         return 'bg-gray-200/30 text-gray-700 h-full';
-      case 'err':
+      case BtnType.err:
         return 'bg-state-err text-white';
       default:
-        return 'bg-primary-600 text-white ';
+        return 'bg-primary-600 text-white';
     }
   };
+  
   return (
     <button
       onClick={onClick}
