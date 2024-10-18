@@ -10,10 +10,12 @@ const CancelPopup = ({ onClickLogic1, onClickLogic2, onClose }) => {
       onClickLogic1={onClickLogic1}
       onClickLogic2={onClickLogic2}
     >
-      <div className="text-left flex flex-col w-full h-full">
+      <div className="text-left flex flex-col">
         <p className="my-1 text-3xl font-bold flex ">가나다 호텔</p>
-        <p className="my-1 text-2xl">골져스 파셜오션 더블</p>
-        <p className="mb-2 text-xl text-gray-400">
+        <p className="my-1 text-xl leading-8 text-gray-800">
+          골져스 파셜오션 더블
+        </p>
+        <p className="mb-2 text- text-gray-400">
           기준 2인, 싱글침대 1개, 방 1개
         </p>
         <div className="text-base">
