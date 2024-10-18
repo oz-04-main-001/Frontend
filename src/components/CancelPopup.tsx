@@ -15,24 +15,32 @@ const CancelPopup = ({ onClickLogic1, onClickLogic2, onClose }) => {
         <p className="my-1 text-xl leading-8 text-gray-800">
           골져스 파셜오션 더블
         </p>
-        <p className="mb-2 text- text-gray-400">
+        <p className="mb-2 text-lg text-gray-400">
           기준 2인, 싱글침대 1개, 방 1개
         </p>
-        <div className="text-base">
+        <div className="text-base text-">
           <span className="text-xs text-gray-800">체크인</span> 2024.12.02 15:00{' '}
           ~ <span className="text-xs text-gray-800">체크아웃 </span> 2024.12.03
           11:00
         </div>
-        <p className="mt-4 mb-1 text-xl">취소 및 환불규정</p>
-        <p>객실별 취소 정책이 상이하니 객실 상세정보에서 확인해주세요.</p>
-        <div className="">
-          <p className="text-xl font-bold mt-3 my-1">결제 정보</p>
-          <p className="flex justify-between">
-            결제 금액: <span className="inline-block">34,000원</span>
+        <p className="mt-5 mb-1 font-bold text-large text-gray-500">
+          취소 및 환불규정
+        </p>
+        <p className="text-medium">
+          객실별 취소 정책이 상이하니 객실 상세정보에서 확인해주세요.
+        </p>
+        <div className="my-">
+          <p className="font-bold mt-3 my-1 text-large text-gray-500">
+            결제 정보
           </p>
-          <hr />
-          <p className="text-state-err text-[24px] flex justify-between">
-            환불 예정 금액: <p className="inline-block text-black">34,000원</p>
+          <p className="flex justify-between">
+            <span className="inline-block text-medium mt-1">결제 금액</span>{' '}
+            <span className="inline-block text-xl">34,000원</span>
+          </p>
+          <hr className="mt-3" />
+          <p className=" my-5 text-state-err text-2xl flex justify-between">
+            <span className="inline-block text-xl">환불 예정 금액</span>{' '}
+            <span className="inline-block text-black">34,000원</span>
           </p>
         </div>
       </div>
