@@ -19,13 +19,8 @@ export default function IsReservationConfirmed() {
         <div className="mt-3 pl-48 pt-8 pb-14 flex flex-row w-screen bg-white">
           <PaymentInfo />
         </div>
-        <div className="flex justify-between pl-44 mt-3 text-gray-500 p-4 bg-white">
-          <p className="font-bold text-lg">예약 취소</p>
-          <img
-            src="../../assets/icons/arrow.svg"
-            alt="오른쪽 화살표"
-            className="mr-44"
-          />
+        <div className="mt-3 pl-48 pt-8 pb-14 flex flex-row w-screen bg-white">
+          예약 취소 <img src="../../assets/icons/arrow.svg" alt="" />
         </div>
       </div>
     </>
