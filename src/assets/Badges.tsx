@@ -1,6 +1,9 @@
+
+// 상민
+
 interface BadgesProps {
   label: string;
-  status: '예정' | '이용중' | '완료' | '취소';
+  status: '예정' | '이용중' | '완료' | '취소' | string;
 }
 
 // Badges 컴포넌트 정의
