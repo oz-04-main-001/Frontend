@@ -75,7 +75,7 @@ export function Input({
           ${className}
         `}
       />
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      {error && <p className="text-red-500 text-sm p-0 m-0">{error}</p>}
     </div>
   );
 }
