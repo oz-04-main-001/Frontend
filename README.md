@@ -11,7 +11,7 @@
 
 | 한기선(FE)                                                                                    | 이상민(FE)                                                                                   | 손수민(FE) | 김예진(FE) |
 | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------- | ---------- |
-| <img src ="https://avatars.githubusercontent.com/u/176655935?v=4" width=200> <br /> @kiseon77 | <img src ="https://avatars.githubusercontent.com/u/146797468?v=4" width=200> <br /> @sangmin0310-afk |<img src ="https://avatars.githubusercontent.com/u/174682226?v=4" width=200> <br /> @Soom-web | <img src ="https://avatars.githubusercontent.com/u/174327543?v=4" width=200> <br /> @dnwjd0218
+| <img src ="https://avatars.githubusercontent.com/u/176655935?v=4" width=200> <br /> @kiseon77 | <img src ="https://avatars.githubusercontent.com/u/146797468?v=4" width=200> <br /> @sangmin0310-afk |<img src ="https://avatars.githubusercontent.com/u/174682226?v=4" width=200> <br /> @SOOMin13 | <img src ="https://avatars.githubusercontent.com/u/174327543?v=4" width=200> <br /> @dnwjd0218
 
 ## 1. 개발환경
 
