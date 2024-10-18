@@ -6,7 +6,7 @@ interface PopupProps {
   title: string;
   onClose: () => void;
   subTitle?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   buttonText: { text1?: string; text2?: string };
   onClickLogic1: () => void;
   onClickLogic2: () => void;
@@ -29,7 +29,7 @@ const Popup: React.FC<PopupProps> = ({
   onClickLogic2,
 }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div
         className={`relative bg-white rounded-md shadow-lg px-10 py-[30px] flex flex-col ${containerClass}`} // 호환성에 문제가 있어서 이 부분 조금 수정했어요. 필요하면 containerClass 프롭으로 받아서 넣어주시면 됩니다.
       >
@@ -44,6 +44,7 @@ const Popup: React.FC<PopupProps> = ({
         <div className="mt-4">{children}</div>
         <div className="flex justify-center mt-6 mx-10 space-x-4">
           <div className="flex justify-between w-[30rem] h-[3.75rem]">
+
             <div className="w-56">
               <Button
                 size={BtnSize.l}

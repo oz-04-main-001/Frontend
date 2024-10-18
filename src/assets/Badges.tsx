@@ -1,9 +1,12 @@
+
 // 상민
+
 interface BadgesProps {
   label: string;
   status: '예정' | '이용중' | '완료' | '취소' | string;
 }
 
+// Badges 컴포넌트 정의
 export function Badges({ label, status }: BadgesProps) {
   const badgeClasses: { [key: string]: string } = {
     예정: 'w-[70px] h-[26px] bg-primary-300',
