@@ -4,6 +4,7 @@ import Search from './pages/search';
 import Accommodations from './pages/room/Accommodations';
 import Stateroom from './pages/room/Stateroom';
 import Orders from './pages/room/Orders';
+import Management from './pages/host/Management';
 import Header from './assets/Header';
 import ReservationCompleted from './pages/reservations/ReservationCompleted';
 import CancelPopup from './pages/reservations/CancelPopup'
@@ -26,6 +27,8 @@ function App() {
         <Route path="/accommodations" element={<Accommodations />} />
         <Route path="/stateroom" element={<Stateroom />} />
         <Route path="/stateroom/order" element={<Orders />} />
+        <Route path="/host" element={<Management />}>
+        </Route>
         <Route
           path="/reservation/Info/completed"
           element={<ReservationCompleted />}
