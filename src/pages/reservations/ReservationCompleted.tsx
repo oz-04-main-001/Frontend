@@ -3,6 +3,7 @@ import AccmoInfoCard from './AccmoInfoCard';
 import GuestInfo from './GuestInfo';
 
 export default function ReservationCompleted({}) {
+  
   const Pagenation = () => {};
   return (
     <div className="flex flex-col bg-gray-50 w-svw max-h-fit">

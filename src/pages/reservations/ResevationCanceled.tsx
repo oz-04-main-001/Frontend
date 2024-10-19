@@ -4,13 +4,15 @@ import PaymentInfo from './PaymentInfo';
 import RefundNotice from './RefundNotice';
 import ReservationButtonTemp from './ReservationButtonTemp';
 
-export default function IsReservationConfirmed({ status = '예정' }) {
-  console.log('IsReservationConfirmed:', status);
+export default function ReservationCanceled({
+  status = '취소',
+  label = '취소',
+}) {
   return (
     <>
       <div className="flex flex-col bg-gray-50 w-svw max-h-fit">
         <div className=" pt-24 pl-44 pb-8 bg-white">
-          <AccmoInfoCard status={status} />
+          <AccmoInfoCard status={status} label={label} />
         </div>
         <div className="mt-3 pl-44 pt-8 pb-14 bg-white">
           <GuestInfo />
