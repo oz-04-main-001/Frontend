@@ -5,7 +5,7 @@ type Props = {
 export default function Layout({ children }: Props) {
   return (
     <div>
-      <main className="mx-20">{children}</main>
+      <main className="px-20">{children}</main>
     </div>
   );
 }
