@@ -14,6 +14,7 @@ import OnlyStaterRoom from './pages/host/setAccommodations/OnlyStaterRoom';
 import Popup from './components/Popup';
 import IsReservationConfirmed from './pages/reservations/IsReservationComfirmed';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
+import HostCalendar from './pages/host/hostCalender/HostCalender';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
 
         <Route path="/reservation/cencel/popup" element={<CancelPopup />} />
         <Route path="/popup" element={<Popup />} />
+        <Route path="/host/calendar" element={<HostCalendar />} />
       </Routes>
     </BrowserRouter>
   );
