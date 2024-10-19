@@ -1,4 +1,3 @@
-
 // 상민
 
 interface BadgesProps {

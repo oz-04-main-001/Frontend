@@ -13,6 +13,7 @@ import MultiAccommodations from './pages/host/setAccommodations/MultiAccommodati
 import OnlyStaterRoom from './pages/host/setAccommodations/OnlyStaterRoom';
 import Popup from './components/Popup';
 import IsReservationConfirmed from './pages/reservations/IsReservationComfirmed';
+import ReservationCanceled from './pages/reservations/ResevationCanceled';
 
 function App() {
   return (
@@ -31,17 +32,20 @@ function App() {
           path="/reservation/info/completed"
           element={<ReservationCompleted />}
         />
-        <Route path="/reservation/cencel/popup" element={<CancelPopup />} />
-        <Route path="/popup" element={<Popup />} />
         <Route
           path="/reservation/info/pending"
           element={<IsReservationConfirmed />}
         />
+        <Route
+          path="/reservation/info/reservation/canceled"
+          element={<ReservationCanceled />}
+        />
+
+        <Route path="/reservation/cencel/popup" element={<CancelPopup />} />
+        <Route path="/popup" element={<Popup />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-
-
