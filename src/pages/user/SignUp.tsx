@@ -1,15 +1,17 @@
 import React from 'react';
-import { Input } from './assets/Input';
+import { Input } from '../../assets/Input';
 
 const SignUp: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-[500px]">
-      <div className="text-3xl font-bold mb-8 text-center">로고</div>
-      <h1 className="text-2xl font-bold mb-6">&lt; 회원가입</h1>
+      <div className="mb-8 text-3xl font-bold text-center">로고</div>
+      <h1 className="mb-6 text-2xl font-bold">&lt; 회원가입</h1>
 
       <form className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">이메일</label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">
+            이메일
+          </label>
           <div className="flex h-[38px]">
             <Input
               type="text"
@@ -17,13 +19,20 @@ const SignUp: React.FC = () => {
               placeholder="이메일"
               className="w-[300px] rounded-l-md rounded-r-none"
             />
-            <span className="flex items-center justify-center px-2 bg-gray-100 border border-gray-300">@</span>
-            <select
-              className="w-[150px] h-full px-2 border border-gray-300 rounded-r-md appearance-none text-gray-300"
-            >
-              <option value="" className="text-gray-300"> 🔽선택</option>
-              <option value="naver.com" className="text-gray-700">naver.com</option>
-              <option value="gmail.com" className="text-gray-700">gmail.com</option>
+            <span className="flex items-center justify-center px-2 bg-gray-100 border border-gray-300">
+              @
+            </span>
+            <select className="w-[150px] h-full px-2 border border-gray-300 rounded-r-md appearance-none text-gray-300">
+              <option value="" className="text-gray-300">
+                {' '}
+                🔽선택
+              </option>
+              <option value="naver.com" className="text-gray-700">
+                naver.com
+              </option>
+              <option value="gmail.com" className="text-gray-700">
+                gmail.com
+              </option>
             </select>
           </div>
         </div>
@@ -34,8 +43,9 @@ const SignUp: React.FC = () => {
           label="비밀번호"
           placeholder="비밀번호"
         />
-        <p className="text-state-err text-xs mt-1">
-          문자길이 8글자, (첫글자 대문자) 영문, 숫자 1개 무조건 쓰기, 연속 숫자금지) 숫자, (!@#$%^&* 1개 이상)특수문자 포함
+        <p className="mt-1 text-xs text-state-err">
+          문자길이 8글자, (첫글자 대문자) 영문, 숫자 1개 무조건 쓰기, 연속
+          숫자금지) 숫자, (!@#$%^&* 1개 이상)특수문자 포함
         </p>
 
         <Input
@@ -46,21 +56,15 @@ const SignUp: React.FC = () => {
         />
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">이름</label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">
+            이름
+          </label>
           <div className="flex justify-between">
             <div className="w-[230px]">
-              <Input
-                type="text"
-                id="lastName"
-                placeholder="성"
-              />
+              <Input type="text" id="lastName" placeholder="성" />
             </div>
             <div className="w-[230px]">
-              <Input
-                type="text"
-                id="firstName"
-                placeholder="이름"
-              />
+              <Input type="text" id="firstName" placeholder="이름" />
             </div>
           </div>
         </div>
@@ -73,7 +77,9 @@ const SignUp: React.FC = () => {
         />
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">성별</label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">
+            성별
+          </label>
           <div className="flex space-x-4">
             <button
               type="button"
@@ -91,41 +97,50 @@ const SignUp: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">전화번호</label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">
+            전화번호
+          </label>
           <div className="flex items-center space-x-2">
             <select
               className="w-[100px] h-[38px] px-2 border border-gray-300 rounded-md appearance-none text-gray-300 box-border mb-1"
-              style={{ transform: 'translateY(-6px)' }}  // 약간 위로 올림
+              style={{ transform: 'translateY(-6px)' }} // 약간 위로 올림
             >
-              <option value="" className="text-gray-300"> 🔽선택</option>
-              <option value="010" className="text-gray-700">010</option>
-              <option value="02" className="text-gray-700">02</option>
-              <option value="031" className="text-gray-700">031</option>
+              <option value="" className="text-gray-300">
+                {' '}
+                🔽선택
+              </option>
+              <option value="010" className="text-gray-700">
+                010
+              </option>
+              <option value="02" className="text-gray-700">
+                02
+              </option>
+              <option value="031" className="text-gray-700">
+                031
+              </option>
             </select>
             <Input
               type="text"
               id="phoneMiddle"
               placeholder="4자리"
-              className="w-[180px] box-border"  
-              height="h-[38px]"  
+              className="w-[180px] box-border"
+              height="h-[38px]"
             />
             <Input
               type="text"
               id="phoneLast"
               placeholder="4자리"
-              className="w-[180px] box-border"  
-              height="h-[38px]"  
+              className="w-[180px] box-border"
+              height="h-[38px]"
             />
           </div>
         </div>
 
         <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="agreement"
-            className="mr-2"
-          />
-          <label htmlFor="agreement" className="text-sm text-gray-700">개인정보 이용 동의</label>
+          <input type="checkbox" id="agreement" className="mr-2" />
+          <label htmlFor="agreement" className="text-sm text-gray-700">
+            개인정보 이용 동의
+          </label>
         </div>
 
         <div className="flex justify-center mt-6">

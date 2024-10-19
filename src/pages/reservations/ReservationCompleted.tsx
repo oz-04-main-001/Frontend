@@ -1,22 +1,37 @@
 import PaymentInfo from './PaymentInfo';
 import AccmoInfoCard from './AccmoInfoCard';
 import GuestInfo from './GuestInfo';
+import Divider from '../../assets/Divider';
+import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
+import Layout from '../../layouts/Layout2';
 
 export default function ReservationCompleted({}) {
   const Pagenation = () => {};
   return (
-    <div className="flex flex-col bg-gray-50 w-svw h-svh">
-      <div className=" pt-24 pl-48 pb-8 bg-white">
+    <div className="">
+      <Layout>
         <AccmoInfoCard />
-      </div>
-      <div className="mt-3 pl-48 pt-8 pb-14 bg-white">
+      </Layout>
+
+      <Divider />
+      <Layout>
         <GuestInfo />
-      </div>
-      <div className="mt-3 pl-48 pt-8 pb-14 flex flex-row w-screen bg-white">
+      </Layout>
+
+      <Divider />
+      <Layout>
         <PaymentInfo />
-      </div>
-      <div>
-        <button type="button" onClick={Pagenation} className=""></button>
+      </Layout>
+
+      <div className="flex content-center justify-center mt-12 glow">
+        <div className="w-3/4">
+          <Button
+            size={BtnSize.l}
+            text="예약하기"
+            type={BtnType.normal}
+            onClick={Pagenation}
+          />
+        </div>
       </div>
     </div>
   );
