@@ -6,6 +6,7 @@ import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import Layout from '../../layouts/Layout2';
 
 export default function ReservationCompleted({}) {
+  
   const Pagenation = () => {};
   return (
     <div className="">
@@ -32,6 +33,7 @@ export default function ReservationCompleted({}) {
             onClick={Pagenation}
           />
         </div>
+        <PaymentInfo />
       </div>
     </div>
   );

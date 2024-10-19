@@ -2,16 +2,14 @@ import React from 'react';
 import Button from '../assets/buttons/Button';
 import { BtnSize, BtnType } from '../assets/buttons/Button';
 
-
 interface PopupProps {
-  title: string;
-  onClose: () => void;
+  title?: string;
+  onClose?: () => void;
   subTitle?: string;
   children?: React.ReactNode;
-  buttonText: { text1?: string; text2?: string };
-  onClickLogic1: () => void;
-  onClickLogic2: () => void;
-
+  buttonText?: { text1?: string; text2?: string };
+  onClickLogic1?: () => void;
+  onClickLogic2?: () => void;
   titleClass?: string;
   subTitleClass?: string;
   containerClass?: string;
@@ -40,11 +38,11 @@ const Popup: React.FC<PopupProps> = ({
           className="absolute top-[30px] m-0 p-0 text-xs left-10 w-6 h-6 font-extrabold text-white bg-black rounded-xl transition duration-100 hover:scale-105 focus:opacity-85"
         />
 
-        <h2 className={`text-center pt- ${titleClass}`}>{title}</h2>
+        <h2 className={`text-center ${titleClass}`}>{title}</h2>
         <p className={`text-center pt-2 pb-3 ${subTitleClass}`}>{subTitle}</p>
         <div className="mt-4">{children}</div>
-        <div className="flex justify-center mx-10 mt-6">
-          <div className="flex justify-between w-[30rem] h-[3.75rem] ">
+        <div className="flex justify-center mt-6 mx-10">
+          <div className="flex justify-between w-[30rem] h-[3.75rem] space-x-8">
             <div className="w-56">
               <Button
                 size={BtnSize.l}
