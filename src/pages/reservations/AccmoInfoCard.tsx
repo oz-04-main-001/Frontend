@@ -2,7 +2,7 @@ import Badges from '../../assets/Badges';
 import CheckInOut from '../../components/CheckInOut';
 import ReservAccoCard from './ReservAccoCard';
 
-export default function AccmoInfoCard({ state = '완료' }) {
+export default function AccmoInfoCard({ state }) {
   return (
     <div>
       <div className="flex items-center">
@@ -14,7 +14,7 @@ export default function AccmoInfoCard({ state = '완료' }) {
         <span className="text-xl ml-2">예약내역 상세</span>
       </div>
       <div className="mt-11 mb-5">
-        <Badges label={'이용완료'} status={state} />
+        <Badges label={'이용완료'} status={"완료"} />
       </div>
       <div className="flex flex-row items-center">
         <img
