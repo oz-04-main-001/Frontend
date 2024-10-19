@@ -3,14 +3,13 @@ import Button from '../assets/buttons/Button';
 import { BtnSize, BtnType } from '../assets/buttons/Button';
 
 interface PopupProps {
-  title: string;
-  onClose: () => void;
+  title?: string;
+  onClose?: () => void;
   subTitle?: string;
   children?: React.ReactNode;
-  buttonText: { text1?: string; text2?: string };
-  onClickLogic1: () => void;
-  onClickLogic2: () => void;
-
+  buttonText?: { text1?: string; text2?: string };
+  onClickLogic1?: () => void;
+  onClickLogic2?: () => void;
   titleClass?: string;
   subTitleClass?: string;
   containerClass?: string;
