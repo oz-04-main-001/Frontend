@@ -38,6 +38,11 @@ const StructureType: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
+      <Header labels={[
+        { title: '게스트 메인', link: '/guest' },
+        { title: '서비스 등록', link: '/register' },
+        { title: '로그아웃', link: '/logout' }
+      ]} />
       <div className="flex flex-col items-start justify-start w-5/6 mx-auto mt-[12vh]">
         <div className="flex items-center mb-6">
           <img

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Search from './pages/search';
+import Main from './pages/Main';
 import Accommodations from './pages/room/Accommodations';
 import Stateroom from './pages/room/Stateroom';
 import Orders from './pages/room/Orders';
@@ -18,10 +19,12 @@ import SignUp from './pages/user/SignUp';
 import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
 import Popup from './components/Popup';
-import IsReservationConfirmed from './pages/reservations/IsReservationComfirmed';
+import IsReservationConfirmed from './pages/reservations/isReservationComfirmed';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
 
+
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>

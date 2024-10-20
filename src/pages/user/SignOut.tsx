@@ -1,4 +1,4 @@
-import Popup from './components/Popup';
+import Popup from "../../components/Popup";
 
 const SignOut = ({ onClose }: { onClose: () => void }) => {
   const handleLogout = () => {

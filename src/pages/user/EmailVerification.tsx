@@ -1,7 +1,7 @@
 // 이메일 인증 팝업
-import Popup from './components/Popup';
-import Button, { BtnSize, BtnType } from './assets/buttons/Button'; // BtnSize와 BtnType을 import
-import { Input } from './assets/Input';
+import Popup from '../../components/Popup';
+import Button, { BtnSize, BtnType } from '../..//assets/buttons/Button'; // BtnSize와 BtnType을 import
+import { Input } from '../../assets/Input';
 
 const EmailVerification = ({ onClose }: { onClose: () => void }) => {
   const handleRequestVerification = () => {
