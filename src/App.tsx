@@ -21,6 +21,7 @@ import Popup from './components/Popup';
 import IsReservationConfirmed from './pages/reservations/IsReservationComfirmed';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
 import HostCalendar from './pages/host/hostCalender/HostCalendar';
+import Main from './pages/Main';
 
 function App() {
   return (
