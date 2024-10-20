@@ -78,7 +78,7 @@ const Search = () => {
   return (
     <div
       className="h-[100px] p-4 rounded-lg shadow-md max-w-[750px] mx-auto flex justify-center items-center border border-gray-300 bg-white"
-      style={{ borderRadius: '50px' }}
+      style={{ borderRadius: '50px', marginTop: '58px' }} // 여백 추가
     >
       {/* 여행지 선택 */}
       <div className="relative mx-2">

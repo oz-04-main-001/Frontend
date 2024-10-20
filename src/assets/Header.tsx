@@ -9,6 +9,7 @@ export interface labels {
 interface HeaderProps {
     labels?: labels[];
     color?: string;
+    title?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ labels = [], color = 'white' }) => {
