@@ -6,7 +6,7 @@ interface ButtonProps {
 }
 
 // 버튼 컴포넌트
-export function Button({ label }: ButtonProps) {
+export function LoginButton({ label }: ButtonProps) {
   return (
     <button className="w-full max-w-[300px] h-[38px] bg-blue-500 text-white text-sm rounded-md">
       {label}

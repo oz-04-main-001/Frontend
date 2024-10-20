@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../assets/buttons/Button';
 import { BtnSize, BtnType } from '../assets/buttons/Button';
+import close from '../assets/icons/close.svg';
 
 interface PopupProps {
   title?: string;
@@ -28,14 +29,14 @@ const Popup: React.FC<PopupProps> = ({
   onClickLogic2,
 }) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed z-[999999] inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div
         className={`relative bg-white rounded-md shadow-lg px-10 py-[30px] flex flex-col ${containerClass}`} // 호환성에 문제가 있어서 이 부분 조금 수정했어요. 필요하면 containerClass 프롭으로 받아서 넣어주시면 됩니다.
       >
         <img
-          src=".././assets/icons/close.svg"
+          src={close}
           alt="닫힘 버튼"
-          className="absolute top-[30px] m-0 p-0 text-xs left-10 w-6 h-6 font-extrabold text-white bg-black rounded-xl transition duration-100 hover:scale-105 focus:opacity-85"
+          className="absolute top-[30px] m-0 p-0 text-xs left-10 w-6 h-6 font-extrabold rounded-xl transition duration-100 hover:scale-105 focus:opacity-85"
         />
 
         <h2 className={`text-center ${titleClass}`}>{title}</h2>

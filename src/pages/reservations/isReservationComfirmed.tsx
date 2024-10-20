@@ -1,10 +1,15 @@
+import { BadgeStatus } from '../../assets/Badges';
 import AccmoInfoCard from './AccmoInfoCard';
 import GuestInfo from './GuestInfo';
 import PaymentInfo from './PaymentInfo';
 import RefundNotice from './RefundNotice';
 import ReservationButtonTemp from './ReservationButtonTemp';
 
-export default function IsReservationConfirmed({ status = '예정' }) {
+interface confirmProps {
+  status: BadgeStatus;
+}
+
+export default function IsReservationConfirmed({ status }: confirmProps) {
   console.log('IsReservationConfirmed:', status);
   return (
     <>
