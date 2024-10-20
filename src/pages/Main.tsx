@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Header from '../assets/Header';
 import MainCard from '../components/cards/CardMain';
 import Search from '../components/Search';
@@ -21,32 +22,40 @@ const cities = [
 ];
 
 const Main: React.FC = () => {
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+
+  const handleCityClick = (city: string) => {
+    setSelectedCity(city);
+  };
 
   return (
     <div className="bg-gray-50">
       {/* 헤더 */}
       <Header 
-    labels={[{ title: "마이페이지", link: "/mypage" }]} 
-    color="white" 
-/>
+        labels={[{ title: "마이페이지", link: "/mypage" }]} 
+        color="white" 
+      />
 
       {/* 검색 컴포넌트 */}
       <Search />
 
       {/* 도시 이름을 보여주는 이동하는 부분 */}
       <div className="flex items-center justify-between mt-4">
-        <button className="bg-gray-300 rounded-full p-2 text-lg">&lt;</button>
+        <button className="bg-white rounded-full p-2 text-lg">&lt;</button>
         <div className="flex overflow-hidden whitespace-nowrap">
-          <div
-            className="flex transition-transform duration-500"
-          >
-            {/* 도시 이름을 두 번 반복하여 부드럽게 이동하도록 설정 */}
+          <div className="flex">
             {cities.concat(cities).map((city, index) => (
-              <div key={index} className="px-4">{city}</div>
+              <div
+                key={index}
+                className={`px-6 py-3 cursor-pointer rounded-full transition duration-300 ${selectedCity === city ? 'bg-black text-white' : ' text-gray-800'}`} // 배경 크기 및 둥근 느낌 추가
+                onClick={() => handleCityClick(city)}
+              >
+                {city}
+              </div>
             ))}
           </div>
         </div>
-        <button className="bg-gray-300 rounded-full p-2 text-lg">&gt;</button>
+        <button className="bg-white rounded-full p-2 text-lg">&gt;</button>
       </div>
 
       {/* 일자 선 */}
