@@ -23,6 +23,9 @@ import IsReservationConfirmed from './pages/reservations/isReservationComfirmed'
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
 import HostCalendar from './pages/host/hostCalender/HostCalendar';
 
+// ./components/Search 추가
+import SearchComponent from './components/Search';
+
 function App() {
 
   return (
@@ -56,6 +59,10 @@ function App() {
           <Route path="info/completed" element={<ReservationCompleted />} />
           <Route path="cencel/popup" element={<CancelPopup />} />
         </Route>
+
+        {/* ./components/Search 라우트 추가 */}
+        <Route path="/search-component" element={<SearchComponent />} />
+
       </Routes>
     </BrowserRouter>
   );
