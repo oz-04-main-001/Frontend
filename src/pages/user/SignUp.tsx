@@ -1,10 +1,13 @@
 import React from 'react';
 import { Input } from '../../assets/Input';
+import Button, { BtnSize, BtnType } from '../../assets/buttons/button'; // Button 컴포넌트 import
 
 const SignUp: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-[500px]">
-      <div className="mb-8 text-3xl font-bold text-center">로고</div>
+      <div className="mb-8 flex justify-center items-center">
+        <img src="/public/staynest.svg" alt="로고" width="60" height="60" />
+      </div>
       <h1 className="mb-6 text-2xl font-bold">&lt; 회원가입</h1>
 
       <form className="space-y-4">
@@ -17,7 +20,7 @@ const SignUp: React.FC = () => {
               type="text"
               id="email"
               placeholder="이메일"
-              className="w-[300px] rounded-l-md rounded-r-none"
+              className="w-[330px] rounded-l-md rounded-r-none"
             />
             <span className="flex items-center justify-center px-2 bg-gray-100 border border-gray-300">
               @
@@ -144,9 +147,13 @@ const SignUp: React.FC = () => {
         </div>
 
         <div className="flex justify-center mt-6">
-          <button className="w-full max-w-[400px] bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
-            회원가입
-          </button>
+          {/* 기존 버튼을 Button 컴포넌트로 변경 */}
+          <Button
+            size={BtnSize.l} // 버튼 크기 설정
+            text="회원가입" // 버튼 텍스트
+            type={BtnType.normal} // 버튼 유형 설정
+            className="w-full max-w-[400px]" // 추가적인 클래스 설정
+          />
         </div>
       </form>
     </div>
