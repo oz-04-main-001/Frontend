@@ -25,9 +25,10 @@ import HostCalendar from './pages/host/hostCalender/HostCalendar';
 
 // ./components/Search 추가
 import SearchComponent from './components/Search';
+// ./components/cards/CardMain 추가
+import CardMain from './components/cards/CardMain';
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>
@@ -60,8 +61,11 @@ function App() {
           <Route path="cencel/popup" element={<CancelPopup />} />
         </Route>
 
-        {/* ./components/Search 라우트 추가 */}
+        {/* Search 라우트 추가 */}
         <Route path="/search-component" element={<SearchComponent />} />
+        
+        {/* CardMain 라우트 추가 */}
+        <Route path="/card-main" element={<CardMain />} />
 
       </Routes>
     </BrowserRouter>
