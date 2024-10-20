@@ -5,6 +5,7 @@ import CardOrder from '../../components/cards/CardOrderWating';
 import Popup from '../../components/Popup';
 import CardOrderFix from '../../components/cards/CardOrderFix';
 import Dropdown from '../../assets/Dropdown';
+import HostCalendar from './hostCalender/HostCalendar';
 
 export default function Management() {
   const [tap, setTap] = useState(0);
@@ -24,7 +25,10 @@ export default function Management() {
   return (
     <Layout>
       <div className="grid grid-cols-3 gap-5">
-        <div className="col-span-2">캘린더</div>
+        <div className="col-span-2">
+          캘린더 <HostCalendar />
+        </div>
+
         <div className="sticky col-span-1 p-8 bg-gray-100 rounded-md top-7 ">
           <div className="relative mb-3">
             <h6 className="text-center">예약관리</h6>
