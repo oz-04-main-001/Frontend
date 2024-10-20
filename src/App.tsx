@@ -22,8 +22,9 @@ import Popup from './components/Popup';
 import IsReservationConfirmed from './pages/reservations/isReservationComfirmed';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
 import HostCalendar from './pages/host/hostCalender/HostCalendar';
-import Main from './pages/Main';
 
+// ./components/Search 추가
+import SearchComponent from './components/Search';
 
 function App() {
 
@@ -51,16 +52,17 @@ function App() {
           <Route path="accommodation" element={<SelectType />} />
           <Route path="structure-type" element={<StructureType />} />
           <Route path="only-starter-room" element={<OnlyStaterRoom />} />
-          <Route
-            path="multi-accommodations"
-            element={<MultiAccommodations />}
-          />
+          <Route path="multi-accommodations" element={<MultiAccommodations />} />
         </Route>
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
           <Route path="info/completed" element={<ReservationCompleted />} />
           <Route path="cencel/popup" element={<CancelPopup />} />
         </Route>
+
+        {/* ./components/Search 라우트 추가 */}
+        <Route path="/search-component" element={<SearchComponent />} />
+
       </Routes>
     </BrowserRouter>
   );
