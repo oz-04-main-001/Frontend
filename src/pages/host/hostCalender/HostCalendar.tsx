@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import './custom-calendar.css';
@@ -56,14 +56,14 @@ const HostCalendar = () => {
     setEvents(newEvents); // 이벤트 상태 업데이트
   }, []);
 
-  // 이벤트 클릭 시 호출되는 함수
+  // 이벤트 클릭 시 호출
   const handleSelectEvent = (event: Event) => {
-    const dateStr = moment(event.start).format('YYYY-MM-DD'); // 날짜 형식 변환
+    const dateStr = moment(event.start).format('YYYY-MM-DD');
     setSelectedEventDate(prev => (prev === dateStr ? null : dateStr)); // 선택된 날짜 업데이트
   };
 
   return (
-    <div>
+    <div className='-z-50'>
       <Calendar
         localizer={localizer}
         events={events}
@@ -84,7 +84,6 @@ const HostCalendar = () => {
               selectedEventDate === dateStr
                 ? 'bg-gray-100' // 선택된 타일의 배경색 변경
                 : '',
-            style: { borderColor: 'transparent' }, // 테두리 제거 스타일 적용
           };
         }}
         onNavigate={_date => {
