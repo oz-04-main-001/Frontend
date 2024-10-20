@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
+import { format, parse, startOfWeek, getDay, isBefore } from 'date-fns';
 import ko from 'date-fns/locale/ko';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Dropdown from '../assets/Dropdown';
 
 const locales = {
   ko: ko,
@@ -15,10 +16,10 @@ const Search = () => {
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isActive, setIsActive] = useState(false);
+  const [selectedDestination, setSelectedDestination] = useState<string>('여행지 선택');
 
   const destinations = [
-    '서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시',
+    '선택해주세요', '서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시',
     '대전광역시', '울산광역시', '세종특별자치시', '경기도', '충청북도',
     '충청남도', '전라남도', '경상북도', '강원도특별자치도', '전북특별자치도'
   ];
@@ -31,44 +32,64 @@ const Search = () => {
     locales,
   });
 
-  // 체크인 날짜 선택 핸들러
   const handleSelectSlot = ({ start }: { start: Date }) => {
     setCheckIn(start);
     setActiveDropdown(null);
-    setIsActive(true);
   };
 
-  // 체크아웃 날짜 선택 핸들러
   const handleCheckOutSelect = ({ start }: { start: Date }) => {
     setCheckOut(start);
     setActiveDropdown(null);
-    setIsActive(true);
   };
 
-  // 여행지 선택 핸들러
   const handleDestinationChange = (destination: string) => {
+    setSelectedDestination(destination);
     setActiveDropdown(null);
-    setIsActive(true);
+  };
+
+  const handleSearch = () => {
+    if (!checkIn || !checkOut) {
+      alert('체크인 및 체크아웃 날짜를 선택하세요.');
+      return;
+    }
+    if (isBefore(checkOut, checkIn)) {
+      alert('체크아웃 날짜는 체크인 날짜 이후여야 합니다.');
+      return;
+    }
+
+    console.log('검색 시작:', {
+      destination: selectedDestination,
+      checkIn,
+      checkOut,
+      adults,
+      children,
+    });
+  };
+
+  const handleReset = () => {
+    setCheckIn(null);
+    setCheckOut(null);
+    setAdults(1);
+    setChildren(0);
+    setActiveDropdown(null);
+    setSelectedDestination('여행지 선택');
   };
 
   return (
     <div
-      className={`h-[100px] p-4 rounded-lg shadow-md max-w-[750px] mx-auto flex justify-center items-center border border-gray-300 ${
-        isActive ? 'bg-white' : 'bg-gray-100'
-      }`}
+      className="h-[100px] p-4 rounded-lg shadow-md max-w-[750px] mx-auto flex justify-center items-center border border-gray-300 bg-white"
       style={{ borderRadius: '50px' }}
     >
       {/* 여행지 선택 */}
       <div className="relative mx-2">
-        <label
-          htmlFor="destination"
-          className={`block text-lg font-semibold cursor-pointer ${activeDropdown === 'destination' ? 'p-10' : 'p-2'} rounded-full transition-colors duration-200 ${activeDropdown === 'destination' ? 'bg-white shadow-lg' : 'bg-gray-100'}`}
+        <button
+          className={`block text-lg font-semibold cursor-pointer ${activeDropdown === 'destination' ? 'bg-gray-300' : 'bg-white'} p-2 rounded-full transition-colors duration-200`}
           onClick={() => {
             setActiveDropdown(activeDropdown === 'destination' ? null : 'destination');
           }}
         >
-          여행지 선택
-        </label>
+          {selectedDestination}
+        </button>
         {activeDropdown === 'destination' && (
           <select
             id="destination"
@@ -84,12 +105,14 @@ const Search = () => {
 
       {/* 체크인 날짜 선택 */}
       <div className="relative mx-2">
-        <span
-          className={`rounded-full w-[140px] text-left cursor-pointer font-bold transition-colors duration-200 ${activeDropdown === 'checkIn' ? 'p-10' : 'p-2'} ${activeDropdown === 'checkIn' ? 'bg-white shadow-lg' : 'bg-gray-100'}`}
-          onClick={() => setActiveDropdown(activeDropdown === 'checkIn' ? null : 'checkIn')}
+        <button
+          className={`rounded-full w-[140px] text-left cursor-pointer font-bold ${activeDropdown === 'checkIn' ? 'bg-gray-300' : 'bg-white'} p-2 transition-colors duration-200`}
+          onClick={() => {
+            setActiveDropdown(activeDropdown === 'checkIn' ? null : 'checkIn');
+          }}
         >
           {checkIn ? format(checkIn, 'yyyy년 MM월 dd일') : '체크인'}
-        </span>
+        </button>
         {activeDropdown === 'checkIn' && (
           <div className="absolute z-10 bg-white border border-gray-300 rounded-md shadow-md">
             <Calendar
@@ -99,6 +122,8 @@ const Search = () => {
               endAccessor="end"
               selectable
               onSelectSlot={handleSelectSlot}
+              views={['month']} // Limit to month view
+              step={60} // Step can be set to any value, just to avoid time selection
               style={{ height: 400 }}
             />
           </div>
@@ -107,12 +132,14 @@ const Search = () => {
 
       {/* 체크아웃 날짜 선택 */}
       <div className="relative mx-2">
-        <span
-          className={`rounded-full w-[140px] text-left cursor-pointer font-bold transition-colors duration-200 ${activeDropdown === 'checkOut' ? 'p-10' : 'p-2'} ${activeDropdown === 'checkOut' ? 'bg-white shadow-lg' : 'bg-gray-100'}`}
-          onClick={() => setActiveDropdown(activeDropdown === 'checkOut' ? null : 'checkOut')}
+        <button
+          className={`rounded-full w-[140px] text-left cursor-pointer font-bold ${activeDropdown === 'checkOut' ? 'bg-gray-300' : 'bg-white'} p-2 transition-colors duration-200`}
+          onClick={() => {
+            setActiveDropdown(activeDropdown === 'checkOut' ? null : 'checkOut');
+          }}
         >
           {checkOut ? format(checkOut, 'yyyy년 MM월 dd일') : '체크아웃'}
-        </span>
+        </button>
         {activeDropdown === 'checkOut' && (
           <div className="absolute z-10 bg-white border border-gray-300 rounded-md shadow-md">
             <Calendar
@@ -122,6 +149,8 @@ const Search = () => {
               endAccessor="end"
               selectable
               onSelectSlot={handleCheckOutSelect}
+              views={['month']} // Limit to month view
+              step={60} // Step can be set to any value, just to avoid time selection
               style={{ height: 400 }}
             />
           </div>
@@ -130,12 +159,14 @@ const Search = () => {
 
       {/* 여행자 선택 */}
       <div className="relative mx-2">
-        <label
-          className={`block text-lg font-semibold cursor-pointer ${activeDropdown === 'traveler' ? 'p-10' : 'p-2'} rounded-full transition-colors duration-200 ${activeDropdown === 'traveler' ? 'bg-white shadow-lg' : 'bg-gray-100'}`}
-          onClick={() => setActiveDropdown(activeDropdown === 'traveler' ? null : 'traveler')}
+        <button
+          className={`block text-lg font-semibold cursor-pointer ${activeDropdown === 'traveler' ? 'bg-gray-300' : 'bg-white'} p-2 rounded-full transition-colors duration-200`}
+          onClick={() => {
+            setActiveDropdown(activeDropdown === 'traveler' ? null : 'traveler');
+          }}
         >
           여행자
-        </label>
+        </button>
         {activeDropdown === 'traveler' && (
           <div className="absolute z-10 bg-white border border-gray-300 rounded-md shadow-md p-2">
             <div className="flex items-center mb-2">
@@ -171,7 +202,7 @@ const Search = () => {
               </button>
             </div>
             <button
-              onClick={() => setActiveDropdown(null)} // 드롭다운 닫기
+              onClick={() => setActiveDropdown(null)}
               className="text-white bg-blue-500 px-6 py-2 rounded-md hover:bg-blue-600 transition"
             >
               설정 완료
@@ -179,21 +210,37 @@ const Search = () => {
           </div>
         )}
         <span
-          onClick={() => setActiveDropdown(activeDropdown === 'traveler' ? null : 'traveler')}
-          className={`rounded-full w-[140px] text-left cursor-pointer font-bold transition-colors duration-200 ${activeDropdown === 'traveler' ? 'p-10' : 'p-2'} ${activeDropdown === 'traveler' ? 'bg-white shadow-lg' : 'bg-gray-100'}`}
+          className={`rounded-full w-[140px] text-left cursor-pointer font-bold ${activeDropdown === 'traveler' ? 'bg-gray-300' : 'bg-white'} p-2 transition-colors duration-200`}
         >
-          {adults}명 성인, {children}명 아동
+          {`${adults} 성인 ${children} 아동`}
         </span>
       </div>
 
-      <button
-        className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
-        onClick={() => {
-          // 검색 버튼 클릭 시의 로직
-        }}
-      >
-        🔍
-      </button>
+      {/* 검색 버튼 */}
+      <div className="flex items-center mx-2">
+        <button
+          onClick={handleSearch}
+          className="flex items-center text-black bg-green-500 px-4 py-2 rounded-md hover:bg-green-600 transition mr-2"
+        >
+          {/* Search Icon */}
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="mr-1"
+          >
+            <path
+              d="M21 21L15.5 15.5M19 10C19 14.4183 15.4183 18 11 18C6.58172 18 3 14.4183 3 10C3 5.58172 6.58172 2 11 2C15.4183 2 19 5.58172 19 10Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 };
