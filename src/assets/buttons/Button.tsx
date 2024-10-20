@@ -52,7 +52,7 @@ export default function Button({
         return 'bg-primary-600 text-white';
     }
   };
-  
+
   return (
     <button
       onClick={onClick}
