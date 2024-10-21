@@ -15,7 +15,6 @@ import MultiAccommodations from './pages/host/setAccommodations/MultiAccommodati
 import OnlyStaterRoom from './pages/host/setAccommodations/OnlyStaterRoom';
 import MultiStaterRoom from './pages/host/setAccommodations/MultiStaterRoom';
 import SignIn from './pages/user/SignIn';
-import User from './pages/user';
 import SignUp from './pages/user/SignUp';
 import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
@@ -44,21 +43,18 @@ function App() {
         <Route path="/stateroom" element={<Stateroom />} />
         <Route path="/mypage" element={<Mypage />} />
         {/* 유저관련 */}
-        <Route path="/user" element={<User />}>
+        
           <Route path="login" element={<SignIn />} />
           <Route path="join" element={<SignUp />} />
-        </Route>
         {/* 호스트관련 */}
         <Route path="/stateroom/order" element={<Orders />} />
         <Route path="/host" element={<Host />}/>
           <Route path="" element={<Management />} />
           <Route path="accomo" element={<HostAccomoList />} />
           <Route path="accommodation" element={<SelectType />} />
-          <Route path="structure-taaaaype" element={<StructureType />} />
+          <Route path="structure-type" element={<StructureType />} />
           <Route path="OnlyStaterRoom" element={<OnlyStaterRoom />} />
-          <Route
-            path="MultiAccommodations"
-            element={<MultiAccommodations />}/>
+          <Route path="MultiAccommodations" element={<MultiAccommodations />}/>
             <Route path="MultiStaterRoom" element={<MultiStaterRoom/>}/>
             <Route path="hostdocuments" element={<HostDocuments/>}/>
             <Route path="Documents" element={<Documents/>}/>
