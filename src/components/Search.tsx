@@ -1,27 +1,46 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay, isBefore } from 'date-fns';
 import ko from 'date-fns/locale/ko';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Dropdown from '../assets/Dropdown';
+import { useSearchStore } from '../stores/useSearchStore';
 
 const locales = {
   ko: ko,
 };
 
 const Search = () => {
+  const { search, actions } = useSearchStore();
+  useEffect(() => {
+    actions.setCity('Seoul');
+  }, []);
   const [events, setEvents] = useState<any[]>([]);
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [selectedDestination, setSelectedDestination] = useState<string>('여행지 선택');
+  const [selectedDestination, setSelectedDestination] =
+    useState<string>('여행지 선택');
 
   const destinations = [
-    '선택해주세요', '서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시',
-    '대전광역시', '울산광역시', '세종특별자치시', '경기도', '충청북도',
-    '충청남도', '전라남도', '경상북도', '강원도특별자치도', '전북특별자치도'
+    '선택해주세요',
+    '서울특별시',
+    '부산광역시',
+    '대구광역시',
+    '인천광역시',
+    '광주광역시',
+    '대전광역시',
+    '울산광역시',
+    '세종특별자치시',
+    '경기도',
+    '충청북도',
+    '충청남도',
+    '전라남도',
+    '경상북도',
+    '강원도특별자치도',
+    '전북특별자치도',
   ];
 
   const localizer = dateFnsLocalizer({
@@ -76,28 +95,19 @@ const Search = () => {
   };
 
   return (
-    <div
-      className="h-[100px] p-4 rounded-lg shadow-md max-w-[750px] mx-auto flex justify-center items-center border border-gray-300 bg-white"
-      style={{ borderRadius: '50px', marginTop: '58px' }} // 여백 추가
-    >
-      {/* 여행지 선택 */}
-      <div className="relative mx-2">
-        <button
-          className={`block text-lg font-semibold cursor-pointer ${activeDropdown === 'destination' ? 'bg-gray-300' : 'bg-white'} p-2 rounded-full transition-colors duration-200`}
-          onClick={() => {
-            setActiveDropdown(activeDropdown === 'destination' ? null : 'destination');
-          }}
-        >
-          {selectedDestination}
-        </button>
+    <div className="rounded-full h-24 p-4 max-w-[750px] mx-auto flex justify-center items-center border border-gray-300 bg-white">
+      <div className="">
+        <Dropdown menuItems={destinations} />
         {activeDropdown === 'destination' && (
           <select
             id="destination"
-            onChange={(e) => handleDestinationChange(e.target.value)}
+            onChange={e => handleDestinationChange(e.target.value)}
             className="border-10 border-gray-300 p-3 rounded-md w-[140px] focus:outline-none focus:ring focus:ring-primary-300"
           >
-            {destinations.map((city) => (
-              <option key={city} value={city}>{city}</option>
+            {destinations.map(city => (
+              <option key={city} value={city}>
+                {city}
+              </option>
             ))}
           </select>
         )}
@@ -135,7 +145,9 @@ const Search = () => {
         <button
           className={`rounded-full w-[140px] text-left cursor-pointer font-bold ${activeDropdown === 'checkOut' ? 'bg-gray-300' : 'bg-white'} p-2 transition-colors duration-200`}
           onClick={() => {
-            setActiveDropdown(activeDropdown === 'checkOut' ? null : 'checkOut');
+            setActiveDropdown(
+              activeDropdown === 'checkOut' ? null : 'checkOut'
+            );
           }}
         >
           {checkOut ? format(checkOut, 'yyyy년 MM월 dd일') : '체크아웃'}
@@ -162,25 +174,27 @@ const Search = () => {
         <button
           className={`block text-lg font-semibold cursor-pointer ${activeDropdown === 'traveler' ? 'bg-gray-300' : 'bg-white'} p-2 rounded-full transition-colors duration-200`}
           onClick={() => {
-            setActiveDropdown(activeDropdown === 'traveler' ? null : 'traveler');
+            setActiveDropdown(
+              activeDropdown === 'traveler' ? null : 'traveler'
+            );
           }}
         >
           여행자
         </button>
         {activeDropdown === 'traveler' && (
-          <div className="absolute z-10 bg-white border border-gray-300 rounded-md shadow-md p-2">
+          <div className="absolute z-10 p-2 bg-white border border-gray-300 rounded-md shadow-md">
             <div className="flex items-center mb-2">
               <label className="mr-2">성인</label>
               <button
                 onClick={() => setAdults(Math.max(1, adults - 1))}
-                className="border border-gray-300 px-2 py-1 rounded-l-md"
+                className="px-2 py-1 border border-gray-300 rounded-l-md"
               >
                 -
               </button>
-              <span className="border border-gray-300 px-4 py-1">{adults}</span>
+              <span className="px-4 py-1 border border-gray-300">{adults}</span>
               <button
                 onClick={() => setAdults(adults + 1)}
-                className="border border-gray-300 px-2 py-1 rounded-r-md"
+                className="px-2 py-1 border border-gray-300 rounded-r-md"
               >
                 +
               </button>
@@ -189,21 +203,23 @@ const Search = () => {
               <label className="mr-2">아동</label>
               <button
                 onClick={() => setChildren(Math.max(0, children - 1))}
-                className="border border-gray-300 px-2 py-1 rounded-l-md"
+                className="px-2 py-1 border border-gray-300 rounded-l-md"
               >
                 -
               </button>
-              <span className="border border-gray-300 px-4 py-1">{children}</span>
+              <span className="px-4 py-1 border border-gray-300">
+                {children}
+              </span>
               <button
                 onClick={() => setChildren(children + 1)}
-                className="border border-gray-300 px-2 py-1 rounded-r-md"
+                className="px-2 py-1 border border-gray-300 rounded-r-md"
               >
                 +
               </button>
             </div>
             <button
               onClick={() => setActiveDropdown(null)}
-              className="text-white bg-blue-500 px-6 py-2 rounded-md hover:bg-blue-600 transition"
+              className="px-6 py-2 text-white transition bg-blue-500 rounded-md hover:bg-blue-600"
             >
               설정 완료
             </button>
@@ -220,7 +236,7 @@ const Search = () => {
       <div className="flex items-center mx-2">
         <button
           onClick={handleSearch}
-          className="flex items-center text-black bg-green-500 px-4 py-2 rounded-md hover:bg-green-600 transition mr-2"
+          className="flex items-center px-4 py-2 mr-2 text-black transition bg-green-500 rounded-md hover:bg-green-600"
         >
           {/* Search Icon */}
           <svg

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../assets/Header';
 import MainCard from '../components/cards/CardMain';
 import Search from '../components/Search';
 import Nav from '../components/Nav';
+
+import { getLoad } from '../axios/mainApi';
 
 // 도시 배열
 const cities = [
@@ -26,23 +28,32 @@ const cities = [
 const Main: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [filteredCities, setFilteredCities] = useState<string[]>(cities);
-
+  let hello;
   const handleCityClick = (city: string) => {
     setSelectedCity(city);
     // 클릭된 도시로 필터링
     setFilteredCities(cities.filter(c => c === city));
   };
 
+  useEffect(() => {
+    const test = async () => {
+      const loadCard = await getLoad();
+      hello = loadCard;
+      console.log('hello', hello);
+    };
+    test();
+  }, []);
+
   return (
     <div>
-      {/* 헤더 */}
       <Header
         labels={[{ title: '마이페이지', link: '/mypage' }]}
         color="white"
+        border={false}
       />
-
-      {/* 검색 컴포넌트 */}
-      <Search />
+      <div className="mt-16">
+        <Search />
+      </div>
 
       {/* Nav 컴포넌트 추가 */}
       <Nav onCityClick={handleCityClick} selectedCity={selectedCity} />
