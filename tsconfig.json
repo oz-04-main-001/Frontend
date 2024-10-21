@@ -6,6 +6,7 @@
   ],
   "compilerOptions": {
     "typeRoots": ["src/types"],
-    "types": ["vite/client"]
-  }
+    "types": ["vite/client", "vite-plugin-svgr/client"]
+  },
+  "include": ["custom.d.ts"]
 }

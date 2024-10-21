@@ -66,8 +66,6 @@ function App() {
             element={<EditMultiAccommodations />}
           />
         </Route>
-
-
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
           <Route path="info/complete" element={<ReservationCompleted />} />
