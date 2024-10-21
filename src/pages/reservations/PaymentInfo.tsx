@@ -10,7 +10,7 @@ interface PaymentInfoProps {
 export default function PaymentInfo({
   title = '결제 정보',
   text = '객실 가격(2박)',
-  divStyle = 'flex flex-col w-lvw',
+  divStyle = 'flex flex-col w-1vz',
   won = '34,000원',
   pStyle1 = 'text-gray-500 text-medium',
   pStyle2 = 'text-xl',

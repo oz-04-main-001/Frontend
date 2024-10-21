@@ -2,7 +2,6 @@ import Popup from '../../components/Popup';
 import RefundNotice from './RefundNotice';
 import ReservAccoCard from './ReservAccoCard';
 
-
 const CancelPopup = ({
   onClickLogic1 = () => {},
   onClickLogic2 = () => {},

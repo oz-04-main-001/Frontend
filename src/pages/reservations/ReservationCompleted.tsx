@@ -1,17 +1,16 @@
 import PaymentInfo from './PaymentInfo';
-import AccmoInfoCard from './AccmoInfoCard';
 import GuestInfo from './GuestInfo';
 import Divider from '../../assets/Divider';
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import Layout from '../../layouts/Layout2';
+import AccomoInfoCard from './AccmoInfoCard';
 
 export default function ReservationCompleted({}) {
-  
   const Pagenation = () => {};
   return (
     <div className="">
       <Layout>
-        <AccmoInfoCard />
+        <AccomoInfoCard />
       </Layout>
 
       <Divider />
@@ -24,7 +23,7 @@ export default function ReservationCompleted({}) {
         <PaymentInfo />
       </Layout>
 
-      <div className="flex content-center justify-center mt-12 glow">
+      <div className="flex content-center justify-center mt-12">
         <div className="w-3/4">
           <Button
             size={BtnSize.l}
@@ -33,7 +32,6 @@ export default function ReservationCompleted({}) {
             onClick={Pagenation}
           />
         </div>
-        <PaymentInfo />
       </div>
     </div>
   );

@@ -19,9 +19,8 @@ import User from './pages/user';
 import SignUp from './pages/user/SignUp';
 import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
-import Popup from './components/Popup';
-import IsReservationConfirmed from './pages/reservations/isReservationComfirmed';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
+import HostAccomoList from './pages/host/hostCalender/HostAccmoList';
 import HostCalendar from './pages/host/hostCalender/HostCalendar';
 import HostDocuments from './pages/host/setAccommodations/HostDocuments';
 import Documents from './pages/host/setAccommodations/components/Documents';
@@ -30,7 +29,6 @@ import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>
@@ -52,8 +50,9 @@ function App() {
         <Route path="/stateroom/order" element={<Orders />} />
         <Route path="/host" element={<Host />}/>
           <Route path="" element={<Management />} />
+          <Route path="accomo" element={<HostAccomoList />} />
           <Route path="accommodation" element={<SelectType />} />
-          <Route path="structure-type" element={<StructureType />} />
+          <Route path="structure-taaaaype" element={<StructureType />} />
           <Route path="only-starter-room" element={<OnlyStaterRoom />} />
           <Route
             path="multi-accommodations"
@@ -66,9 +65,17 @@ function App() {
             <Route path="EditMultiAccommodations" element={<EditMultiAccommodations/>}/>
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
-          <Route path="info/completed" element={<ReservationCompleted />} />
-          <Route path="cencel/popup" element={<CancelPopup />} />
+          <Route path="info/complete" element={<ReservationCompleted />} />
+          <Route path="info/canceled" element={<ReservationCanceled />} />
+          <Route path="cancelpopup" element={<CancelPopup />} />
         </Route>
+
+        {/* Search 라우트 추가 */}
+        <Route path="/search-component" element={<SearchComponent />} />
+        
+        {/* CardMain 라우트 추가 */}
+        <Route path="/card-main" element={<CardMain />} />
+
       </Routes>
     </BrowserRouter>
   );
