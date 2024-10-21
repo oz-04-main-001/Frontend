@@ -76,7 +76,6 @@ function App() {
         
         {/* CardMain 라우트 추가 */}
         <Route path="/card-main" element={<CardMain />} />
-
       </Routes>
     </BrowserRouter>
   );
