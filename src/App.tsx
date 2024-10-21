@@ -27,6 +27,7 @@ import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAcc
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import CardMain from './components/cards/CardMain';
+import AccommodationInformation from './pages/host/setAccommodations/components/AccommodationInformation';
 
 function App() {
   return (
