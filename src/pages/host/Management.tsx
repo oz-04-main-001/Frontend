@@ -7,7 +7,6 @@ import CardOrderFix from '../../components/cards/CardOrderFix';
 import Dropdown from '../../assets/Dropdown';
 import HostCalendar from './hostCalender/HostCalendar';
 import HostAccmoList from './hostCalender/HostAccmoList';
-import Modal from './hostCalender/ModalPopup';
 
 export default function Management() {
   const [tap, setTap] = useState(0);

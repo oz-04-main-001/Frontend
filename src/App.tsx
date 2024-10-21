@@ -20,11 +20,6 @@ import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
 import HostAccomoList from './pages/host/hostCalender/HostAccmoList';
-import HostCalendar from './pages/host/hostCalender/HostCalendar';
-// ./components/Search 추가
-import SearchComponent from './components/Search';
-// ./components/cards/CardMain 추가
-import CardMain from './components/cards/CardMain';
 
 function App() {
   return (
@@ -47,12 +42,15 @@ function App() {
         {/* 호스트관련 */}
         <Route path="/stateroom/order" element={<Orders />} />
         <Route path="/host" element={<Host />}>
-          <Route path="" element={<Management />} />
+          <Route path="management" element={<Management />} />
           <Route path="accomo" element={<HostAccomoList />} />
           <Route path="accommodation" element={<SelectType />} />
           <Route path="structure-taaaaype" element={<StructureType />} />
           <Route path="only-starter-room" element={<OnlyStaterRoom />} />
-          <Route path="multi-accommodations" element={<MultiAccommodations />} />
+          <Route
+            path="multi-accommodations"
+            element={<MultiAccommodations />}
+          />
         </Route>
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
@@ -60,13 +58,6 @@ function App() {
           <Route path="info/canceled" element={<ReservationCanceled />} />
           <Route path="cancelpopup" element={<CancelPopup />} />
         </Route>
-
-        {/* Search 라우트 추가 */}
-        <Route path="/search-component" element={<SearchComponent />} />
-        
-        {/* CardMain 라우트 추가 */}
-        <Route path="/card-main" element={<CardMain />} />
-
       </Routes>
     </BrowserRouter>
   );
