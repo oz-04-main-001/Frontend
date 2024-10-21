@@ -13,20 +13,19 @@ const OnlyStarterRoom: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className=" bg-gray-50">
-      <Header
+    <div className=' bg-gray-50'>
+    <Header
         labels={[
-          { title: '게스트 메인', link: '/guest' },
-          { title: '서비스 등록', link: '/register' },
-          { title: '로그아웃', link: '/logout' }
+            { title: '게스트 메인', link: '/guest' },
+            { title: '서비스 등록', link: '/register' },
+            { title: '로그아웃', link: '/logout' }
         ]}
-      />
-
-      <div className="w-[1064px] mx-auto mt-[12vh] flex items-center">
+    />
+    <div className="w-[1064px] mx-auto mt-[6vh]">
+    <div className="flex items-center ">
         <img src={ArrowIcon} alt="Arrow Icon" className="w-6 h-6 mr-4" onClick={() => navigate(-1)} />
         <h1 className="text-2xl font-bold">숙소 등록</h1>
-      </div>
-
+    </div>
       <div className="w-[1064px] mx-auto mt-10 space-y-10">
         <h2 className="text-xl font-semibold text-gray-600">숙소</h2> 
         <AccommodationsPhoto />
@@ -46,6 +45,7 @@ const OnlyStarterRoom: React.FC = () => {
           />
         </div>
       </div>
+    </div>
     </div>
   );
 };
