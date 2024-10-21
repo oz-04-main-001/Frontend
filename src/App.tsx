@@ -28,6 +28,7 @@ import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAcc
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import CardMain from './components/cards/CardMain';
+import AccommodationInformation from './pages/host/setAccommodations/components/AccommodationInformation';
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
             <Route path="Documents" element={<Documents/>}/>
             <Route path="EditOnlyRoom" element={<EditOnlyRoom/>}/>
             <Route path="EditMultiRoom" element={<EditMultiRoom/>}/>
+            <Route path="AccommodationInformation" element={<AccommodationInformation/>}/>
             <Route path="EditMultiAccommodations" element={<EditMultiAccommodations/>}/>
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>

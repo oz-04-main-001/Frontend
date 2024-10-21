@@ -21,7 +21,6 @@ const Dropdown: React.FC<DropdownProps> = ({ width = '200px', menuItems }) => {
 
   return (
     <div className="relative inline-block text-left" style={{ width }}>
-      {/* 드롭다운 버튼 */}
       <button
         onClick={toggleDropdown}
         className="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none"
@@ -30,8 +29,6 @@ const Dropdown: React.FC<DropdownProps> = ({ width = '200px', menuItems }) => {
           {selectedItem ? selectedItem : 'Select an Item'}
         </span>
       </button>
-
-      {/* 드롭다운 메뉴 */}
       {isOpen && (
         <div className="absolute right-0 w-full mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1 text-center" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
