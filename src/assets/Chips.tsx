@@ -1,22 +1,37 @@
 import { useState } from 'react';
 
 interface ChipsProps {
-  text: string;
+  text?: string;
   className?: string;
+  value?: string | undefined;
+  setValue?: (value: string) => void;
 }
 
-export default function Chips({ text = 'chip', className = '' }: ChipsProps) {
+export default function Chips({
+  className = '',
+  setValue,
+  value,
+  text,
+}: ChipsProps) {
   const [select, setSelected] = useState<boolean>(true);
 
   return (
     <a
-      className={`inline-block w-full px-5 py-6 rounded-md ${select ? 'text-gray-700 border-2 border-gray-100 border-solid' : 'text-gray-400 bg-gray-50'} ${className}`} 
+      className={`inline-block w-full  rounded-md ${select ? 'text-gray-700 border-2 border-gray-100 border-solid' : 'text-gray-400 bg-gray-50'} ${className}`}
       onClick={() => {
         setSelected(!select);
       }}
     >
-      <h4 className="text-sm text-gray-400">{text}</h4> {/* 글자 크기 작게, 색상 gray-400으로 변경 */}
+      <input
+        className={`w-full bg-inherit text-sm text-gray-400 px-5 py-6 bg-transparent focus:outline-none border-transparent  border-none focus:border-none active:border-none`}
+        value={value ? value : text}
+        onChange={e => {
+          if (setValue) {
+            setValue(e.target.value);
+          }
+        }}
+        readOnly={value ? false : true}
+      />
     </a>
   );
 }
-
