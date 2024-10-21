@@ -1,8 +1,8 @@
 // 숙소 정보
 import React, { useState } from 'react';
 import { Input } from '../../../../assets/Input';
+import Button, { BtnSize, BtnType } from '../../../../assets/buttons/Button';  // Button 컴포넌트 가져오기
 
-// window.daum을 TypeScript에서 사용할 수 있도록 선언
 declare global {
     interface Window {
         daum: any;
@@ -38,22 +38,23 @@ const AccommodationInformation: React.FC = () => {
             </div>
 
             <div className="mb-4">
-                <Input
-                    type="text"
-                    id="accommodation-address"
-                    placeholder={addressPlaceholder} // 주소가 placeholder로 표시
-                    label="주소"
-                    width="w-[1024px]"
-                    height="h-[60px]"
-                    className="text-gray-400"
-                />
-                <button
-                    type="button"
-                    onClick={handleAddressSearch}
-                    className="p-2 mt-2 text-white bg-blue-500 rounded"
-                >
-                    주소 검색
-                </button>
+                <div className="flex items-center">
+                    <Input
+                        type="text"
+                        id="accommodation-address"
+                        placeholder={addressPlaceholder} // 주소가 placeholder로 표시
+                        label="주소"
+                        width="w-[900px]" // 입력 필드 크기 조정
+                        height="h-[60px]"
+                        className="text-gray-400"
+                    />
+                    <Button
+                        size={BtnSize.m}     // 중간 크기 버튼 사용
+                        text="조회하기"       // 버튼 텍스트
+                        type={BtnType.line} // 기본 타입 사용
+                        onClick={handleAddressSearch} // 조회 버튼 클릭 시 주소 검색 API 호출
+                    />
+                </div>
             </div>
 
             <div className="mb-4">
@@ -72,4 +73,3 @@ const AccommodationInformation: React.FC = () => {
 };
 
 export default AccommodationInformation;
-
