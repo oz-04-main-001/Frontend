@@ -15,7 +15,8 @@ const Search = () => {
   const [checkOut, setCheckOut] = useState<Date | null>(null);
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeDropdown, setActi
+    veDropdown] = useState<string | null>(null);
   const [selectedDestination, setSelectedDestination] = useState<string>('여행지 선택');
 
   const destinations = [
@@ -145,19 +146,19 @@ const Search = () => {
           여행자
         </button>
         {activeDropdown === 'traveler' && (
-          <div className="absolute z-10 bg-white border border-gray-300 rounded-md shadow-md p-2">
+          <div className="absolute z-10 p-2 bg-white border border-gray-300 rounded-md shadow-md">
             <div className="flex items-center mb-2">
               <label className="mr-2">성인</label>
               <button
                 onClick={() => setAdults(Math.max(1, adults - 1))}
-                className="border border-gray-300 px-2 py-1 rounded-l-md"
+                className="px-2 py-1 border border-gray-300 rounded-l-md"
               >
                 -
               </button>
-              <span className="border border-gray-300 px-4 py-1">{adults}</span>
+              <span className="px-4 py-1 border border-gray-300">{adults}</span>
               <button
                 onClick={() => setAdults(adults + 1)}
-                className="border border-gray-300 px-2 py-1 rounded-r-md"
+                className="px-2 py-1 border border-gray-300 rounded-r-md"
               >
                 +
               </button>
@@ -166,21 +167,21 @@ const Search = () => {
               <label className="mr-2">아동</label>
               <button
                 onClick={() => setChildren(Math.max(0, children - 1))}
-                className="border border-gray-300 px-2 py-1 rounded-l-md"
+                className="px-2 py-1 border border-gray-300 rounded-l-md"
               >
                 -
               </button>
-              <span className="border border-gray-300 px-4 py-1">{children}</span>
+              <span className="px-4 py-1 border border-gray-300">{children}</span>
               <button
                 onClick={() => setChildren(children + 1)}
-                className="border border-gray-300 px-2 py-1 rounded-r-md"
+                className="px-2 py-1 border border-gray-300 rounded-r-md"
               >
                 +
               </button>
             </div>
             <button
               onClick={() => setActiveDropdown(null)}
-              className="text-white bg-blue-500 px-6 py-2 rounded-md hover:bg-blue-600 transition"
+              className="px-6 py-2 text-white transition bg-blue-500 rounded-md hover:bg-blue-600"
             >
               설정 완료
             </button>
@@ -196,7 +197,7 @@ const Search = () => {
       {/* 검색 버튼 */}
       <button
         onClick={handleSearch}
-        className="bg-green-500 text-black flex items-center px-6 py-2 rounded-md hover:bg-green-600 transition"
+        className="flex items-center px-6 py-2 text-black transition bg-green-500 rounded-md hover:bg-green-600"
       >
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15.5 14H14.71L14.43 13.73C15.444 12.5541 16.0012 11.0527 16 9.5C16 8.21442 15.6188 6.95772 14.9046 5.8888C14.1903 4.81988 13.1752 3.98676 11.9874 3.49479C10.7997 3.00282 9.49279 2.87409 8.23192 3.1249C6.97104 3.3757 5.81285 3.99477 4.90381 4.90381C3.99477 5.81285 3.3757 6.97104 3.1249 8.23192C2.87409 9.49279 3.00282 10.7997 3.49479 11.9874C3.98676 13.1752 4.81988 14.1903 5.8888 14.9046C6.95772 15.6188 8.21442 16 9.5 16C11.0527 16.0012 12.5541 15.444 13.73 14.43L14 14.71V15.5L18 19.5L19.5 18L15.5 14ZM9.5 14C7.01472 14 5 11.9853 5 9.5C5 7.01472 7.01472 5 9.5 5C11.9853 5 14 7.01472 14 9.5C14 11.9853 11.9853 14 9.5 14Z" fill="currentColor"/>

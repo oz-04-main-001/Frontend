@@ -27,6 +27,7 @@ import Documents from './pages/host/setAccommodations/components/Documents';
 import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
+import CardMain from './components/cards/CardMain';
 
 function App() {
   return (
@@ -53,11 +54,11 @@ function App() {
           <Route path="accomo" element={<HostAccomoList />} />
           <Route path="accommodation" element={<SelectType />} />
           <Route path="structure-taaaaype" element={<StructureType />} />
-          <Route path="only-starter-room" element={<OnlyStaterRoom />} />
+          <Route path="OnlyStaterRoom" element={<OnlyStaterRoom />} />
           <Route
-            path="multi-accommodations"
+            path="MultiAccommodations"
             element={<MultiAccommodations />}/>
-            <Route path="multi-starter-room" element={<MultiStaterRoom/>}/>
+            <Route path="MultiStaterRoom" element={<MultiStaterRoom/>}/>
             <Route path="hostdocuments" element={<HostDocuments/>}/>
             <Route path="Documents" element={<Documents/>}/>
             <Route path="EditOnlyRoom" element={<EditOnlyRoom/>}/>
@@ -71,7 +72,7 @@ function App() {
         </Route>
 
         {/* Search 라우트 추가 */}
-        <Route path="/search-component" element={<SearchComponent />} />
+        <Route path="/search-component" element={<Search/>} />
         
         {/* CardMain 라우트 추가 */}
         <Route path="/card-main" element={<CardMain />} />
