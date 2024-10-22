@@ -2,11 +2,18 @@ import React, { useEffect, useState } from 'react';
 import Header from '../assets/Header';
 import MainCard from '../components/cards/CardMain';
 import Search from '../components/Search';
-import Nav from '../components/Nav';
+import Filter from '../components/Filter';
 
 import { getLoad } from '../axios/mainApi';
+import { useNavigate } from 'react-router-dom';
+import Layout from '../layouts/Layout2';
 
-// 도시 배열
+interface FecthCardInfo {
+  name: string;
+  rooms: number;
+  hotel_img: string | null;
+}
+
 const cities = [
   '서울특별시',
   '부산광역시',
@@ -26,20 +33,17 @@ const cities = [
 ];
 
 const Main: React.FC = () => {
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [filteredCities, setFilteredCities] = useState<string[]>(cities);
-  let hello;
-  const handleCityClick = (city: string) => {
-    setSelectedCity(city);
-    // 클릭된 도시로 필터링
-    setFilteredCities(cities.filter(c => c === city));
-  };
+  const navigate = useNavigate();
+  const [cardList, setCardList] = useState<FecthCardInfo[]>();
 
+  const handleAccommodationPage = () => {
+    navigate(`/accommodations`);
+  };
   useEffect(() => {
     const test = async () => {
       const loadCard = await getLoad();
-      hello = loadCard;
-      console.log('hello', hello);
+      card = loadCard;
+      console.log('card', card);
     };
     test();
   }, []);
@@ -55,18 +59,23 @@ const Main: React.FC = () => {
         <Search />
       </div>
 
-      {/* Nav 컴포넌트 추가 */}
-      <Nav onCityClick={handleCityClick} selectedCity={selectedCity} />
+      <Filter list={cities} />
 
-      {/* 일자 선 */}
-      <hr className="my-4 border-gray-300" />
-
-      {/* 선택된 도시의 필터링된 메인 카드들 */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {filteredCities.map((city, index) => (
-          <MainCard key={index} city={city} />
-        ))}
-      </div>
+      <Layout>
+        <div
+          className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          onClick={handleAccommodationPage}
+        >
+          {cardList?.map((card, index) => (
+            <MainCard
+              key={index}
+              title={card.name}
+              price={card.rooms}
+              image={card.hotel_img}
+            />
+          ))}
+        </div>
+      </Layout>
     </div>
   );
 };

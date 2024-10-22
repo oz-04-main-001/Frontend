@@ -62,5 +62,23 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    ({ addUtilities }) => {
+      addUtilities(
+        {
+          '.no-scrollbar': {
+            /* IE, Edge */
+            '-ms-overflow-style': 'none',
+            /* Firefox */
+            'scrollbar-width': 'none',
+            /* Chrome, Safari, Opera*/
+            '&::-webkit-scrollbar': {
+              display: 'none',
+            },
+          },
+        },
+        ['responsive']
+      );
+    },
+  ],
 };
