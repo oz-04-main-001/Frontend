@@ -7,9 +7,14 @@ import Layout from '../../layouts/Layout1';
 import { DetailType } from '../../components/DetailInfo';
 import Header from '../../assets/Header';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getLoad } from '../../axios/accommodationApi';
+
 export default function Accommodations() {
   const texts = ['주차가능', '조식운영'];
   const navigate = useNavigate();
+  const [] = useState();
+
   return (
     <>
       <Header />

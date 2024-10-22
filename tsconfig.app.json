@@ -20,5 +20,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/pages/user/index.tsx", "custom.d.ts"]
+  "include": ["src", "src/pages/user/index.tsx", "src/@types/*"]
 }
