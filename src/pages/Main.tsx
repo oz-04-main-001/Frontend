@@ -19,6 +19,7 @@ const Main: React.FC = () => {
   const [cardList, setCardList] = useState<FetchCardInfo[]>();
 
   const handleAccommodationPage = () => {
+
     navigate(`/accommodations`);
   };
   useEffect(() => {
@@ -50,6 +51,7 @@ const Main: React.FC = () => {
           {cardList?.map((card, index) => (
             <MainCard
               key={index}
+
               title={card.name}
               price={card.rooms}
               image={card.hotel_img}

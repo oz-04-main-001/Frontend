@@ -49,7 +49,6 @@ function App() {
 
         <Route path="/host" element={<Host />}>
           <Route path="" element={<Management />} />
-          <Route path="accomo" element={<HostAccomoList />} />
           <Route path="accommodation" element={<SelectType />} />
           <Route path="structure-taaaaype" element={<StructureType />} />
           <Route path="OnlyStaterRoom" element={<OnlyStaterRoom />} />

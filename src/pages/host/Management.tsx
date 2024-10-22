@@ -6,7 +6,7 @@ import Popup from '../../components/Popup';
 import CardOrderFix from '../../components/cards/CardOrderFix';
 import Dropdown from '../../assets/Dropdown';
 import HostCalendar from './hostCalender/HostCalendar';
-import HostAccmoList from './hostCalender/HostAccmoList';
+import HostAccommoList from './hostCalender/HostAccommoList';
 
 export default function Management() {
   const [tap, setTap] = useState(0);
@@ -101,7 +101,7 @@ export default function Management() {
             </div>
           </div>
           <div className="col-span-7">
-            <HostAccmoList />
+            <HostAccommoList />
           </div>
         </div>
       </Layout>
