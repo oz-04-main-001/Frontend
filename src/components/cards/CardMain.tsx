@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getLoad } from '../../axios/accommodationApi';
 
 interface CardProp {
   title: string;

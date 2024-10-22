@@ -1,12 +1,23 @@
 import { useRef, useState } from 'react';
 import { useSearchStore } from '../stores/useSearchStore';
-
-interface FilterProps {
-  onCityClick?: (city: string) => void;
-  list: string[];
-}
-
-const Filter: React.FC<FilterProps> = ({ list }) => {
+const cities = [
+  '서울특별시',
+  '부산광역시',
+  '대구광역시',
+  '인천광역시',
+  '광주광역시',
+  '대전광역시',
+  '울산광역시',
+  '세종특별자치시',
+  '경기도',
+  '충청북도',
+  '충청남도',
+  '전라남도',
+  '경상북도',
+  '강원도특별자치도',
+  '전북특별자치도',
+];
+const Filter = () => {
   const { actions } = useSearchStore();
   const [active, setActive] = useState<number>();
   const scrollContainerRef = useRef<HTMLUListElement>(null);
@@ -43,7 +54,7 @@ const Filter: React.FC<FilterProps> = ({ list }) => {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        {list?.map((city, idx) => (
+        {cities?.map((city, idx) => (
           <li
             key={idx}
             onClick={() => {

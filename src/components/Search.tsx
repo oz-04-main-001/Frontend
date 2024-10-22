@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay, isBefore } from 'date-fns';
 import { ko } from 'date-fns/locale/ko';
@@ -26,10 +26,6 @@ const Search = () => {
   const [events, setEvents] = useState<any[]>([]);
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
-  const [adults, setAdults] = useState(1);
-  const [children, setChildren] = useState(0);
-  const [selectedDestination, setSelectedDestination] =
-    useState<string>('여행지 선택');
 
   const destinations = [
     '서울특별시',
@@ -186,7 +182,7 @@ const Search = () => {
         <span
           className={`hidden s1 rounded-full w-[140px] text-left cursor-pointer font-bold ${activeDropdown === 'traveler block' ? 'bg-gray-300' : 'bg-white'} p-2 transition-colors duration-200`}
         >
-          {`게스트 ${adults}`}
+          {`게스트 ${search.personnel.adult}`}
         </span>
       </div>
 

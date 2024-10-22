@@ -8,44 +8,25 @@ import { getLoad } from '../axios/mainApi';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../layouts/Layout2';
 
-interface FecthCardInfo {
+interface FetchCardInfo {
   name: string;
   rooms: number;
   hotel_img: string | null;
 }
 
-const cities = [
-  '서울특별시',
-  '부산광역시',
-  '대구광역시',
-  '인천광역시',
-  '광주광역시',
-  '대전광역시',
-  '울산광역시',
-  '세종특별자치시',
-  '경기도',
-  '충청북도',
-  '충청남도',
-  '전라남도',
-  '경상북도',
-  '강원도특별자치도',
-  '전북특별자치도',
-];
-
 const Main: React.FC = () => {
   const navigate = useNavigate();
-  const [cardList, setCardList] = useState<FecthCardInfo[]>();
+  const [cardList, setCardList] = useState<FetchCardInfo[]>();
 
   const handleAccommodationPage = () => {
     navigate(`/accommodations`);
   };
   useEffect(() => {
-    const test = async () => {
+    const fetchGetLoad = async () => {
       const loadCard = await getLoad();
-      card = loadCard;
-      console.log('card', card);
+      setCardList(loadCard);
     };
-    test();
+    fetchGetLoad();
   }, []);
 
   return (
@@ -59,7 +40,7 @@ const Main: React.FC = () => {
         <Search />
       </div>
 
-      <Filter list={cities} />
+      <Filter />
 
       <Layout>
         <div
