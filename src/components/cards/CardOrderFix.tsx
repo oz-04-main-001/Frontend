@@ -11,8 +11,8 @@ interface Prop {
 }
 
 export default function CardOrderFix({
-  accommodations = '숙소',
-  stateroom = '객실',
+  accommodations = '나라마 숙소',
+  stateroom = '건강 청정 황토방',
   checkIn = '2024.10.14',
   checkOut = '2024.10.15',
   user = '한기선',
@@ -20,15 +20,15 @@ export default function CardOrderFix({
   onClose2,
 }: Prop) {
   return (
-    <div className="p-5 mx-3 my-4 bg-white border-2 border-gray-100 border-solid rounded-md">
-      <div className="flex justify-between ">
+    <div className="flex-row p-5 mx-3 my-4 bg-white border-2 border-gray-100 border-solid rounded-md">
+      <div className="flex justify-between flex-col">
         <div>
-          <p className="s1">{accommodations}</p>
-          <p className="b2">{stateroom}</p>
+          <p className="s1 inline-block mr-3">{accommodations}</p>
+          <p className="s2">
+            {checkIn} ~ {checkOut}
+          </p>
+          <p className="b2 inline-block">{stateroom}</p>
         </div>
-        <p className="s2">
-          {checkIn} ~ {checkOut}
-        </p>
       </div>
       <div className="mt-2">
         <p className="s2">
