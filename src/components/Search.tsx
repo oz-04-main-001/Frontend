@@ -8,12 +8,14 @@ import { useSearchStore } from '../stores/useSearchStore';
 import PlusIcon from '../assets/icons/plus.svg?react';
 import MinusIcon from '../assets/icons/minus.svg?react';
 import SearchIcon from '../assets/icons/search.svg?react';
+import { useNavigate } from 'react-router-dom';
 
 const locales = {
   ko: ko,
 };
 
 const Search = () => {
+  const navigate = useNavigate();
   const { search, actions } = useSearchStore();
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -55,7 +57,7 @@ const Search = () => {
     locales,
   });
 
-  const handleSelectSlot = ({ start }: { start: Date }) => {
+  const handleCheckInSlot = ({ start }: { start: Date }) => {
     actions.setCheckIn(start);
     setCheckIn(start);
     setActiveDropdown(null);
@@ -67,37 +69,16 @@ const Search = () => {
     setActiveDropdown(null);
   };
 
-  const handleDestinationChange = (destination: string) => {
-    setSelectedDestination(destination);
-    setActiveDropdown(null);
-  };
-
   const handleSearch = () => {
-    if (!checkIn || !checkOut) {
+    if (!search.date.checkIn || !search.date.checkOut) {
       alert('체크인 및 체크아웃 날짜를 선택하세요.');
       return;
     }
-    if (isBefore(checkOut, checkIn)) {
+    if (isBefore(search.date.checkOut, search.date.checkIn)) {
       alert('체크아웃 날짜는 체크인 날짜 이후여야 합니다.');
       return;
     }
-
-    console.log('검색 시작:', {
-      destination: selectedDestination,
-      checkIn,
-      checkOut,
-      adults,
-      children,
-    });
-  };
-
-  const handleReset = () => {
-    setCheckIn(null);
-    setCheckOut(null);
-    setAdults(1);
-    setChildren(0);
-    setActiveDropdown(null);
-    setSelectedDestination('여행지 선택');
+    navigate('/search');
   };
 
   return (
@@ -136,7 +117,7 @@ const Search = () => {
                 endAccessor="end"
                 selectable
                 onSelectSlot={
-                  check === 'checkIn' ? handleSelectSlot : handleCheckOutSelect
+                  check === 'checkIn' ? handleCheckInSlot : handleCheckOutSelect
                 }
                 views={['month']}
                 step={60}

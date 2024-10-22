@@ -26,8 +26,6 @@ import Documents from './pages/host/setAccommodations/components/Documents';
 import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
-import CardMain from './components/cards/CardMain';
-import AccommodationInformation from './pages/host/setAccommodations/components/AccommodationInformation';
 
 function App() {
   return (
@@ -48,7 +46,7 @@ function App() {
           <Route path="join" element={<SignUp />} />
         </Route>
         {/* 호스트관련 */}
-        <Route path="/stateroom/order" element={<Orders />} />
+
         <Route path="/host" element={<Host />}>
           <Route path="" element={<Management />} />
           <Route path="accomo" element={<HostAccomoList />} />
@@ -66,18 +64,14 @@ function App() {
             element={<EditMultiAccommodations />}
           />
         </Route>
+
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
+          <Route path="stateroom/order" element={<Orders />} />
           <Route path="info/complete" element={<ReservationCompleted />} />
           <Route path="info/canceled" element={<ReservationCanceled />} />
           <Route path="cancelpopup" element={<CancelPopup />} />
         </Route>
-
-        {/* Search 라우트 추가 */}
-        <Route path="/search-component" element={<Search />} />
-
-        {/* CardMain 라우트 추가 */}
-        <Route path="/card-main" element={<CardMain />} />
       </Routes>
     </BrowserRouter>
   );
