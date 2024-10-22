@@ -19,7 +19,7 @@ import SignUp from './pages/user/SignUp';
 import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
-import HostAccomoList from './pages/host/hostCalender/HostAccmoList';
+
 
 function App() {
   return (
@@ -43,7 +43,6 @@ function App() {
         <Route path="/stateroom/order" element={<Orders />} />
         <Route path="/host" element={<Host />}>
           <Route path="" element={<Management />} />
-          <Route path="accomo" element={<HostAccomoList />} />
           <Route path="accommodation" element={<SelectType />} />
           <Route path="structure-taaaaype" element={<StructureType />} />
           <Route path="only-starter-room" element={<OnlyStaterRoom />} />
