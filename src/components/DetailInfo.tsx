@@ -33,7 +33,7 @@ export default function DetailInfo({
           <h3>{title}</h3>
         </div>
         <div className="flex items-end ">
-          <h6>{price}</h6>
+          <h6>{price}원</h6>
           {detailType ? <p className="text-gray-400 b2"> /1박</p> : <h6> ~</h6>}
         </div>
       </div>

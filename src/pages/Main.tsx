@@ -1,39 +1,64 @@
-import { useEffect, useState } from 'react';
-import { getLoad } from '../axios/mainApi';
+import React, { useEffect, useState } from 'react';
+import Header from '../assets/Header';
+import MainCard from '../components/cards/CardMain';
+import Search from '../components/Search';
+import Filter from '../components/Filter';
 
-interface Card {
-  img: string;
-  title: string;
-  price: number;
+import { getLoad } from '../axios/mainApi';
+import { useNavigate } from 'react-router-dom';
+import Layout from '../layouts/Layout2';
+
+interface FetchCardInfo {
+  name: string;
+  rooms: number;
+  hotel_img: string | null;
 }
 
-export default function Main() {
-  const dumy: Card[] = [{ img: '이미지', title: '숙소', price: 111 }];
+const Main: React.FC = () => {
+  const navigate = useNavigate();
+  const [cardList, setCardList] = useState<FetchCardInfo[]>();
 
-  const [accmoInfoList, setAccmoInfoList] = useState(dumy);
-  const [loading, setLoading] = useState(false);
-
+  const handleAccommodationPage = () => {
+    navigate(`/accommodations`);
+  };
   useEffect(() => {
-    const fetchLoad = async () => {
-      const data = await getLoad();
-      setAccmoInfoList(data);
-      setLoading(false);
+    const fetchGetLoad = async () => {
+      const loadCard = await getLoad();
+      setCardList(loadCard);
     };
-    fetchLoad();
+    fetchGetLoad();
   }, []);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
   return (
     <div>
-      {accmoInfoList.map((accmoInfo, index) => (
-        <div key={index}>
-          <h3>{accmoInfo.title}</h3>
-          <p>Price: {accmoInfo.price}</p>
-          <img src={accmoInfo.img} alt={accmoInfo.title} />
+      <Header
+        labels={[{ title: '마이페이지', link: '/mypage' }]}
+        color="white"
+        border={false}
+      />
+      <div className="mt-16">
+        <Search />
+      </div>
+
+      <Filter />
+
+      <Layout>
+        <div
+          className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          onClick={handleAccommodationPage}
+        >
+          {cardList?.map((card, index) => (
+            <MainCard
+              key={index}
+              title={card.name}
+              price={card.rooms}
+              image={card.hotel_img}
+            />
+          ))}
         </div>
-      ))}
+      </Layout>
     </div>
   );
-}
+};
+
+export default Main;

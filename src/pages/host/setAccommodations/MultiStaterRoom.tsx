@@ -30,7 +30,7 @@ const MultiStaterRoom: React.FC = () => {
         <div className="w-[1064px] mx-auto flex flex-col items-start mt-[4vh]">
           <div className="flex items-center mb-2">
             <img src={ArrowIcon} alt="Arrow Icon" className="w-6 h-6 mr-4" onClick={() => navigate(-1)} />
-            <h1 className="text-2xl font-bold">숙소 등록</h1>
+            <h1 className="text-2xl font-bold">숙소 객실 등록</h1>
           </div>
           <div>
             <div className="mb-4">

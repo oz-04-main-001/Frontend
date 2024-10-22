@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import Button from '../../assets/buttons/Button';
 import { BtnSize, BtnType } from '../../assets/buttons/Button';
 
 export default function StateroomCard() {
+  const navigate = useNavigate();
+
   return (
     <div className="flex gap-8 p-5 mb-8 rounded-md bg-gray-50">
       <div className="flex items-center justify-center overflow-hidden bg-gray-100 border-2 border-gray-100 border-solid rounded-md aspect-square basis-1/4">
@@ -9,7 +12,18 @@ export default function StateroomCard() {
       </div>
       <div className="grow">
         <h4>객실</h4>
-        <p className="text-right b1 text-primary-600">상세보기</p>
+        <div className="text-right">
+          <button
+            type="button"
+            className="text-right b1 text-primary-600 "
+            onClick={() => {
+              navigate('/stateroom');
+            }}
+          >
+            상세보기
+          </button>
+        </div>
+
         <div className="p-3 bg-white rounded-md mt-7">
           <div className="pb-1 text-gray-400 b2">
             <p>입실 16:00</p>
@@ -21,7 +35,11 @@ export default function StateroomCard() {
               <p className="text-gray-400 b2"> /1박</p>
             </div>
             <div className="flex justify-end w-full text-right">
-              <div>
+              <div
+                onClick={() => {
+                  navigate('/reservation');
+                }}
+              >
                 <Button
                   size={BtnSize.m}
                   text="객실예약"

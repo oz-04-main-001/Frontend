@@ -5,6 +5,7 @@ import Button, { BtnSize, BtnType } from '../../../../assets/buttons/Button';
 import SettingIcon from '../../../../assets/icons/setting.svg'; 
 import { useNavigate } from 'react-router-dom';
 
+
 const MultiRoomList: React.FC = () => {
     const [rooms, setRooms] = useState<string[]>(['스탠다드', '디럭스']); 
     const [selectedRoom, setSelectedRoom] = useState<string | null>(null); 
@@ -89,6 +90,7 @@ const MultiRoomList: React.FC = () => {
                             />
                         </div>
                     ))}
+
                 </div>
             </div>
         </div>

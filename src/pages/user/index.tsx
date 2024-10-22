@@ -7,7 +7,7 @@ export default function index() {
   return (
     <Layout>
       <Header labels={headerLabelArr} />;
-      <div className="mt-24 mb-11">
+      <div className="mt-24">
         <Outlet />
       </div>
     </Layout>
