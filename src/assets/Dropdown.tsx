@@ -1,5 +1,4 @@
-//예진
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface DropdownProps {
   width?: string;
@@ -36,6 +35,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
+
     <div className="relative inline-block text-left z-50" style={{ width }}>
       <button
         onClick={toggleDropdown}
@@ -45,7 +45,6 @@ const Dropdown: React.FC<DropdownProps> = ({
           {selectedItem ? selectedItem : title}
         </span>
       </button>
-
       {isOpen && (
         <div className="absolute right-0 w-full mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div

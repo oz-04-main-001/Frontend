@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../assets/Header';
 import MainCard from '../components/cards/CardMain';
 import Search from '../components/Search';
+import Filter from '../components/Filter';
 
 import { getLoad } from '../axios/mainApi';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +19,8 @@ const Main: React.FC = () => {
   const [cardList, setCardList] = useState<FetchCardInfo[]>();
 
   const handleAccommodationPage = () => {
-    navigate('/accommodations');
+
+    navigate(`/accommodations`);
   };
   useEffect(() => {
     const fetchGetLoad = async () => {
@@ -33,13 +35,13 @@ const Main: React.FC = () => {
       <Header
         labels={[{ title: '마이페이지', link: '/mypage' }]}
         color="white"
-        // border={false}
+        border={false}
       />
       <div className="mt-16">
         <Search />
       </div>
 
-      {/* <Filter /> */}
+      <Filter />
 
       <Layout>
         <div
@@ -49,7 +51,8 @@ const Main: React.FC = () => {
           {cardList?.map((card, index) => (
             <MainCard
               key={index}
-              // title={card.name}
+
+              title={card.name}
               price={card.rooms}
               image={card.hotel_img}
             />
