@@ -4,7 +4,7 @@ import close from '../../../assets/icons/icon.svg';
 
 export default function HostAccomoList({}) {
   const [isShow, setIsShow] = useState<boolean>(false);
-  const [isDelete, setIsDelete] = useState<boolean>(false);
+  // const [isDelete, setIsDelete] = useState<boolean>(false);
 
   function onClick() {
     setIsShow(prev => {
@@ -38,14 +38,14 @@ export default function HostAccomoList({}) {
           숙소 삭제
         </button>
       </div>
-      <div className="flex flex-row flex-wrap justify-start gap-2 max-w-3xl">
+      <div className="flex flex-row flex-wrap justify-around gap-4 gap-y-3 max-w-2xl">
         {accomodaton.map((accomo, index) => (
-          <div key={index} className="w-44 h-72 p-2 bg-white shadow-md">
+          <div key={index} className="w-36 h-72 p-2 bg-white shadow-md">
             <button>
               <img
                 src={close}
                 alt="숙소 삭제 버튼"
-                className={`relative left-32 transition duration-100 hover:scale-105 focus:opacity-85 ${isShow ? '' : 'hidden'}`}
+                className={`relative left-28 w-5 h-5 transition duration-100 hover:scale-105 focus:opacity-85 ${isShow ? '' : 'hidden'}`}
               />
             </button>
             <img
