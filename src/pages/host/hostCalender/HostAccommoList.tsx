@@ -1,18 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Button, { BtnType } from '../../../assets/buttons/Button';
 import close from '../../../assets/icons/icon.svg';
 import AccommodationAPI from '../managementAPI/AccommodationAPI';
+import Popup from '../../../components/Popup';
 
-export default function HostAccommoList({}) {
-  const [isShow, setIsShow] = useState<boolean>(false);
-  const { data, loading, error } = AccommodationAPI();
+export default function HostAccommoList() {
+  const [isShow, setIsShow] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [isDeletePopup, setIsDeletePopup] = useState(false);
+  const { data } = AccommodationAPI();
 
-  data.map(acco => acco);
+  function onClickCloseBtn() {
+    setIsShow(prev => !prev);
+  }
 
-  function onClick() {
-    setIsShow(prev => {
-      return !prev;
-    });
+  function onClickPopupDeleteBtn() {
+    setIsDeletePopup(prev => !prev);
+  }
+
+  function PopupForDelete(id: number) {
+    if (isDeletePopup === true) {
+      <Popup
+        title={`${data[id]}을(를) 삭제하시겠습니까?`}
+        buttonText={{ text1: '아니오', text2: '예.' }}
+      />;
+    }
   }
 
   return (
@@ -21,7 +33,7 @@ export default function HostAccommoList({}) {
         <div className="p-2 font-bold">숙소 관리</div>
         <button
           type="button"
-          onClick={onClick}
+          onClick={onClickCloseBtn}
           className="bg-state-err w-[87px] h-7 rounded-md text-xs text-white transition duration-100 hover:scale-105 focus:opacity-85"
         >
           숙소 삭제
@@ -31,7 +43,7 @@ export default function HostAccommoList({}) {
         {data.map(acco => (
           <div
             key={acco.id}
-            className="w-56 h-auto p-2 bg-white shadow-md flex flex-col justify-between"
+            className="w-60 h-auto p-2 bg-white shadow-md flex flex-col justify-between"
           >
             <button>
               <img
@@ -42,7 +54,7 @@ export default function HostAccommoList({}) {
             </button>
             {acco.images[0] ? (
               <div className="w-full h-28 bg-gray-100 rounded-md">
-                {acco.images[0]}
+                <img src={acco.images[0]} alt="숙소 이미지" />
               </div>
             ) : (
               <img
