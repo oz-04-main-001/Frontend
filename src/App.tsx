@@ -25,6 +25,7 @@ import Documents from './pages/host/setAccommodations/components/Documents';
 import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
+import Popup from './components/Popup';
 
 function App() {
   return (
@@ -72,6 +73,8 @@ function App() {
           <Route path="info/canceled" element={<ReservationCanceled />} />
           <Route path="cancelpopup" element={<CancelPopup />} />
         </Route>
+
+        <Route path="/popup" element={<Popup />}></Route>
       </Routes>
     </BrowserRouter>
   );

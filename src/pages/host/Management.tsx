@@ -7,49 +7,40 @@ import CardOrderFix from '../../components/cards/CardOrderFix';
 import Dropdown from '../../assets/Dropdown';
 import HostCalendar from './hostCalender/HostCalendar';
 import HostAccommoList from './hostCalender/HostAccommoList';
+import usePopupStore from '../../stores/usePopupStore';
 
 export default function Management() {
   const [tap, setTap] = useState(0);
-  const [cancelPopup, setCancelPopup] = useState<boolean>(false);
-  const [fixPopup, setFixPopup] = useState<boolean>(false);
   const taps = ['이용 요청', '예약 확정'];
-  const onClose1 = (): void => {
-    setCancelPopup(prev => !prev);
-  };
-  const onClose2 = (): void => {
-    setFixPopup(prev => !prev);
-  };
-  const onCancel = () => {};
+
+  const popup = usePopupStore(state => state.popup);
+  const closePopup = usePopupStore(state => state.closePopup);
 
   const AccommodationsArr = ['a', 'b'];
   const room = ['a', 'b'];
   return (
     <>
       <Layout>
-        {cancelPopup ? (
+        {!popup ? (
           <Popup
             title="예약취소 하시겠습니까?"
             subTitle=""
-            onClose={onClose1}
             buttonText={{ text1: '취소', text2: '예약취소' }}
-            onClickLogic1={onClose1}
-            onClickLogic2={onCancel}
+            onClickLogic2={closePopup} // 추후 변경
             titleClass="font-bold text-2xl"
             subTitleClass="hidden"
           />
-        ) : undefined}
-        {fixPopup ? (
+        ) : null}
+        {popup ? (
           <Popup
             title="예약 확정 하시겠습니까?"
             subTitle=""
-            onClose={onClose2}
             buttonText={{ text1: '취소', text2: '예약확정' }}
-            onClickLogic1={onClose2}
-            onClickLogic2={onCancel}
+            onClickLogic2={closePopup} // 추후 변경
             titleClass="font-bold text-2xl"
             subTitleClass="hidden"
           />
-        ) : undefined}
+        ) : null}
         <div className="grid grid-cols-12 gap-4 w-full">
           <div className="col-span-7">
             <HostCalendar />
@@ -93,9 +84,9 @@ export default function Management() {
               </div>
               <div className="h-full relative ">
                 {tap === taps.indexOf('이용 요청') ? (
-                  <CardOrder onClose1={onClose1} onClose2={onClose2} />
+                  <CardOrder onClose1={closePopup} onClose2={closePopup} />
                 ) : (
-                  <CardOrderFix onClose2={onClose2} />
+                  <CardOrderFix onClose2={closePopup} />
                 )}
               </div>
             </div>
