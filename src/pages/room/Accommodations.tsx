@@ -6,10 +6,11 @@ import CardStateroom from '../../components/cards/CardStateroom';
 import Layout from '../../layouts/Layout1';
 import { DetailType } from '../../components/DetailInfo';
 import Header from '../../assets/Header';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getAccommodationsLoad } from '../../axios/accommodationApi';
 import { AxiosError } from 'axios';
+import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
 interface FetchAccommodationInfo {
   hotel_img: string;
   name: string;
@@ -23,14 +24,15 @@ interface FetchAccommodationInfo {
 }
 export default function Accommodations() {
   const texts = ['주차가능', '조식운영'];
-  const navigate = useNavigate();
-  const [accommodationInfo, setAccommodationInfo] =
-    useState<FetchAccommodationInfo[]>();
+  const { accommodationId } = useParams();
+  const { accommodation, actions } = useAccommodationsStore();
   useEffect(() => {
     const fetchGetLoad = async () => {
       try {
-        const loadCard = await getAccommodationsLoad(1);
-        setAccommodationInfo(loadCard);
+        const loadCard = await getAccommodationsLoad(Number(accommodationId));
+        actions.setAccommodationsInfo(loadCard);
+        actions.setAccommodationId(Number(accommodationId));
+        console.log(accommodation);
       } catch (err) {
         const axiosError = err as AxiosError;
         if (axiosError.response) {
@@ -55,21 +57,33 @@ export default function Accommodations() {
       <div className="mt-32">
         <Layout>
           <DetailInfo
-            subTitle="서울시 서초구 서초동"
-            title="서초아파트"
-            price={111}
+            subTitle={accommodation.address}
+            title={accommodation.name}
+            price={accommodation.min_price}
             detailType={DetailType.Accommodations}
           />
         </Layout>
         <Divider />
         <Layout>
-          <CardStateroom />
+          {accommodation.rooms.map(room => {
+            return (
+              <CardStateroom
+                image="/staynest.svg"
+                title={room.accommodation_name}
+                checkIn={room.check_in_time}
+                checkOut={room.check_out_time}
+                price={room.price}
+                stayType={room.stay_type}
+                capacity={room.capacity}
+              />
+            );
+          })}
         </Layout>
         <Divider />
         <Layout>
-          <InfoTemp1 title="숙소소개" text="우리숙소 죽인다" />
+          <InfoTemp1 title="숙소소개" text={accommodation.description} />
           <InfoTemp2 title="시설/서비스" texts={texts} />
-          <InfoTemp1 title="이용안내" text="전 객실 금연이다" />
+          <InfoTemp1 title="이용안내" text={accommodation.rules} />
           <div className="mb-12">
             <h6 className="mb-4 text-gray-500">환불정책</h6>
             <ul className="text-black s1">

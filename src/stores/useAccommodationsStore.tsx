@@ -3,37 +3,83 @@ import { devtools } from 'zustand/middleware';
 
 interface State {
   accommodation: {
-    hotel_img: string | null;
+    accommodationId: number | undefined;
+    hotel_img: null | string;
     name: string;
     address: string;
-    min_price: string;
-    rooms: string;
+    min_price: number;
+    rooms: [
+      {
+        accommodation_name: string;
+        name: string;
+        capacity: number;
+        max_capacity: number;
+        description: string;
+        price: number | string;
+        stay_type: true;
+        check_in_time: string;
+        check_out_time: string;
+      },
+    ];
     phone_number: string;
     description: string;
     rules: string;
+    host: number | null;
   };
 }
 
 interface Actions {
-  actions: {};
+  actions: {
+    setAccommodationsInfo: (info: State) => void;
+    setAccommodationId: (id: number) => void;
+  };
 }
 const initialState: State = {
   accommodation: {
+    accommodationId: undefined,
     hotel_img: null,
-    name: '숙소',
-    address: '주소',
-    min_price: '최저가격',
-    rooms: '방 가격', //이건 뭐지..?
-    phone_number: '010-1234-5678',
-    description: '숙소 설명',
-    rules: '숙소 이용 규칙',
+    name: '호스트',
+    address: '주소 정보없음',
+    min_price: 921,
+    rooms: [
+      {
+        accommodation_name: '호스트',
+        name: '게스트',
+        capacity: 0,
+        max_capacity: 0,
+        description: '객실 소개 없음',
+        price: '가격정보없음',
+        stay_type: true,
+        check_in_time: '정보없음',
+        check_out_time: '정보없음',
+      },
+    ],
+    phone_number: '호스트 정보 없음',
+    description: '숙소 정보없음',
+    rules: '',
+    host: null,
   },
 };
-export const useSearchStore = create<State & Actions>()(
+export const useAccommodationsStore = create<State & Actions>()(
   devtools(
     set => ({
       ...initialState,
-      actions: {},
+      actions: {
+        setAccommodationsInfo: (info: State) =>
+          set(state => ({
+            accommodation: {
+              ...state.accommodation,
+              ...info,
+            },
+          })),
+        setAccommodationId: (id: number) =>
+          set(state => ({
+            accommodation: {
+              ...state.accommodation,
+              accommodationId: id,
+            },
+          })),
+      },
     }),
     { name: 'AccommodationsStore' }
   )

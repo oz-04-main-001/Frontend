@@ -20,7 +20,6 @@ import SignUp from './pages/user/SignUp';
 import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
-import HostAccomoList from './pages/host/hostCalender/HostAccmoList';
 import HostDocuments from './pages/host/setAccommodations/HostDocuments';
 import Documents from './pages/host/setAccommodations/components/Documents';
 import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
@@ -33,8 +32,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/accommodations" element={<Accommodations />} />
-        <Route path="/stateroom" element={<Stateroom />} />
+        <Route path="/accommodations">
+          <Route path=":accommodationId" element={<Accommodations />} />
+          <Route path="stateroom" element={<Stateroom />} />
+        </Route>
+
         <Route path="/mypage" element={<Mypage />} />
         {/* 유저관련 */}
         <Route path="/user" element={<User />}>
