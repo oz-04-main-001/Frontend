@@ -7,8 +7,27 @@ let year = today.getFullYear();
 let month = today.getMonth() + 1;
 let date = today.getDate();
 let day = today.getDay();
-const todayDate = `${year}/${month}/${date}${day}`;
-const tomorrowDate = `${year}/${month}/${date + 1}${day + 1}`;
+function getDayOfWeek(day: number) {
+  switch (day) {
+    case 0:
+      return '일';
+    case 1:
+      return '월';
+    case 2:
+      return '화';
+    case 3:
+      return '수';
+    case 4:
+      return '목';
+    case 5:
+      return '금';
+    case 6:
+      return '토';
+  }
+}
+
+const todayDate = `${year}${month}${date} ${getDayOfWeek(day)}`;
+const tomorrowDate = `${year}${month}${date + 1} ${getDayOfWeek(day + 1)}`;
 
 interface State {
   search: {

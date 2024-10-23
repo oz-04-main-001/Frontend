@@ -33,8 +33,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/accommodations" element={<Accommodations />} />
-        <Route path="/stateroom" element={<Stateroom />} />
+        <Route path="/accommodations">
+          <Route path=":accommodationId" element={<Accommodations />} />
+          <Route
+            path="stateroom/:accommodationId/:stateroomId"
+            element={<Stateroom />}
+          />
+        </Route>
+
         <Route path="/mypage" element={<Mypage />} />
         {/* 유저관련 */}
         <Route path="/user" element={<User />}>

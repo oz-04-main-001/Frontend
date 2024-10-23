@@ -5,7 +5,7 @@ import Filter from '../../components/Filter';
 import Search from '../../components/Search';
 import Layout2 from '../../layouts/Layout2';
 import Map from './Map';
-import { getLoad } from '../../axios/accommodationApi';
+import { getAccommodationsLoad } from '../../axios/roomApi';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 interface FetchAccommodationInfo {
@@ -27,7 +27,7 @@ export default function index() {
   useEffect(() => {
     const fetchGetLoad = async () => {
       try {
-        const loadCard = await getLoad(1);
+        const loadCard = await getAccommodationsLoad(1);
         setAccommodationInfo(loadCard);
       } catch (err) {
         const axiosError = err as AxiosError;

@@ -5,23 +5,18 @@ import Search from '../components/Search';
 import Filter from '../components/Filter';
 
 import { getLoad } from '../axios/mainApi';
-import { useNavigate } from 'react-router-dom';
 import Layout from '../layouts/Layout2';
 
 interface FetchCardInfo {
+  id: number;
   name: string;
   rooms: number;
   hotel_img: string | null;
 }
 
 const Main: React.FC = () => {
-  const navigate = useNavigate();
   const [cardList, setCardList] = useState<FetchCardInfo[]>();
 
-  const handleAccommodationPage = () => {
-
-    navigate(`/accommodations`);
-  };
   useEffect(() => {
     const fetchGetLoad = async () => {
       const loadCard = await getLoad();
@@ -44,14 +39,11 @@ const Main: React.FC = () => {
       <Filter />
 
       <Layout>
-        <div
-          className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-          onClick={handleAccommodationPage}
-        >
-          {cardList?.map((card, index) => (
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {cardList?.map(card => (
             <MainCard
-              key={index}
-
+              key={card.id}
+              id={card.id}
               title={card.name}
               price={card.rooms}
               image={card.hotel_img}

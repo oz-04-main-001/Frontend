@@ -1,7 +1,7 @@
 interface ButtonProps {
   size?: BtnSize;
   text?: string;
-  type?: BtnType;
+  type?: BtnType; // BtnType에 submit 추가
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string; // className 추가
 }
@@ -17,13 +17,14 @@ export enum BtnType {
   popup = 'popup',
   line = 'line',
   err = 'err',
+  submit = 'submit', // submit 타입 추가
 }
 
 const btnSize = (size: BtnSize) => {
   switch (size) {
-    case BtnSize.m: // 'm' 대신 enum 사용
+    case BtnSize.m:
       return 'b2';
-    case BtnSize.l: // 'l' 대신 enum 사용
+    case BtnSize.l:
       return 'b1';
     default:
       return 'b2';
@@ -33,8 +34,9 @@ const btnSize = (size: BtnSize) => {
 export default function Button({
   size = BtnSize.l,
   text = 'Button',
-  type = BtnType.err,
+  type = BtnType.normal, // 기본값을 normal로 변경
   onClick,
+  className, // className 추가
 }: ButtonProps) {
   const btnType = (type: BtnType) => {
     switch (type) {
@@ -48,6 +50,8 @@ export default function Button({
         return 'bg-gray-200/30 text-gray-700 h-full';
       case BtnType.err:
         return 'bg-state-err text-white';
+      case BtnType.submit: // submit 타입에 대한 처리 추가
+        return 'bg-primary-600 text-white'; // 예시로 기본 스타일 설정
       default:
         return 'bg-primary-600 text-white';
     }
@@ -56,8 +60,8 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      type="button"
-      className={`w-full p-2 rounded-md ${btnType(type)} ${btnSize(size)} transition duration-300 ease-in-out hover:scale-105 focus:opacity-75`}
+      type={type === BtnType.submit ? 'submit' : 'button'} // BtnType이 submit일 경우 'submit'으로 설정
+      className={`w-full p-2 rounded-md ${btnType(type)} ${btnSize(size)} transition duration-300 ease-in-out hover:scale-105 focus:opacity-75 ${className}`} // className 적용
     >
       {text}
     </button>

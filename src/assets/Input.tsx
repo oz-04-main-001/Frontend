@@ -11,6 +11,8 @@ interface InputProps {
   className?: string;
   validate?: (value: string) => string | null;
   errorMessage?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // onBlur 속성 추가
 }
 
 export function Input({
@@ -23,6 +25,8 @@ export function Input({
   className = '',
   validate,
   errorMessage = '이 필드는 필수입니다.',
+  onChange,
+  onBlur, // onBlur 인자 추가
 }: InputProps) {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
@@ -32,9 +36,12 @@ export function Input({
     if (error) {
       setError('');
     }
+    if (onChange) {
+      onChange(e); // onChange prop이 전달된 경우 호출
+    }
   };
 
-  const handleBlur = () => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (validate) {
       const validationError = validate(value);
       if (validationError) {
@@ -42,6 +49,10 @@ export function Input({
       }
     } else if (value === '') {
       setError(errorMessage);
+    }
+    
+    if (onBlur) {
+      onBlur(e); // onBlur prop이 전달된 경우 호출
     }
   };
 
@@ -57,7 +68,7 @@ export function Input({
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
-        onBlur={handleBlur}
+        onBlur={handleBlur} // handleBlur 함수 호출
         className={`
           w-full
           ${width || defaultWidth}
