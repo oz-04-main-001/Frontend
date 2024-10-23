@@ -6,22 +6,12 @@ import CardStateroom from '../../components/cards/CardStateroom';
 import Layout from '../../layouts/Layout1';
 import { DetailType } from '../../components/DetailInfo';
 import Header from '../../assets/Header';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { getAccommodationsLoad } from '../../axios/accommodationApi';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getAccommodationsLoad } from '../../axios/roomApi';
 import { AxiosError } from 'axios';
 import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
-interface FetchAccommodationInfo {
-  hotel_img: string;
-  name: string;
-  address: string;
-  min_price: string;
-  rooms: string;
-  phone_number: string;
-  description: string;
-  rules: string;
-  host: 0;
-}
+
 export default function Accommodations() {
   const texts = ['주차가능', '조식운영'];
   const { accommodationId } = useParams();
@@ -68,6 +58,7 @@ export default function Accommodations() {
           {accommodation.rooms.map(room => {
             return (
               <CardStateroom
+                key={room.accommodation_name}
                 image="/staynest.svg"
                 title={room.accommodation_name}
                 checkIn={room.check_in_time}

@@ -34,7 +34,10 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/accommodations">
           <Route path=":accommodationId" element={<Accommodations />} />
-          <Route path="stateroom" element={<Stateroom />} />
+          <Route
+            path="stateroom/:accommodationId/:stateroomId"
+            element={<Stateroom />}
+          />
         </Route>
 
         <Route path="/mypage" element={<Mypage />} />

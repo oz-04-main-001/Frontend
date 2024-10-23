@@ -1,6 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../assets/buttons/Button';
 import { BtnSize, BtnType } from '../../assets/buttons/Button';
+import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
 
 interface StateRoomCardProp {
   image: string;
@@ -22,7 +23,8 @@ export default function StateroomCard({
   capacity,
 }: StateRoomCardProp) {
   const navigate = useNavigate();
-
+  const { accommodation } = useAccommodationsStore();
+  const stateroomId = '1';
   return (
     <div className="flex gap-8 p-5 mb-8 rounded-md bg-gray-50">
       <div className="flex items-center justify-center overflow-hidden bg-gray-100 border-2 border-gray-100 border-solid rounded-md aspect-square basis-1/4">
@@ -35,7 +37,9 @@ export default function StateroomCard({
             type="button"
             className="text-right b1 text-primary-600 "
             onClick={() => {
-              navigate('/stateroom');
+              navigate(
+                `/accommodations/stateroom/${accommodation.accommodationId}/${stateroomId}`
+              );
             }}
           >
             상세보기
