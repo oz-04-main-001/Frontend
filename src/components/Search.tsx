@@ -81,7 +81,7 @@ const Search = () => {
     <div className="s1 rounded-full h-24 p-4 max-w-[750px] mx-auto flex justify-center items-center border border-gray-300 bg-white">
       <Dropdown
         menuItems={destinations}
-        title="여행지 선택"
+        title={search.city ? search.city : '여행지 선택'}
         style="s1 text-black"
         selectedItem={selectedCity}
         setSelectedItem={setSelectedCity}

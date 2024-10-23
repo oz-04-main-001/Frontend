@@ -6,7 +6,8 @@ import Search from '../../components/Search';
 import Layout2 from '../../layouts/Layout2';
 import Map from './Map';
 import { getLoad } from '../../axios/accommodationApi';
-
+import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 interface FetchAccommodationInfo {
   hotel_img: string;
   name: string;
@@ -20,12 +21,28 @@ interface FetchAccommodationInfo {
 }
 
 export default function index() {
+  const navigate = useNavigate();
   const [accommodationInfo, setAccommodationInfo] =
     useState<FetchAccommodationInfo[]>();
   useEffect(() => {
     const fetchGetLoad = async () => {
-      const loadCard = await getLoad(1);
-      setAccommodationInfo(loadCard);
+      try {
+        const loadCard = await getLoad(1);
+        setAccommodationInfo(loadCard);
+      } catch (err) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response) {
+          const statusCode = axiosError.response.status;
+          switch (statusCode) {
+            case 401:
+              navigate('/user/login');
+              break;
+            default:
+              console.log('요청 에러');
+              break;
+          }
+        }
+      }
     };
     fetchGetLoad();
   }, []);
@@ -37,7 +54,9 @@ export default function index() {
       <Filter />
       <Layout2>
         <div className="grid grid-cols-2 gap-6 mt-20 mb-14">
-          <div className="grid grid-cols-3 gap-8"></div>
+          <div className="grid grid-cols-3 gap-8">
+            {accommodationInfo?.map(() => <CardAccommodations />)}
+          </div>
           <div className="sticky h-screen overflow-hidden bg-gray-200 border-2 border-solid rounded-md border-gray-50 top-14">
             <Map />
           </div>

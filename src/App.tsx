@@ -33,10 +33,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/selecttype" element={<SelectType />} />
-        <Route path="/structure-type" element={<StructureType />} />
-        <Route path="/only-starter-room" element={<OnlyStaterRoom />} />
-        <Route path="/multi-accommodations" element={<MultiAccommodations />} />
         <Route path="/accommodations" element={<Accommodations />} />
         <Route path="/stateroom" element={<Stateroom />} />
         <Route path="/mypage" element={<Mypage />} />
