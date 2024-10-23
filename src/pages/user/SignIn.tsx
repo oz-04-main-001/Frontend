@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Link 추가
 import { Input } from '../../assets/Input';
 import Buttons, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { getUserLogin } from '../../axios/userApi'; // API 함수 임포트
@@ -60,15 +60,15 @@ function SignIn() {
         />
       </div>
       <div className="mt-4">
-        <a href="#" className="mr-4 text-sm text-blue-500">
+        <Link to="/user/join" className="mr-4 text-sm text-primary-300"> {/* Link로 변경 */}
           회원가입
-        </a>
-        <a href="#" className="text-sm text-blue-500">
+        </Link>
+        <Link to="#" className="text-sm text-primary-300"> {/* Link로 변경 */}
           아이디 /
-        </a>
-        <a href="#" className="text-sm text-blue-500">
+        </Link>
+        <Link to="#" className="text-sm text-primary-300"> {/* Link로 변경 */}
           비밀번호 찾기
-        </a>
+        </Link>
       </div>
     </div>
   );
