@@ -19,7 +19,7 @@ const cities = [
 ];
 const Filter = () => {
   const { actions } = useSearchStore();
-  const [active, setActive] = useState<number>();
+  const [active, setActive] = useState<string>();
   const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   const [isDragging, setIsDragging] = useState(false);
@@ -59,9 +59,9 @@ const Filter = () => {
             key={idx}
             onClick={() => {
               actions.setCity(city);
-              setActive(idx);
+              setActive(city);
             }}
-            className={`select-none items-stretch inline-block p-2 btn1 grow flex-nowrap whitespace-nowrap ${active === idx ? 'rounded-md bg-gray-800 font-bold text-white' : ''} `}
+            className={`select-none items-stretch inline-block p-2 btn1 grow flex-nowrap whitespace-nowrap ${active === city ? 'rounded-md bg-gray-800 font-bold text-white' : ''} `}
           >
             {city}
           </li>

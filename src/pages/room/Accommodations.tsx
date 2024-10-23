@@ -8,12 +8,46 @@ import { DetailType } from '../../components/DetailInfo';
 import Header from '../../assets/Header';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getLoad } from '../../axios/accommodationApi';
-
+import { getAccommodationsLoad } from '../../axios/accommodationApi';
+import { AxiosError } from 'axios';
+interface FetchAccommodationInfo {
+  hotel_img: string;
+  name: string;
+  address: string;
+  min_price: string;
+  rooms: string;
+  phone_number: string;
+  description: string;
+  rules: string;
+  host: 0;
+}
 export default function Accommodations() {
   const texts = ['주차가능', '조식운영'];
   const navigate = useNavigate();
-  const [] = useState();
+  const [accommodationInfo, setAccommodationInfo] =
+    useState<FetchAccommodationInfo[]>();
+  useEffect(() => {
+    const fetchGetLoad = async () => {
+      try {
+        const loadCard = await getAccommodationsLoad(1);
+        setAccommodationInfo(loadCard);
+      } catch (err) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response) {
+          const statusCode = axiosError.response.status;
+          switch (statusCode) {
+            case 401:
+              // navigate('/user/login');
+              break;
+            default:
+              console.log('요청 에러');
+              break;
+          }
+        }
+      }
+    };
+    fetchGetLoad();
+  }, []);
 
   return (
     <>
