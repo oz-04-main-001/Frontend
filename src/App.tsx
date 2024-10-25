@@ -72,7 +72,10 @@ function App() {
 
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
-          <Route path="stateroom/order" element={<Orders />} />
+          <Route
+            path="stateroom/order/:accommodationId/:stateroomId"
+            element={<Orders />}
+          />
           <Route path="info/complete" element={<ReservationCompleted />} />
           <Route path="info/canceled" element={<ReservationCanceled />} />
           <Route path="cancelpopup" element={<CancelPopup />} />

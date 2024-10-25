@@ -14,6 +14,7 @@ const MainCard: React.FC<CardProp> = ({
   image,
 }: CardProp) => {
   const navigate = useNavigate();
+
   return (
     <div
       onClick={() => {
