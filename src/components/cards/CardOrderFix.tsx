@@ -7,7 +7,7 @@ interface Prop {
   checkOut?: string;
   user?: string;
   phoneNumber?: string;
-  onClose2: () => void;
+  onClose3: () => void;
 }
 
 export default function CardOrderFix({
@@ -17,7 +17,7 @@ export default function CardOrderFix({
   checkOut = '2024.10.15',
   user = '한기선',
   phoneNumber = '01012345678',
-  onClose2,
+  onClose3,
 }: Prop) {
   return (
     <div className="flex-row p-5 mx-3 my-4 bg-white border-2 border-gray-100 border-solid rounded-md">
@@ -43,7 +43,7 @@ export default function CardOrderFix({
           size={BtnSize.l}
           text="예약 확정"
           type={BtnType.normal}
-          onClick={onClose2}
+          onClick={onClose3}
         />
       </div>
     </div>

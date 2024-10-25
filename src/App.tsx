@@ -5,7 +5,6 @@ import Main from './pages/Main';
 import Accommodations from './pages/room/Accommodations';
 import Stateroom from './pages/room/Stateroom';
 import Orders from './pages/room/Orders';
-import Management from './pages/host/Management';
 import Host from './pages/host';
 import ReservationCompleted from './pages/reservations/ReservationCompleted';
 import CancelPopup from './pages/reservations/CancelPopup';
@@ -21,13 +20,13 @@ import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
 import HostDocuments from './pages/host/setAccommodations/HostDocuments';
-import Documents from './pages/host/setAccommodations/components/Documents';
 import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation';
 import Popup from './components/Popup';
 import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
+import HostMain from './pages/host/HostMain';
 
 function App() {
   return (
@@ -53,7 +52,7 @@ function App() {
         {/* 호스트관련 */}
 
         <Route path="/host" element={<Host />}>
-          <Route path="" element={<Management />} />
+          <Route path="" element={<HostMain />} />
           <Route path="SelectType" element={<SelectType />} />
           <Route path="StructureType" element={<StructureType />} />
         </Route>

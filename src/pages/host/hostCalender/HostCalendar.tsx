@@ -3,6 +3,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import './custom-calendar.css';
 import Toolbar from './Toolbar';
+import useSelectedDateStore from '../../../stores/useSelectedDateStore';
 
 // 이벤트 인터페이스 정의
 interface Event {
@@ -38,9 +39,7 @@ const CustomEvent = ({ event }: { event: Event }) => (
 
 const HostCalendar = () => {
   const [events, setEvents] = useState<Event[]>([]);
-  const [selectedEventDate, setSelectedEventDate] = useState<string | null>(
-    null
-  );
+  const { selectedDate, setSelectedDate } = useSelectedDateStore();
 
   // 컴포넌트가 마운트될 때 더미 데이터를 생성하여 상태에 저장
   useEffect(() => {
@@ -59,11 +58,12 @@ const HostCalendar = () => {
   // 이벤트 클릭 시 호출
   const handleSelectEvent = (event: Event) => {
     const dateStr = moment(event.start).format('YYYY-MM-DD');
-    setSelectedEventDate(prev => (prev === dateStr ? null : dateStr)); // 선택된 날짜 업데이트
+    setSelectedDate(selectedDate === dateStr ? null : dateStr);
   };
+  console.log('selectedDate', selectedDate);
 
   return (
-    <div className='-z-50'>
+    <div className="-z-50">
       <Calendar
         localizer={localizer}
         events={events}
@@ -81,14 +81,14 @@ const HostCalendar = () => {
           const dateStr = moment(date).format('YYYY-MM-DD');
           return {
             className:
-              selectedEventDate === dateStr
+              selectedDate === dateStr
                 ? 'bg-gray-100' // 선택된 타일의 배경색 변경
                 : '',
           };
         }}
         onNavigate={_date => {
           // 달력을 이동할 때 선택된 날짜 초기화
-          setSelectedEventDate(null);
+          setSelectedDate(null);
         }}
       />
     </div>
