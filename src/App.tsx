@@ -5,7 +5,6 @@ import Main from './pages/Main';
 import Accommodations from './pages/room/Accommodations';
 import Stateroom from './pages/room/Stateroom';
 import Orders from './pages/room/Orders';
-import Management from './pages/host/Management';
 import Host from './pages/host';
 import ReservationCompleted from './pages/reservations/ReservationCompleted';
 import CancelPopup from './pages/reservations/CancelPopup';
@@ -27,7 +26,7 @@ import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation';
 import Popup from './components/Popup';
-
+import HostMain from './pages/host/HostMain';
 
 function App() {
   return (
@@ -52,13 +51,13 @@ function App() {
         {/* 호스트관련 */}
 
         <Route path="/host" element={<Host />}>
-          <Route path="" element={<Management />} />
+          <Route path="" element={<HostMain />} />
           <Route path="SelectType" element={<SelectType />} />
           <Route path="StructureType" element={<StructureType />} />
         </Route>
 
-        <Route path="HostDocuments" element={<HostDocuments />} />   
-        <Route path="OnlyAccommodation" element={<OnlyAccommodation />} />   
+        <Route path="HostDocuments" element={<HostDocuments />} />
+        <Route path="OnlyAccommodation" element={<OnlyAccommodation />} />
         <Route path="OnlyStaterRoom" element={<OnlyStaterRoom />} />
         <Route path="MultiAccommodations" element={<MultiAccommodations />} />
         <Route path="MultiStaterRoom" element={<MultiStaterRoom />} />
@@ -69,10 +68,12 @@ function App() {
           element={<EditMultiAccommodations />}
         />
 
-
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
-          <Route path="stateroom/order" element={<Orders />} />
+          <Route
+            path="stateroom/order/:accommodationId/:stateroomId"
+            element={<Orders />}
+          />
           <Route path="info/complete" element={<ReservationCompleted />} />
           <Route path="info/canceled" element={<ReservationCanceled />} />
           <Route path="cancelpopup" element={<CancelPopup />} />

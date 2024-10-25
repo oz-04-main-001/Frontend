@@ -12,16 +12,16 @@ import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
 import { AxiosError } from 'axios';
 import { useStateroomStore } from '../../stores/useStateroomStore';
 import { useSearchStore } from '../../stores/useSearchStore';
+import useDateCount from '../../customHooks/useDateCount';
+import Header from '../../assets/Header';
 
 export default function Stateroom() {
   const navigate = useNavigate();
-  const onClick = () => {
-    navigate('/stateroom/order');
-  };
-  const { stateroomId = '1', accommodationId } = useParams();
+  const { accommodationId, stateroomId } = useParams();
   const { search } = useSearchStore();
   const { stateRoom, actions } = useStateroomStore();
   const { accommodation } = useAccommodationsStore();
+  const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
   const texts = ['주차가능', '조식운영'];
   useEffect(() => {
     const fetchGetLoad = async () => {
@@ -31,7 +31,6 @@ export default function Stateroom() {
           Number(stateroomId)
         );
         actions.setStateRoomInfo(loadCard);
-        console.log(loadCard);
         console.log(stateRoom);
       } catch (err) {
         const axiosError = err as AxiosError;
@@ -52,6 +51,7 @@ export default function Stateroom() {
   }, []);
   return (
     <>
+      <Header />
       <div className="mb-36">
         <Layout>
           <DetailInfo
@@ -86,7 +86,8 @@ export default function Stateroom() {
               </p>
             </div>
             <div className="mt-6 text-right text-gray-800 s1">
-              111원 <span className="text-gray-400 b2">/4박</span>
+              {Number(stateRoom.price) * Number(dateCount)}원
+              <span className="text-gray-400 b2">/{dateCount}박</span>
             </div>
           </div>
         </Layout>
@@ -102,7 +103,8 @@ export default function Stateroom() {
             {search.date.checkIn} ~ {search.date.checkOut}
           </p>
           <h4>
-            1234 <span className="text-gray-400 b1">/1박</span>
+            {Number(stateRoom.price) * Number(dateCount)}
+            <span className="text-gray-400 b1">/{dateCount}박</span>
           </h4>
         </div>
         <div className="w-1/3 py-2">
@@ -110,7 +112,11 @@ export default function Stateroom() {
             size={BtnSize.l}
             text="예약하기"
             type={stateRoom.stay_type ? BtnType.normal : BtnType.disabled}
-            onClick={onClick}
+            onClick={() => {
+              navigate(
+                `/reservation/stateroom/order/${accommodationId}/${stateroomId}`
+              );
+            }}
           />
         </div>
       </div>
