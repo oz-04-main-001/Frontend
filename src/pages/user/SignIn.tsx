@@ -9,24 +9,18 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  // Zustand 스토어에서 이메일 저장 함수 가져오기
-  const { setEmail: saveEmail } = useAuthStore();
+  const [errorMessage, setErrorMessage] = useState('');
 
   // 로그인 핸들러
   const handleLogin = async () => {
     try {
-      const response = await getUserLogin({ email, password });
-      console.log('로그인 성공:', response);
-
-      // 로그인 성공 시 이메일을 Zustand에 저장
-      saveEmail(email);
-
+      await getUserLogin({ email, password });
+      console.log('로그인 성공:', email);
       // 로그인 성공 후 메인 페이지로 이동
       navigate('/');
     } catch (error) {
       console.error('로그인 실패:', error);
-      // 오류 처리 추가 가능
+      setErrorMessage('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
     }
   };
 
@@ -54,6 +48,7 @@ const SignIn = () => {
           validate={(value) => (value ? null : '비밀번호를 입력하세요.')}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       </div>
       <div className="w-1/3 shrink-0">
         <Buttons

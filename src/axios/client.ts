@@ -1,19 +1,33 @@
 import axios from 'axios';
+
 const serverURL = import.meta.env.VITE_SERVER_URL;
-const client = axios.create({
+
+const login = axios.create({
   baseURL: serverURL,
+ 
 });
 
-// 토큰을 받아오는 데 Response body 쿠키로 이동시켜 저장해라
-
-client.interceptors.request.use(function (config) {
-  // 토큰 만료시 바꿔줘야함
-  const token = "VITE_SERVER_TOKEN";
+// 요청 인터셉터 설정
+login.interceptors.request.use(function (config) {
+  // Authorization 헤더에 토큰 추가
+  const token = localStorage.getItem('auth_token'); // 토큰을 로컬 스토리지에서 가져옴
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`; // Authorization 헤더에 토큰 추가
   }
-
   return config;
+}, function (error) {
+  return Promise.reject(error);
 });
 
-export default client;
+// 응답 인터셉터 (서버 응답에서 토큰 저장)
+login.interceptors.response.use(function (response) {
+  const token = response.data.token; // 서버 응답에서 토큰 추출 (예시)
+  if (token) {
+    localStorage.setItem('auth_token', token); // 토큰을 로컬 스토리지에 저장
+  }
+  return response;
+}, function (error) {
+  return Promise.reject(error);
+});
+
+export default login;
