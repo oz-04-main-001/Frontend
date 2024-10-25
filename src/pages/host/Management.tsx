@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SegmentMenu from '../../assets/SegmentMenu';
 import CardOrder from '../../components/cards/CardOrderWating';
 import CardOrderFix from '../../components/cards/CardOrderFix';
 import Dropdown from '../../assets/Dropdown';
-import useBookingStore from '../../stores/useBooklistStore';
+import BookingListApi from '../../axios/BookingListApi';
 
 interface ButtonLogicProp {
   handleCancelClick: () => void;
@@ -24,17 +24,14 @@ export default function Management({
     string | null
   >(null);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
-  const { data, fetchData } = useBookingStore();
 
-  useEffect(() => {
-    fetchData(date);
-  }, [date]);
+  const { data } = BookingListApi();
   console.log(data);
   return (
     <>
       <div className="sticky col-span-5 p-5 bg-gray-100 rounded-md top-7 ">
         <div className="relative mb-3">
-          <h6 className="text-center">예약관리</h6>
+          x<h6 className="text-center">예약관리</h6>
           <p className="absolute right-0 text-gray-800 top-1 s2">24.10.14</p>
         </div>
         <div className="pb-2 rounded-md bg-gray-50 ">
