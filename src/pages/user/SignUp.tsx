@@ -1,3 +1,5 @@
+//전화번호에 - 포함하기
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../../assets/Input';
@@ -117,7 +119,7 @@ const SignUp: React.FC = () => {
       lastName,
       firstName,
       birthdate,
-      phone: `${phoneFirst}-${phoneMiddle}-${phoneLast}`, // 전화번호 포맷
+      phone: `${phoneFirst}-${phoneMiddle}-${phoneLast}`, 
       gender: selectedGender,
     };
 
