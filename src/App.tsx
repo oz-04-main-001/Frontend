@@ -25,6 +25,9 @@ import Documents from './pages/host/setAccommodations/components/Documents';
 import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
+import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation';
+import Popup from './components/Popup';
+
 
 function App() {
   return (
@@ -50,20 +53,22 @@ function App() {
 
         <Route path="/host" element={<Host />}>
           <Route path="" element={<Management />} />
-          <Route path="accommodation" element={<SelectType />} />
-          <Route path="structure-taaaaype" element={<StructureType />} />
-          <Route path="OnlyStaterRoom" element={<OnlyStaterRoom />} />
-          <Route path="MultiAccommodations" element={<MultiAccommodations />} />
-          <Route path="MultiStaterRoom" element={<MultiStaterRoom />} />
-          <Route path="hostdocuments" element={<HostDocuments />} />
-          <Route path="Documents" element={<Documents />} />
-          <Route path="EditOnlyRoom" element={<EditOnlyRoom />} />
-          <Route path="EditMultiRoom" element={<EditMultiRoom />} />
-          <Route
-            path="EditMultiAccommodations"
-            element={<EditMultiAccommodations />}
-          />
+          <Route path="SelectType" element={<SelectType />} />
+          <Route path="StructureType" element={<StructureType />} />
         </Route>
+
+        <Route path="HostDocuments" element={<HostDocuments />} />   
+        <Route path="OnlyAccommodation" element={<OnlyAccommodation />} />   
+        <Route path="OnlyStaterRoom" element={<OnlyStaterRoom />} />
+        <Route path="MultiAccommodations" element={<MultiAccommodations />} />
+        <Route path="MultiStaterRoom" element={<MultiStaterRoom />} />
+        <Route path="EditOnlyRoom" element={<EditOnlyRoom />} />
+        <Route path="EditMultiRoom" element={<EditMultiRoom />} />
+        <Route
+          path="EditMultiAccommodations"
+          element={<EditMultiAccommodations />}
+        />
+
 
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
@@ -75,6 +80,8 @@ function App() {
           <Route path="info/canceled" element={<ReservationCanceled />} />
           <Route path="cancelpopup" element={<CancelPopup />} />
         </Route>
+
+        <Route path="/popup" element={<Popup />}></Route>
       </Routes>
     </BrowserRouter>
   );

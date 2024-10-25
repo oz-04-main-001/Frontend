@@ -13,7 +13,7 @@ const EditOnlyRoom: React.FC = () => {
     const navigate = useNavigate();
 
     return (
-        <div className=' bg-gray-50'>
+        <div>
             <Header
                 labels={[
                     { title: '게스트 메인', link: '/guest' },

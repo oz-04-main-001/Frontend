@@ -1,70 +1,77 @@
-import React from 'react';
+import usePopupStore from '../stores/usePopupStore';
 import Button from '../assets/buttons/Button';
 import { BtnSize, BtnType } from '../assets/buttons/Button';
 import close from '../assets/icons/close.svg';
 
 interface PopupProps {
   title?: string;
-  onClose?: () => void;
   subTitle?: string;
   children?: React.ReactNode;
   buttonText?: { text1?: string; text2?: string };
-  onClickLogic1?: () => void;
-  onClickLogic2?: () => void;
+  onClickLogic2?: React.MouseEventHandler;
   titleClass?: string;
+  closePopup?: () => void;
   subTitleClass?: string;
   containerClass?: string;
 }
 
-const Popup: React.FC<PopupProps> = ({
+function Popup({
   title = 'Title',
-  onClose,
   subTitle,
   titleClass = 'font-bold text-3xl',
   subTitleClass = 'text-sm',
   containerClass = 'w-[560px] h-auto',
+  onClickLogic2,
   children,
   buttonText = { text1: '이전', text2: '다음' },
-  onClickLogic1,
-  onClickLogic2,
-}) => {
-  return (
-    <div className="fixed z-[999999] inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div
-        className={`relative bg-white rounded-md shadow-lg px-10 py-[30px] flex flex-col ${containerClass}`} // 호환성에 문제가 있어서 이 부분 조금 수정했어요. 필요하면 containerClass 프롭으로 받아서 넣어주시면 됩니다.
-      >
-        <img
-          src={close}
-          alt="닫힘 버튼"
-          className="absolute top-[30px] m-0 p-0 text-xs left-10 w-6 h-6 font-extrabold rounded-xl transition duration-100 hover:scale-105 focus:opacity-85"
-        />
+}: PopupProps): JSX.Element {
+  const popup = usePopupStore(state => state.popup);
+  const closePopup = usePopupStore(state => state.closePopup);
 
-        <h2 className={`text-center ${titleClass}`}>{title}</h2>
-        <p className={`text-center pt-2 pb-3 ${subTitleClass}`}>{subTitle}</p>
-        <div className="mt-4">{children}</div>
-        <div className="flex justify-center mt-6 mx-10">
-          <div className="flex justify-between w-[30rem] h-[3.75rem] space-x-8">
-            <div className="w-56">
-              <Button
-                size={BtnSize.l}
-                text={buttonText.text1}
-                type={BtnType.popup}
-                onClick={onClickLogic1}
-              />
-            </div>
-            <div className="w-56">
-              <Button
-                size={BtnSize.l}
-                text={buttonText.text2}
-                type={BtnType.normal}
-                onClick={onClickLogic2}
-              />
+  return (
+    <>
+      {popup && (
+        <div className="fixed z-[999999] inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div
+            className={`relative bg-white rounded-md shadow-lg px-10 py-[30px] flex flex-col ${containerClass}`}
+          >
+            <img
+              src={close}
+              alt="닫힘 버튼"
+              onClick={closePopup}
+              className="absolute top-[30px] m-0 p-0 text-xs left-10 w-6 h-6 font-extrabold rounded-xl transition duration-100 hover:scale-105 focus:opacity-85"
+            />
+
+            <h2 className={`text-center ${titleClass}`}>{title}</h2>
+            <p className={`text-center pt-2 pb-3 ${subTitleClass}`}>
+              {subTitle}
+            </p>
+            <div className="mt-4">{children}</div>
+            <div className="flex justify-center mt-6 mx-10">
+              <div className="flex justify-between w-[30rem] h-[3.75rem] space-x-8">
+                <div className="w-56">
+                  <Button
+                    size={BtnSize.l}
+                    text={buttonText.text1}
+                    type={BtnType.popup}
+                    onClick={closePopup}
+                  />
+                </div>
+                <div className="w-56">
+                  <Button
+                    size={BtnSize.l}
+                    text={buttonText.text2}
+                    type={BtnType.normal}
+                    onClick={onClickLogic2}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
-};
+}
 
 export default Popup;
