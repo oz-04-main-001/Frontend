@@ -6,9 +6,9 @@ interface DropdownProps {
   title?: string;
   style?: string | undefined;
   btnStyle?: string | undefined;
-  selectedItem: string | null;
-  setSelectedItem: (item: string) => void;
-  onClick: (item: string) => void;
+  selectedItem?: string | null;
+  setSelectedItem?: (item: string) => void;
+  onClick?: (item: string) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -17,9 +17,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   title = 'Select an Item',
   style = 'text-center',
   btnStyle = 'text-sm font-medium px-4 py-2',
-  selectedItem,
-  setSelectedItem,
-  onClick,
+  selectedItem = null,
+  setSelectedItem = () => {},
+  onClick = () => {},
 }) => {
   // const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
