@@ -6,23 +6,33 @@ import CardStateroom from '../../components/cards/CardStateroom';
 import Layout from '../../layouts/Layout1';
 import { DetailType } from '../../components/DetailInfo';
 import Header from '../../assets/Header';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getAccommodationsLoad } from '../../axios/roomApi';
 import { AxiosError } from 'axios';
 import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
 
 export default function Accommodations() {
+  const navigate = useNavigate();
   const texts = ['주차가능', '조식운영'];
   const { accommodationId } = useParams();
   const { accommodation, actions } = useAccommodationsStore();
+  useEffect(() => {
+    actions.setAccommodationId(Number(accommodationId));
+  }, []);
   useEffect(() => {
     const fetchGetLoad = async () => {
       try {
         const loadCard = await getAccommodationsLoad(Number(accommodationId));
         actions.setAccommodationsInfo(loadCard);
-        actions.setAccommodationId(Number(accommodationId));
-        console.log(accommodation);
+        if (
+          loadCard.rooms.length === 1 &&
+          loadCard.rooms[0].accommodation_name === loadCard.rooms[0].name
+        ) {
+          navigate(
+            `/accommodations/stateroom/${accommodationId}/${loadCard.rooms[0].id}`
+          );
+        }
       } catch (err) {
         const axiosError = err as AxiosError;
         if (axiosError.response) {
@@ -58,7 +68,8 @@ export default function Accommodations() {
           {accommodation.rooms.map(room => {
             return (
               <CardStateroom
-                key={room.accommodation_name}
+                key={room.id}
+                id={Number(room.id)}
                 image="/staynest.svg"
                 title={room.accommodation_name}
                 checkIn={room.check_in_time}

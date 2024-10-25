@@ -4,6 +4,7 @@ import { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
 
 interface StateRoomCardProp {
+  id: number;
   image: string;
   title: string;
   checkIn: string;
@@ -14,6 +15,7 @@ interface StateRoomCardProp {
 }
 
 export default function StateroomCard({
+  id,
   image,
   title,
   checkIn,
@@ -24,7 +26,6 @@ export default function StateroomCard({
 }: StateRoomCardProp) {
   const navigate = useNavigate();
   const { accommodation } = useAccommodationsStore();
-  const stateroomId = '1';
   return (
     <div className="flex gap-8 p-5 mb-8 rounded-md bg-gray-50">
       <div className="flex items-center justify-center overflow-hidden bg-gray-100 border-2 border-gray-100 border-solid rounded-md aspect-square basis-1/4">
@@ -38,7 +39,7 @@ export default function StateroomCard({
             className="text-right b1 text-primary-600 "
             onClick={() => {
               navigate(
-                `/accommodations/stateroom/${accommodation.accommodationId}/${stateroomId}`
+                `/accommodations/stateroom/${accommodation.accommodationId}/${id}`
               );
             }}
           >
@@ -63,6 +64,9 @@ export default function StateroomCard({
                 }}
               >
                 <Button
+                  onClick={() => {
+                    navigate('/reservation/stateroom/order');
+                  }}
                   size={BtnSize.m}
                   text="객실예약"
                   type={stayType ? BtnType.normal : BtnType.disabled}

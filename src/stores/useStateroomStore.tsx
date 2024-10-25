@@ -3,7 +3,7 @@ import { devtools } from 'zustand/middleware';
 
 interface State {
   stateRoom: {
-    id: string | null;
+    id: number | null;
     accommodation_name: string;
     name: string;
     capacity: number;
@@ -19,7 +19,6 @@ interface State {
 interface Actions {
   actions: {
     setStateRoomInfo: (info: State) => void;
-    setStateRoomId: (id: number) => void;
   };
 }
 const initialState: State = {
@@ -46,13 +45,6 @@ export const useStateroomStore = create<State & Actions>()(
             stateRoom: {
               ...state.stateRoom,
               ...info,
-            },
-          })),
-        setStateRoomId: (id: number) =>
-          set(state => ({
-            stateRoom: {
-              ...state.stateRoom,
-              stateRoom: id,
             },
           })),
       },

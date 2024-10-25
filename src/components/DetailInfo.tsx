@@ -15,7 +15,7 @@ export enum DetailType {
 interface DetailInfoProps {
   subTitle?: string;
   title?: string;
-  price?: number | string;
+  price?: number | string | null;
   capacity?: number;
   detailType?: DetailType;
 }

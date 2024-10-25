@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
+import { useEffect } from 'react';
 
 interface CardProp {
   id: number;
@@ -14,6 +16,7 @@ const MainCard: React.FC<CardProp> = ({
   image,
 }: CardProp) => {
   const navigate = useNavigate();
+
   return (
     <div
       onClick={() => {
