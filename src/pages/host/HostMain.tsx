@@ -24,10 +24,6 @@ export default function HostMain() {
     openPopup();
   };
 
-  // 팝업 닫기
-  const popupClose = () => {
-    setPopupType(null);
-  };
   return (
     <>
       <Layout>
@@ -57,8 +53,7 @@ export default function HostMain() {
             <HostCalendar />
           </div>
           <Management
-            closePopup={closePopup}
-            openPopup={openPopup}
+            date={'2024-10-25'}
             handleCancelClick={handleCancelClick}
             handleConfirmClick={handleConfirmClick}
           />
