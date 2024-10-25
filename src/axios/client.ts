@@ -1,9 +1,10 @@
 import axios from 'axios';
-
 const serverURL = import.meta.env.VITE_SERVER_URL;
 
 const client = axios.create({
   baseURL: serverURL,
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
 });
 
 // 요청 인터셉터 설정
