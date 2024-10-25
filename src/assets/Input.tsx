@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// Input 컴포넌트
 interface InputProps {
   type: string;
   id: string;
@@ -11,8 +10,9 @@ interface InputProps {
   className?: string;
   validate?: (value: string) => string | null;
   errorMessage?: string;
+  value?: string; 
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // onBlur 속성 추가
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 export function Input({
@@ -25,34 +25,35 @@ export function Input({
   className = '',
   validate,
   errorMessage = '이 필드는 필수입니다.',
+  value = '', 
   onChange,
-  onBlur, // onBlur 인자 추가
+  onBlur, 
 }: InputProps) {
-  const [value, setValue] = useState('');
+  const [internalValue, setInternalValue] = useState(value);
   const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    if (error) {
-      setError('');
-    }
+    const newValue = e.target.value;
+    setInternalValue(newValue);
     if (onChange) {
-      onChange(e); // onChange prop이 전달된 경우 호출
+      onChange(e); 
+    }
+    if (error) {
+      setError(''); 
     }
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (validate) {
-      const validationError = validate(value);
+      const validationError = validate(internalValue);
       if (validationError) {
         setError(validationError);
       }
-    } else if (value === '') {
+    } else if (internalValue === '') {
       setError(errorMessage);
     }
-    
     if (onBlur) {
-      onBlur(e); // onBlur prop이 전달된 경우 호출
+      onBlur(e); 
     }
   };
 
@@ -66,9 +67,9 @@ export function Input({
         type={type}
         id={id}
         placeholder={placeholder}
-        value={value}
+        value={internalValue} 
         onChange={handleChange}
-        onBlur={handleBlur} // handleBlur 함수 호출
+        onBlur={handleBlur} 
         className={`
           w-full
           ${width || defaultWidth}

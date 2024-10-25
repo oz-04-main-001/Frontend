@@ -5,8 +5,11 @@ export const getAccommodationsLoad = async (accommodationsId: number) => {
     .get(`/api/v1/ui/accommodations/${accommodationsId}`)
     .then(response => response.data);
 };
-export const getLoad = async (accommodationsId: number) => {
+export const getStateRoomLoad = async (
+  accommodationsId: number,
+  stateRoomId: number
+) => {
   return await client
-    .get(`/api/v1/ui/accommodations/${accommodationsId}`)
+    .get(`/api/v1/ui/accomodations/${accommodationsId}/${stateRoomId}`)
     .then(response => response.data);
 };

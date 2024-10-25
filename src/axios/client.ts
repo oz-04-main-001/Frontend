@@ -7,8 +7,10 @@ const client = axios.create({
 // 토큰을 받아오는 데 Response body 쿠키로 이동시켜 저장해라
 
 client.interceptors.request.use(function (config) {
+
   // 토큰 만료시 바꿔줘야함
   const token = "VITE_SERVER_TOKEN";
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

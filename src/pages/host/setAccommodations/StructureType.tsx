@@ -37,7 +37,7 @@ const StructureType: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen">
       <Header labels={[
         { title: '게스트 메인', link: '/guest' },
         { title: '서비스 등록', link: '/register' },

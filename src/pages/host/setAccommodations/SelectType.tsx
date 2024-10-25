@@ -10,9 +10,10 @@ const SelectType: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const navigate = useNavigate();
 
+
   const handleOptionClick = (option: string) => {
     if (selectedOption === option) {
-      setSelectedOption(null);
+      setSelectedOption(null); // 이미 선택된 옵션 선택 해제 
     } else {
       setSelectedOption(option);
     }
@@ -27,7 +28,7 @@ const SelectType: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen">
       <Header labels={[
           { title: '게스트 메인', link: '/guest' }, 
           { title: '서비스 등록', link: '/register' }, 

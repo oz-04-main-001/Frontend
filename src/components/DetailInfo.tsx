@@ -15,26 +15,34 @@ export enum DetailType {
 interface DetailInfoProps {
   subTitle?: string;
   title?: string;
-  price?: number;
+  price?: number | string;
+  capacity?: number;
   detailType?: DetailType;
 }
 export default function DetailInfo({
-  subTitle = '소제목',
-  title = '제목',
-  price = 111,
-  detailType = DetailType.Stateroom,
+  subTitle,
+  title,
+  price,
+  capacity,
+  detailType,
 }: DetailInfoProps) {
   return (
     <>
       <Carousel imgs={loremImg} />
       <div className="flex items-end justify-between mt-8">
-        <div>
+        <div className="w-full">
           <h6 className="text-gray-500">{subTitle}</h6>
-          <h3>{title}</h3>
-        </div>
-        <div className="flex items-end ">
-          <h6>{price}원</h6>
-          {detailType ? <p className="text-gray-400 b2"> /1박</p> : <h6> ~</h6>}
+          <div className="flex justify-between">
+            <h3>{title}</h3>
+            <div className="flex items-end ">
+              <h6>{price}원</h6>
+              {detailType ? (
+                <p className="text-gray-400 b2"> /1박</p>
+              ) : (
+                <h6> ~</h6>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       {detailType ? (
@@ -45,12 +53,14 @@ export default function DetailInfo({
             <li>방</li>
           </ul>
           <ul className="text-gray-700 b1">
-            <li>기준 2인</li>
+            <li>기준 {capacity}인</li>
             <li>더블침대 1개</li>
             <li>방 1개</li>
           </ul>
         </div>
-      ) : undefined}
+      ) : (
+        ''
+      )}
     </>
   );
 }

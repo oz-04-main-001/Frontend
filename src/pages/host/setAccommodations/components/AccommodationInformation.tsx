@@ -1,7 +1,7 @@
 // 숙소 정보
 import React, { useState } from 'react';
 import { Input } from '../../../../assets/Input';
-import Button, { BtnSize, BtnType } from '../../../../assets/buttons/Button';  // Button 컴포넌트 가져오기
+import Button, { BtnSize, BtnType } from '../../../../assets/buttons/Button';
 
 declare global {
     interface Window {
@@ -10,19 +10,36 @@ declare global {
 }
 
 const AccommodationInformation: React.FC = () => {
+    const [name, setName] = useState('');
+    const [address, setAddress] = useState('');
+    const [description, setDescription] = useState('');
     const [addressPlaceholder, setAddressPlaceholder] = useState('숙소 주소를 입력해주세요.');
 
-    // 카카오 주소 검색 API 호출 함수
     const handleAddressSearch = () => {
         new window.daum.Postcode({
             oncomplete: (data: any) => {
-                setAddressPlaceholder(data.address);  // 선택된 주소로 placeholder 업데이트
+                setAddress(data.address);
+                setAddressPlaceholder(data.address);
             },
         }).open();
     };
 
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const inputText = e.target.value;
+        if (inputText.length <= 50) {
+            setName(inputText);
+        }
+    };
+
+    const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const inputText = e.target.value;
+        if (inputText.length <= 1000) {
+            setDescription(inputText);
+        }
+    };
+
     return (
-        <div className="bg-white flex flex-col w-[1062px] h-[540px] p-6 rounded-lg">
+        <div className="flex flex-col p-6 bg-white rounded-lg P-8">
             <h2 className="mb-6 text-lg font-bold text-gray-500">숙소 정보</h2>
 
             <div className="mb-4">
@@ -31,28 +48,35 @@ const AccommodationInformation: React.FC = () => {
                     id="accommodation-name"
                     placeholder="숙소 이름을 입력해주세요."
                     label="이름"
-                    width="w-[1024px]"
+                    width="w-full"
                     height="h-[60px]"
                     className="text-gray-400"
+                    value={name}
+                    onChange={handleNameChange}
                 />
+                <p className="text-sm text-gray-500">{name.length} / 50</p>
             </div>
 
-            <div className="mb-4">
-                <div className="flex items-center">
+            <div className="flex items-center mb-4">
+                <div className="w-full mr-4">
                     <Input
                         type="text"
                         id="accommodation-address"
-                        placeholder={addressPlaceholder} // 주소가 placeholder로 표시
+                        placeholder={addressPlaceholder}
                         label="주소"
-                        width="w-[900px]" // 입력 필드 크기 조정
+                        width='w-full'
                         height="h-[60px]"
                         className="text-gray-400"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                     />
+                </div>
+                <div className='w-52'>
                     <Button
-                        size={BtnSize.m}     // 중간 크기 버튼 사용
-                        text="조회하기"       // 버튼 텍스트
-                        type={BtnType.line} // 기본 타입 사용
-                        onClick={handleAddressSearch} // 조회 버튼 클릭 시 주소 검색 API 호출
+                        size={BtnSize.m}
+                        text="조회하기"
+                        type={BtnType.line}
+                        onClick={handleAddressSearch}
                     />
                 </div>
             </div>
@@ -63,10 +87,13 @@ const AccommodationInformation: React.FC = () => {
                     id="accommodation-description"
                     placeholder="숙소에 대한 설명을 입력해주세요."
                     label="설명"
-                    width="w-[1024px]"
-                    height="h-[137px]"
+                    width="w-full"
+                    height="h-[60px]"
                     className="text-gray-400"
+                    value={description}
+                    onChange={handleDescriptionChange}
                 />
+                <p className="text-sm text-gray-500">{description.length} / 1000</p>
             </div>
         </div>
     );
