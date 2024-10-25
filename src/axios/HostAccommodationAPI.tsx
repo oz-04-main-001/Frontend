@@ -45,5 +45,4 @@ export default function AccommodationAPI() {
     fetchData();
   }, []);
   return { data, loading, error };
-
 }

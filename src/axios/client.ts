@@ -13,7 +13,7 @@ client.interceptors.request.use(
     // Authorization 헤더에 토큰 추가
     // const token = localStorage.getItem('auth_token'); // 토큰을 로컬 스토리지에서 가져옴
     const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5ODQ3Mzk4LCJpYXQiOjE3Mjk4NDAxOTgsImp0aSI6IjdkNjc3Njc4NTc5NjQwYWU5OGJjZjY0N2NlZDgzYmQ4IiwidXNlcl9pZCI6MX0.xXbCe57CgH2uI9ZI8ntxXx515f6tIqg-HA33mjQ7FgA';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5ODc1MDU1LCJpYXQiOjE3Mjk4Njc4NTUsImp0aSI6ImVmMjRjZWY0ZGJhZjRjMzU5NzU5NmQ3ZTE3MDYxMGFhIiwidXNlcl9pZCI6MTAyfQ.R4y6iv7WV4kbVSj1kvG6Ew30BrEN0FlXSVTUtKMJpJg';
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; // Authorization 헤더에 토큰 추가
     }
