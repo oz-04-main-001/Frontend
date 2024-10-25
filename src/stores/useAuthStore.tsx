@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 
+
 interface BusinessProfile {
   name: string;   
   address: string; 

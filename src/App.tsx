@@ -25,6 +25,7 @@ import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation';
 import Popup from './components/Popup';
+import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
 import HostMain from './pages/host/HostMain';
 
 function App() {
@@ -40,12 +41,13 @@ function App() {
             element={<Stateroom />}
           />
         </Route>
-
         <Route path="/mypage" element={<Mypage />} />
+
         {/* 유저관련 */}
         <Route path="/user" element={<User />}>
           <Route path="login" element={<SignIn />} />
           <Route path="join" element={<SignUp />} />
+          <Route path="leaveId" element={<MembershipWithdrawal />} />
         </Route>
         {/* 호스트관련 */}
 
