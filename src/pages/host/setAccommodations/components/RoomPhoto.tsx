@@ -1,8 +1,8 @@
-// 숙소 사진 등록
+//객실 사진 등록
 import React, { useState } from 'react';
 import CloseIcon from '../../../../assets/icons/close.svg';
 
-const AccommodationsPhoto: React.FC = () => {
+const RoomPhoto: React.FC = () => {
     const [photos, setPhotos] = useState<File[]>([]);
 
     const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,15 +20,15 @@ const AccommodationsPhoto: React.FC = () => {
     return (
         <div className="p-8 mx-auto bg-white rounded-lg">
 
-            <h2 className="mb-2 text-lg text-gray-500">숙소 사진</h2>
-            <p className="mb-6 text-sm text-gray-800">숙소 사진은 1장 ~ 10장까지 등록 가능합니다.</p>
+            <h2 className="mb-2 text-lg text-gray-500">객실 사진</h2>
+            <p className="mb-6 text-sm text-gray-800">객실 사진은 1장 ~ 10장까지 등록 가능합니다.</p>
 
             <div className="grid grid-cols-5 gap-4">
                 {photos.map((photo, index) => (
                     <div key={index} className="relative w-[187px] h-[130px] bg-gray-100">
                         <img
                             src={URL.createObjectURL(photo)}
-                            alt={`숙소 사진 ${index + 1}`}
+                            alt={`객실 사진 ${index + 1}`}
                             className="object-cover w-full h-full"
                         />
                         <button
@@ -56,4 +56,4 @@ const AccommodationsPhoto: React.FC = () => {
     );
 };
 
-export default AccommodationsPhoto;
+export default RoomPhoto;
