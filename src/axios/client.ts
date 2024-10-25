@@ -4,14 +4,12 @@ const serverURL = import.meta.env.VITE_SERVER_URL;
 
 const client = axios.create({
   baseURL: serverURL,
- 
 });
 
 // 요청 인터셉터 설정
 client.interceptors.request.use(function (config) {
   // Authorization 헤더에 토큰 추가
   const token = localStorage.getItem('auth_token'); // 토큰을 로컬 스토리지에서 가져옴
-
   if (token) {
     config.headers.Authorization = `Bearer ${token}`; // Authorization 헤더에 토큰 추가
   }
