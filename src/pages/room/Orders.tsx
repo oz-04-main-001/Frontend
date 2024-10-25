@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button, { BtnType, BtnSize } from '../../assets/buttons/Button';
 import Checkbox, { CheckBox } from '../../assets/Checkbox';
 import Divider from '../../assets/Divider';
@@ -9,6 +9,9 @@ import { useSearchStore } from '../../stores/useSearchStore';
 import { useStateroomStore } from '../../stores/useStateroomStore';
 import useDateCount from '../../customHooks/useDateCount';
 import { useEffect, useState } from 'react';
+import { postBooking } from '../../axios/orderApi';
+import { AxiosError } from 'axios';
+import useAuthStore from '../../stores/useAuthStore';
 
 const checkListData = [
   {
@@ -22,6 +25,13 @@ const checkListData = [
 
 export default function Orders() {
   const [checkList, setCheckList] = useState<CheckBox[]>([]);
+  const { accommodationId, stateroomId } = useParams();
+  const bookerPhoneNumber = '010-4810-2606';
+  const bookerName = '한기선';
+  // const checkInDate = useAuthStore.getState().email;
+  const checkInDate = '2024-10-25';
+  const checkOutDate = '2024-10-25';
+  const guestsCount = 2;
 
   const { search } = useSearchStore();
   const { stateRoom } = useStateroomStore();
@@ -41,6 +51,32 @@ export default function Orders() {
       setCheckList(checkListData);
     } else if (!checked) {
       setCheckList([]);
+    }
+  };
+  const fetchGetLoad = async () => {
+    try {
+      await postBooking(
+        Number(accommodationId),
+        Number(stateroomId),
+        bookerPhoneNumber,
+        bookerName,
+        checkInDate,
+        checkOutDate,
+        guestsCount
+      );
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      if (axiosError.response) {
+        const statusCode = axiosError.response.status;
+        switch (statusCode) {
+          case 401:
+            // navigate('/user/login');
+            break;
+          default:
+            console.log('요청 에러');
+            break;
+        }
+      }
     }
   };
 
@@ -113,9 +149,7 @@ export default function Orders() {
             size={BtnSize.l}
             text="1111원 결제하기"
             type={agree ? BtnType.normal : BtnType.disabled}
-            onClick={() => {
-              navigate('/mypage');
-            }}
+            onClick={fetchGetLoad}
           />
         </div>
       </Layout>

@@ -27,7 +27,7 @@ import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation';
 import Popup from './components/Popup';
-
+import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
 
 function App() {
   return (
@@ -42,12 +42,13 @@ function App() {
             element={<Stateroom />}
           />
         </Route>
-
         <Route path="/mypage" element={<Mypage />} />
+
         {/* 유저관련 */}
         <Route path="/user" element={<User />}>
           <Route path="login" element={<SignIn />} />
           <Route path="join" element={<SignUp />} />
+          <Route path="leaveId" element={<MembershipWithdrawal />} />
         </Route>
         {/* 호스트관련 */}
 
@@ -57,8 +58,8 @@ function App() {
           <Route path="StructureType" element={<StructureType />} />
         </Route>
 
-        <Route path="HostDocuments" element={<HostDocuments />} />   
-        <Route path="OnlyAccommodation" element={<OnlyAccommodation />} />   
+        <Route path="HostDocuments" element={<HostDocuments />} />
+        <Route path="OnlyAccommodation" element={<OnlyAccommodation />} />
         <Route path="OnlyStaterRoom" element={<OnlyStaterRoom />} />
         <Route path="MultiAccommodations" element={<MultiAccommodations />} />
         <Route path="MultiStaterRoom" element={<MultiStaterRoom />} />
@@ -68,7 +69,6 @@ function App() {
           path="EditMultiAccommodations"
           element={<EditMultiAccommodations />}
         />
-
 
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>

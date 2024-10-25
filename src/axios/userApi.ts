@@ -2,10 +2,13 @@ import client from './client'; // axios 인스턴스 임포트
 import useAuthStore from '../stores/useAuthStore'; // Zustand 스토어 임포트
 
 // 로그인 함수
-export const getUserLogin = async (LoginData: { email: string, password: string }) => {
+export const getUserLogin = async (LoginData: {
+  email: string;
+  password: string;
+}) => {
   try {
     const response = await client.post('/api/v1/auth/login/', LoginData);
-    
+
     // 서버에서 받은 응답에서 이메일, usertype, 비즈니스 프로필 추출
     const { email, usertype, businessProfile } = response.data;
 
@@ -25,8 +28,14 @@ export const getUserLogin = async (LoginData: { email: string, password: string 
   }
 };
 
-// 회원가입 함수
 export const getUserRegister = async () => {
-  return await client.post('/api/v1/auth/register/request/')
+  return await client
+    .post('/api/v1/auth/register/request/')
+    .then(response => response.data);
+};
+
+export const postUserDelete = async () => {
+  return await client
+    .post('/api/v1/auth/delete/request/')
     .then(response => response.data);
 };

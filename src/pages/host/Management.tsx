@@ -12,7 +12,6 @@ import usePopupStore from '../../stores/usePopupStore';
 export default function Management() {
   const [tap, setTap] = useState(0);
   const taps = ['이용 요청', '예약 확정'];
-
   const popup = usePopupStore(state => state.popup);
   const closePopup = usePopupStore(state => state.closePopup);
 
@@ -41,7 +40,7 @@ export default function Management() {
             subTitleClass="hidden"
           />
         ) : null}
-        <div className="grid grid-cols-12 gap-4 w-full">
+        <div className="grid w-full grid-cols-12 gap-4">
           <div className="col-span-7">
             <HostCalendar />
           </div>
@@ -82,7 +81,7 @@ export default function Management() {
                   btnStyle="text-sm pt-1 text-left font-medium"
                 />
               </div>
-              <div className="h-full relative ">
+              <div className="relative h-full ">
                 {tap === taps.indexOf('이용 요청') ? (
                   <CardOrder onClose1={closePopup} onClose2={closePopup} />
                 ) : (
