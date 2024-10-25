@@ -1,6 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
-import { useEffect } from 'react';
 
 interface CardProp {
   id: number;
