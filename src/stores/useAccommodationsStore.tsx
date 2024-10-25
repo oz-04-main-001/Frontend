@@ -7,11 +7,12 @@ interface State {
     hotel_img: null | string;
     name: string;
     address: string;
-    min_price: number;
+    min_price: number | null;
     rooms: [
       {
         accommodation_name: string;
         name: string;
+        id: number | undefined;
         capacity: number;
         max_capacity: number;
         description: string;
@@ -38,13 +39,14 @@ const initialState: State = {
   accommodation: {
     accommodationId: undefined,
     hotel_img: null,
-    name: '호스트',
+    name: '숙소이름',
     address: '주소 정보없음',
-    min_price: 921,
+    min_price: null,
     rooms: [
       {
-        accommodation_name: '호스트',
-        name: '게스트',
+        accommodation_name: '숙소이름',
+        name: '객실이름',
+        id: undefined,
         capacity: 0,
         max_capacity: 0,
         description: '객실 소개 없음',
