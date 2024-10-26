@@ -4,6 +4,7 @@ import CardOrder from '../../components/cards/CardOrderWating';
 import CardOrderFix from '../../components/cards/CardOrderFix';
 import Dropdown from '../../assets/Dropdown';
 import BookingListApi from '../../axios/BookingListApi';
+import useSelectedDateStore from '../../stores/useSelectedDateStore';
 
 interface ButtonLogicProp {
   handleCancelClick: () => void;
@@ -14,7 +15,6 @@ interface ButtonLogicProp {
 export default function Management({
   handleCancelClick,
   handleConfirmClick,
-  date,
 }: ButtonLogicProp) {
   const [tap, setTap] = useState(0);
   const taps = ['이용 요청', '예약 확정'];
@@ -24,6 +24,7 @@ export default function Management({
     string | null
   >(null);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const { selectedDate } = useSelectedDateStore();
 
   const { data } = BookingListApi();
   console.log(data);
@@ -31,8 +32,10 @@ export default function Management({
     <>
       <div className="sticky col-span-5 p-5 bg-gray-100 rounded-md top-7 ">
         <div className="relative mb-3">
-          x<h6 className="text-center">예약관리</h6>
-          <p className="absolute right-0 text-gray-800 top-1 s2">24.10.14</p>
+          <h6 className="text-center">예약관리</h6>
+          <p className="absolute right-1 text-gray-800 top-1 s2">
+            {selectedDate}
+          </p>
         </div>
         <div className="pb-2 rounded-md bg-gray-50 ">
           <SegmentMenu taps={taps} active={tap} setActive={setTap} />
