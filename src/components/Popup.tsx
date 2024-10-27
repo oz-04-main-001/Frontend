@@ -37,9 +37,9 @@ function Popup({
   return (
     <>
       {popup && (
-        <div className="fixed z-[999999] inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed z-[9999] inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div
-            className={`relative bg-white rounded-md shadow-lg px-10 py-[30px] flex flex-col ${containerClass}`}
+            className={`relative bg-white rounded-md shadow-lg px-10 py-8 flex flex-col ${containerClass}`}
           >
             <img
               src={close}
@@ -48,7 +48,7 @@ function Popup({
               className="absolute top-[30px] m-0 p-0 text-xs left-10 w-6 h-6 font-extrabold rounded-xl transition duration-100 hover:scale-105 focus:opacity-85"
             />
 
-            <h2 className={`text-center ${titleClass}`}>{title}</h2>
+            <h2 className={`text-center mx-6 ${titleClass}`}>{title}</h2>
             <p className={`text-center pt-2 pb-3 ${subTitleClass}`}>
               {subTitle}
             </p>

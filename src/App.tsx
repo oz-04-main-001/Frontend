@@ -30,6 +30,7 @@ import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
 import HostMain from './pages/host/HostMain';
 import SignOut from './pages/user/SignOut'; // SignOut 컴포넌트 추가
 
+
 function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태를 관리합니다.
 
@@ -75,6 +76,10 @@ function App() {
         <Route path="EditOnlyRoom" element={<EditOnlyRoom />} />
         <Route path="EditMultiRoom" element={<EditMultiRoom />} />
         <Route path="EditMultiAccommodations" element={<EditMultiAccommodations />} />
+        <Route
+          path="EditMultiAccommodations"
+          element={<EditMultiAccommodations />}
+        />
 
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>

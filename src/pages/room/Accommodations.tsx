@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { getAccommodationsLoad } from '../../axios/roomApi';
 import { AxiosError } from 'axios';
 import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
+import useTimeFormet from '../../customHooks/useTimeFormet';
 
 export default function Accommodations() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function Accommodations() {
   const { accommodation, actions } = useAccommodationsStore();
   useEffect(() => {
     actions.setAccommodationId(Number(accommodationId));
-  }, []);
+  }, [accommodationId]);
   useEffect(() => {
     const fetchGetLoad = async () => {
       try {
@@ -58,37 +59,47 @@ export default function Accommodations() {
         <Layout>
           <DetailInfo
             subTitle={accommodation.address}
-            title={accommodation.name}
+            title={accommodation.accommodation_info.name}
             price={accommodation.min_price}
             detailType={DetailType.Accommodations}
           />
         </Layout>
         <Divider />
         <Layout>
-          {accommodation.rooms.map(room => {
-            return (
-              <CardStateroom
-                key={room.id}
-                id={Number(room.id)}
-                image="/staynest.svg"
-                title={room.accommodation_name}
-                checkIn={room.check_in_time}
-                checkOut={room.check_out_time}
-                price={room.price}
-                stayType={room.stay_type}
-                capacity={room.capacity}
-              />
-            );
-          })}
+          {Array.isArray(accommodation?.rooms) &&
+            accommodation?.rooms.map((room, idx) => {
+              return (
+                <CardStateroom
+                  key={idx}
+                  id={room?.id}
+                  image={room?.images}
+                  title={room?.name}
+                  checkIn={useTimeFormet(room?.check_in_time)}
+                  checkOut={useTimeFormet(room?.check_out_time)}
+                  price={room?.price}
+                  stayType={true}
+                  capacity={room?.capacity}
+                />
+              );
+            })}
         </Layout>
         <Divider />
         <Layout>
-          <InfoTemp1 title="숙소소개" text={accommodation.description} />
-          <InfoTemp2 title="시설/서비스" texts={texts} />
-          <InfoTemp1 title="이용안내" text={accommodation.rules} />
+          <InfoTemp1
+            title="숙소소개"
+            text={accommodation.accommodation_info.description}
+          />
+          <InfoTemp2
+            title="시설/서비스"
+            texts={accommodation.accommodation_amenity}
+          />
+          <InfoTemp1
+            title="이용안내"
+            text={accommodation.accommodation_info.rules}
+          />
           <div className="mb-12">
             <h6 className="mb-4 text-gray-500">환불정책</h6>
-            <ul className="text-black s1">
+            <ul className="mb-4 text-black text-gray-500">
               <li>체크인 7일전, % 환불</li>
               <li>체크인 5일전, % 환불</li>
               <li>체크인 2일전, % 환불</li>

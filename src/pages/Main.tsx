@@ -11,7 +11,7 @@ interface FetchCardInfo {
   id: number;
   name: string;
   rooms: number;
-  hotel_img: string | null;
+  hotel_img: string;
 }
 
 const Main: React.FC = () => {

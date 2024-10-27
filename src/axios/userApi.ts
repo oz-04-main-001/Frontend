@@ -62,8 +62,6 @@ export const getUserRegister = async (userData: {
     });
 };
 
-
-
 export const postUserDelete = async () => {
   return await client
     .post('/api/v1/auth/delete/request/')

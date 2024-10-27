@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 
+
 interface BusinessProfile {
   name: string;   
   address: string; 
@@ -8,10 +9,10 @@ interface BusinessProfile {
 
 interface AuthState {
   email: string | null;
-  usertype: 'guest' | 'host' | null; // usertype 제한
+  usertype: string | null;
   businessProfile: BusinessProfile | null;
   setEmail: (email: string) => void;
-  setUsertype: (usertype: 'guest' | 'host') => void; // usertype 제한
+  setUsertype: (usertype: string) => void;
   setBusinessProfile: (profile: BusinessProfile) => void;
   clearEmail: () => void;
   clearUsertype: () => void;
@@ -23,7 +24,7 @@ const useAuthStore = create<AuthState>((set) => ({
   usertype: null,
   businessProfile: null,
   setEmail: (email: string) => set({ email }),
-  setUsertype: (usertype: 'guest' | 'host') => set({ usertype }), // usertype 제한
+  setUsertype: (usertype: string) => set({ usertype }),
   setBusinessProfile: (profile: BusinessProfile) => set({ businessProfile: profile }),
   clearEmail: () => set({ email: null }),
   clearUsertype: () => set({ usertype: null }),

@@ -12,6 +12,9 @@ import { useEffect, useState } from 'react';
 import { postBooking } from '../../axios/orderApi';
 import { AxiosError } from 'axios';
 import useAuthStore from '../../stores/useAuthStore';
+import useTimeFormet from '../../customHooks/useTimeFormet';
+import useDateDotFormet from '../../customHooks/useDateDotFormet';
+import useDateDashFormet from '../../customHooks/useDateDashFormet';
 
 const checkListData = [
   {
@@ -26,40 +29,18 @@ const checkListData = [
 export default function Orders() {
   const [checkList, setCheckList] = useState<CheckBox[]>([]);
   const { accommodationId, stateroomId } = useParams();
-  const bookerPhoneNumber = '010-4810-2606';
-  const bookerName = '한기선';
-  // const checkInDate = useAuthStore.getState().email;
-  const checkInDate = '2024-10-25';
-  const checkOutDate = '2024-10-25';
-  const guestsCount = 2;
-
   const { search } = useSearchStore();
   const { stateRoom } = useStateroomStore();
   const [agree, setAgree] = useState(false);
   const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
-
-  const navigate = useNavigate();
-  const checkHandler = (checked: boolean, item: CheckBox) => {
-    if (checked) {
-      setCheckList(prev => [...prev, item]);
-    } else if (!checked) {
-      setCheckList(checkList.filter(checkBox => checkBox !== item));
-    }
-  };
-  const allChecked = (checked: boolean, item: CheckBox) => {
-    if (checked) {
-      setCheckList(checkListData);
-    } else if (!checked) {
-      setCheckList([]);
-    }
-  };
+  const checkInDate = useDateDashFormet(search.date.checkIn);
+  const checkOutDate = useDateDashFormet(search.date.checkOut);
+  const guestsCount = search.personnel.adult;
   const fetchGetLoad = async () => {
     try {
       await postBooking(
         Number(accommodationId),
         Number(stateroomId),
-        bookerPhoneNumber,
-        bookerName,
         checkInDate,
         checkOutDate,
         guestsCount
@@ -79,6 +60,7 @@ export default function Orders() {
       }
     }
   };
+  console.log(stateRoom);
 
   return (
     <>
@@ -86,21 +68,21 @@ export default function Orders() {
         <div className="">
           <div>
             <h6 className="text-gray-500">{}</h6>
-            <h3 className="mt-2">{stateRoom.name}</h3>
+            <h3 className="mt-2">{stateRoom.room.name}</h3>
             <p className="text-gray-400 b2">
-              기준 {stateRoom.capacity}인, 싱글침대 1개, 방 1개
+              기준 {stateRoom.room.capacity}인, 싱글침대 1개, 방 1개
             </p>
           </div>
           <div className="flex mt-8">
             <CheckInOut
               title="체크인"
-              date={search.date.checkIn}
-              time={stateRoom.check_in_time}
+              date={useDateDotFormet(search.date.checkIn)}
+              time={useTimeFormet(stateRoom.room.check_in_time)}
             />
             <CheckInOut
               title="체크아웃"
-              date={search.date.checkOut}
-              time={stateRoom.check_out_time}
+              date={useDateDotFormet(search.date.checkOut)}
+              time={useTimeFormet(stateRoom.room.check_out_time)}
             />
           </div>
           <p className="mt-6 b2">
@@ -114,8 +96,8 @@ export default function Orders() {
           </p>
         </div>
         <div className="mt-6 text-right text-gray-800 s1">
-          {Number(stateRoom.price) * Number(dateCount)}원{' '}
-          <span className="text-gray-400 b2">/4박</span>
+          {Number(stateRoom.room.price) * Number(dateCount)}원
+          <span className="text-gray-400 b2">/{dateCount}박</span>
         </div>
       </Layout>
       <Divider />
@@ -125,13 +107,7 @@ export default function Orders() {
       <Divider />
       <Layout>
         <div className="flex flex-col gap-5">
-          <Checkbox
-            id={0}
-            label="전체동의"
-            bold={true}
-            check={false}
-            onChange={allChecked}
-          />
+          <Checkbox id={0} label="전체동의" bold={true} check={false} />
           {checkListData.map(checkbox => (
             <Checkbox
               checkbox={checkbox}
@@ -147,7 +123,7 @@ export default function Orders() {
         <div className="my-20">
           <Button
             size={BtnSize.l}
-            text="1111원 결제하기"
+            text={`${Number(stateRoom.room.price) * Number(dateCount)}원 결제하기`}
             type={agree ? BtnType.normal : BtnType.disabled}
             onClick={fetchGetLoad}
           />

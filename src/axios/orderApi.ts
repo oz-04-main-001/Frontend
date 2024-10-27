@@ -20,6 +20,14 @@ export const postBooking = async (
       guests_count: guestsCount,
     })
     .then(response => response.data);
+
+export const getBooking = async (hotel_pk: number, id: number) => {
+  return await client
+    .post(`/api/v1/ui/bookings/request/${hotel_pk}/${id}`)
+    .then(response => response.data)
+    .catch(error => {
+      console.log(error);
+    });
 };
 
 export const getBooking = async (hotel_pk: number, id: number) => {

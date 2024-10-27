@@ -1,31 +1,45 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+export interface Amenity {
+  amenity: {
+    name: string;
+    category: string;
+    description: string;
+    icon: null;
+    is_custom: boolean;
+  };
+}
+interface Accommodation {
+  name: string;
+  phone_number: string;
+  description: string;
+  rules: string;
+}
+interface StateRoom {
+  id: number;
+  name: string;
+  capacity: number;
+  max_capacity: number | string;
+  description: string;
+  price: number | string;
+  check_in_time: string;
+  check_out_time: string;
+  bed_info: {
+    total_beds: number;
+    bed_names: string[];
+  };
+  images: string;
+}
 
 interface State {
   accommodation: {
-    accommodationId: number | undefined;
-    hotel_img: null | string;
-    name: string;
+    accommodationId: number | null;
+    accommodation_img: null;
+    accommodation_info: Accommodation;
     address: string;
-    min_price: number | null;
-    rooms: [
-      {
-        accommodation_name: string;
-        name: string;
-        id: number | undefined;
-        capacity: number;
-        max_capacity: number;
-        description: string;
-        price: number | string;
-        stay_type: true;
-        check_in_time: string;
-        check_out_time: string;
-      },
-    ];
-    phone_number: string;
-    description: string;
-    rules: string;
-    host: number | null;
+    min_price: string | number;
+    rooms: StateRoom[] | string;
+    accommodation_amenity: Amenity[];
   };
 }
 
@@ -37,29 +51,18 @@ interface Actions {
 }
 const initialState: State = {
   accommodation: {
-    accommodationId: undefined,
-    hotel_img: null,
-    name: '숙소이름',
-    address: '주소 정보없음',
-    min_price: null,
-    rooms: [
-      {
-        accommodation_name: '숙소이름',
-        name: '객실이름',
-        id: undefined,
-        capacity: 0,
-        max_capacity: 0,
-        description: '객실 소개 없음',
-        price: '가격정보없음',
-        stay_type: true,
-        check_in_time: '정보없음',
-        check_out_time: '정보없음',
-      },
-    ],
-    phone_number: '호스트 정보 없음',
-    description: '숙소 정보없음',
-    rules: '',
-    host: null,
+    accommodationId: null,
+    accommodation_img: null,
+    accommodation_info: {
+      name: '정보없음',
+      phone_number: '정보없음',
+      description: '정보없음',
+      rules: '정보없음',
+    },
+    address: '정보없음',
+    min_price: '정보없음',
+    rooms: '예약 가능한 객실이 없습니다.',
+    accommodation_amenity: [],
   },
 };
 export const useAccommodationsStore = create<State & Actions>()(

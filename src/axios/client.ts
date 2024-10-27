@@ -5,7 +5,21 @@ const serverURL = import.meta.env.VITE_SERVER_URL;
 
 const client = axios.create({
   baseURL: serverURL,
+  headers: { 'Content-Type': 'application/json' }
 });
+
+// function getCsrfToken() {
+//   const name = 'csrftoken=';
+//   const decodedCookie = decodeURIComponent(document.cookie);
+//   const cookies = decodedCookie.split(';');
+//   for (let i = 0; i < cookies.length; i++) {
+//     let c = cookies[i].trim();
+//     if (c.indexOf(name) === 0) {
+//       return c.substring(name.length, c.length);
+//     }
+//   }
+//   return '';
+// }
 
 // 요청 인터셉터 설정
 client.interceptors.request.use(
@@ -60,7 +74,6 @@ client.interceptors.response.use(
         useNavigate()('/login');
       }
     }
-
     return Promise.reject(error);
   }
 );
