@@ -1,18 +1,35 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+interface Image {
+  image: string;
+}
 
+export interface StateRoomOption {
+  option: {
+    name: string;
+    category: string;
+    is_custom: boolean;
+  };
+}
 interface State {
   stateRoom: {
-    id: number | null;
     accommodation_name: string;
-    name: string;
-    capacity: number;
-    max_capacity: number;
-    description: string;
-    price: number | string;
-    stay_type: boolean;
-    check_in_time: string;
-    check_out_time: string;
+    room: {
+      id: number | null;
+      name: string;
+      capacity: number | null;
+      max_capacity: number | null;
+      description: string;
+      price: number | string;
+      check_in_time: string;
+      check_out_time: string;
+      bed_info: {
+        total_beds: number;
+        bed_names: string[];
+      };
+    };
+    room_options: StateRoomOption[];
+    images: Image[];
   };
 }
 
@@ -23,16 +40,23 @@ interface Actions {
 }
 const initialState: State = {
   stateRoom: {
-    id: null,
     accommodation_name: '정보없음',
-    name: 'candidate',
-    capacity: 0,
-    max_capacity: 0,
-    description: '정보없음',
-    price: '가격정보없음',
-    stay_type: false,
-    check_in_time: '정보없음',
-    check_out_time: '정보없음',
+    room: {
+      id: null,
+      name: '정보없음',
+      capacity: null,
+      max_capacity: null,
+      description: '정보없음',
+      price: '정보없음',
+      check_in_time: '14:00:00',
+      check_out_time: '11:00:00',
+      bed_info: {
+        total_beds: 0,
+        bed_names: [],
+      },
+    },
+    room_options: [],
+    images: [],
   },
 };
 export const useStateroomStore = create<State & Actions>()(
