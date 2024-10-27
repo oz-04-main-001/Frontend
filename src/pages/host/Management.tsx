@@ -6,6 +6,7 @@ import Dropdown from '../../assets/Dropdown';
 import BookingListApi from '../../axios/BookingListApi';
 import useSelectedDateStore from '../../stores/useSelectedDateStore';
 
+
 interface ButtonLogicProp {
   handleCancelClick: () => void;
   handleConfirmClick: () => void;
@@ -15,6 +16,8 @@ interface ButtonLogicProp {
 export default function Management({
   handleCancelClick,
   handleConfirmClick,
+  date,
+
 }: ButtonLogicProp) {
   const [tap, setTap] = useState(0);
   const taps = ['이용 요청', '예약 확정'];

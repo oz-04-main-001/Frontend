@@ -11,6 +11,7 @@ interface HeaderProps {
   color?: string;
   title?: string;
   border?: boolean;
+  onClick?: (link: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({

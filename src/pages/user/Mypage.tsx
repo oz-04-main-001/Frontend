@@ -56,7 +56,7 @@ const Mypage = () => {
       <Header
         labels={[
           { title: '호스트 모드로 전환', link: '/host' },
-          { title: '마이페이지', link: '/mypage' },
+          { title: '로그아웃', link: '/user/logout' },
         ]}
       />
       <div className="pt-20 text-center">

@@ -15,6 +15,7 @@ import useTimeFormet from '../../customHooks/useTimeFormet';
 
 export default function Accommodations() {
   const navigate = useNavigate();
+  const texts = ['주차가능', '조식운영'];
   const { accommodationId } = useParams();
   const { accommodation, actions } = useAccommodationsStore();
   useEffect(() => {

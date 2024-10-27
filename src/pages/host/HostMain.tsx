@@ -15,6 +15,7 @@ export default function HostMain() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const { data } = AccommodationAPI();
 
+
   // 예약 취소 버튼
   const handleCancelClick = () => {
     setPopupType('cancel');
@@ -26,6 +27,7 @@ export default function HostMain() {
     setPopupType('confirm');
     openPopup();
   };
+
   const handleDeleteClick = (id: number) => {
     setSelectedId(id);
     setPopupType('delete');
@@ -55,6 +57,8 @@ export default function HostMain() {
             subTitleClass="hidden"
           />
         )}
+
+
         {popupType === 'delete' && popup && (
           <Popup
             title={`${data.find(acco => acco.id === selectedId)?.name}을(를) 삭제하시겠습니까?`}
@@ -62,6 +66,7 @@ export default function HostMain() {
             subTitleClass="hidden"
           />
         )}
+
 
         <div className="grid grid-cols-12 gap-4 w-full">
           <div className="col-span-7">
@@ -73,6 +78,7 @@ export default function HostMain() {
             handleConfirmClick={handleConfirmClick}
           />
           <div className="col-span-7">
+
             <HostAccommoList handleDeleteClick={handleDeleteClick} />
           </div>
         </div>

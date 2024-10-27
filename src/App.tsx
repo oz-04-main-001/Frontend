@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react'; // useState 추가
 
 import Search from './pages/search';
 import Main from './pages/Main';
@@ -27,8 +28,17 @@ import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation'
 import Popup from './components/Popup';
 import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
 import HostMain from './pages/host/HostMain';
+import SignOut from './pages/user/SignOut'; // SignOut 컴포넌트 추가
+
 
 function App() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태를 관리합니다.
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false); // 팝업을 닫는 함수
+    console.log('팝업 닫힘');
+  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -48,9 +58,10 @@ function App() {
           <Route path="login" element={<SignIn />} />
           <Route path="join" element={<SignUp />} />
           <Route path="leaveId" element={<MembershipWithdrawal />} />
+          <Route path="logout" element={<SignOut onClose={handleClosePopup} />} /> 
         </Route>
+        
         {/* 호스트관련 */}
-
         <Route path="/host" element={<Host />}>
           <Route path="" element={<HostMain />} />
           <Route path="SelectType" element={<SelectType />} />
@@ -64,6 +75,7 @@ function App() {
         <Route path="MultiStaterRoom" element={<MultiStaterRoom />} />
         <Route path="EditOnlyRoom" element={<EditOnlyRoom />} />
         <Route path="EditMultiRoom" element={<EditMultiRoom />} />
+        <Route path="EditMultiAccommodations" element={<EditMultiAccommodations />} />
         <Route
           path="EditMultiAccommodations"
           element={<EditMultiAccommodations />}

@@ -61,6 +61,7 @@ export default function Orders() {
     }
   };
   console.log(stateRoom);
+
   return (
     <>
       <Layout>
@@ -114,6 +115,7 @@ export default function Orders() {
               label={checkbox.label}
               id={checkbox.id}
               check={checkbox.check}
+              onChange={checkHandler}
               checkList={checkList}
             />
           ))}
