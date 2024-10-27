@@ -21,9 +21,6 @@ export default function Stateroom() {
   const { accommodationId, stateroomId } = useParams();
   const { search } = useSearchStore();
   const { stateRoom, actions } = useStateroomStore();
-  const { accommodation } = useAccommodationsStore();
-  const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
-  const texts = ['주차가능', '조식운영'];
   const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
   useEffect(() => {
     const fetchGetLoad = async () => {

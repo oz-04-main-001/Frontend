@@ -17,7 +17,6 @@ interface StateRoomCardProp {
 
 export default function StateroomCard({
   id,
-  image,
   image = '/staynest.svg',
   title,
   checkIn,
@@ -47,7 +46,6 @@ export default function StateroomCard({
             className="text-right b1 text-primary-600 "
             onClick={() => {
               navigate(
-
                 `/accommodations/stateroom/${accommodation?.accommodationId}/${id}`
               );
             }}
