@@ -122,9 +122,25 @@ const SignUp: React.FC = () => {
       return;
     }
 
+    // 필수 필드 체크
+  if (
+    !email ||
+    !password ||
+    !firstName ||
+    !lastName ||
+    !birthdate ||
+    !selectedGender ||
+    !phoneFirst ||
+    !phoneMiddle ||
+    !phoneLast
+  ) {
+    setRegisterError('모든 필드를 올바르게 입력해 주세요.');
+    return;
+  }
+
     // 전화번호 형식 조합
     const phoneNumber = `${phoneFirst}-${phoneMiddle}-${phoneLast}`;
-
+    
     const registerData = {
       email,
       first_name: firstName,
@@ -206,7 +222,14 @@ const SignUp: React.FC = () => {
             </div>
           </div>
         </div>
-        <Input type="text" id="birthdate" label="생년월일" placeholder="생년월일 8자리" onChange={handleBirthdateChange} />
+        <Input
+          type="date"
+          id="birthdate"
+          label="생년월일"
+          placeholder="YYYY-MM-DD"
+          value={birthdate}
+          onChange={handleBirthdateChange}
+        />
         <div>
           <label className="block mb-1 text-sm font-medium text-gray-700">
             성별
@@ -222,9 +245,7 @@ const SignUp: React.FC = () => {
             <Button
               size={BtnSize.l}
               text="여자"
-              type={
-                selectedGender === '여자' ? BtnType.primary : BtnType.normal
-              }
+              type={selectedGender === 'female' ? BtnType.normal : BtnType.normal}
               className="w-1/2"
               onClick={() => setSelectedGender('female')}
             />
