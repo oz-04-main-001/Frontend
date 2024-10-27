@@ -1,11 +1,12 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../assets/buttons/Button';
 import { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
+import useErrorImage from '../../customHooks/useErrorImage';
 
 interface StateRoomCardProp {
   id: number;
-  image: string;
+  image?: string;
   title: string;
   checkIn: string;
   checkOut: string;
@@ -16,7 +17,7 @@ interface StateRoomCardProp {
 
 export default function StateroomCard({
   id,
-  image,
+  image = '/staynest.svg',
   title,
   checkIn,
   checkOut,
@@ -25,11 +26,17 @@ export default function StateroomCard({
   capacity,
 }: StateRoomCardProp) {
   const navigate = useNavigate();
+  const handleErrorImage = useErrorImage();
   const { accommodation } = useAccommodationsStore();
   return (
     <div className="flex gap-8 p-5 mb-8 rounded-md bg-gray-50">
       <div className="flex items-center justify-center overflow-hidden bg-gray-100 border-2 border-gray-100 border-solid rounded-md aspect-square basis-1/4">
-        <img src={image} alt="logo" className="object-cover w-full" />
+        <img
+          src={image}
+          alt={image}
+          className="object-cover w-full"
+          onError={handleErrorImage}
+        />
       </div>
       <div className="grow">
         <h4>{title}</h4>
@@ -39,7 +46,7 @@ export default function StateroomCard({
             className="text-right b1 text-primary-600 "
             onClick={() => {
               navigate(
-                `/accommodations/stateroom/${accommodation.accommodationId}/${id}`
+                `/accommodations/stateroom/${accommodation?.accommodationId}/${id}`
               );
             }}
           >

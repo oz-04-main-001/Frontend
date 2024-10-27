@@ -10,6 +10,6 @@ export const getStateRoomLoad = async (
   stateRoomId: number
 ) => {
   return await client
-    .get(`/api/v1/ui/accomodations/${accommodationsId}/${stateRoomId}`)
+    .get(`/api/v1/ui/accommodations/${accommodationsId}/${stateRoomId}`)
     .then(response => response.data);
 };

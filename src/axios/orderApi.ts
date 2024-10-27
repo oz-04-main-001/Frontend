@@ -3,23 +3,20 @@ import client from './client';
 export const postBooking = async (
   accommodationId: number,
   stateRoomId: number,
-  bookerPhoneNumber: string | null,
-  bookerName: string | null,
-  checkInDate: string | null,
-  checkOutDate: string | null,
-  guestsCount: number | null
+  checkInDate: string,
+  checkOutDate: string,
+  guestsCount: number
 ) => {
   return await client
     .post(`/api/v1/ui/bookings/request/${accommodationId}/${stateRoomId}`, {
-      accommodation_id: accommodationId,
-      room_id: stateRoomId,
-      booker_phone_number: bookerPhoneNumber,
-      booker_name: bookerName,
       check_in_date: checkInDate,
       check_out_date: checkOutDate,
       guests_count: guestsCount,
     })
-    .then(response => response.data);
+    .then(response => response.data)
+    .catch(error => {
+      console.error('Error:', error.response);
+    });
 };
 
 export const getBooking = async (hotel_pk: number, id: number) => {

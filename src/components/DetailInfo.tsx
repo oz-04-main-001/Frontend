@@ -16,7 +16,7 @@ interface DetailInfoProps {
   subTitle?: string;
   title?: string;
   price?: number | string | null;
-  capacity?: number;
+  capacity?: number | null;
   detailType?: DetailType;
 }
 export default function DetailInfo({
