@@ -15,6 +15,7 @@ const MainCard: React.FC<CardProp> = ({
   image = '/staynest.svg',
 }: CardProp) => {
   const navigate = useNavigate();
+
   const handleErrorImage = useErrorImage();
 
   return (

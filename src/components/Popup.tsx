@@ -8,9 +8,10 @@ interface PopupProps {
   subTitle?: string;
   children?: React.ReactNode;
   buttonText?: { text1?: string; text2?: string };
+  onClickLogic1?: React.MouseEventHandler;
   onClickLogic2?: React.MouseEventHandler;
   titleClass?: string;
-  closePopup?: () => void;
+  onClose?: () => void; 
   subTitleClass?: string;
   containerClass?: string;
 }
@@ -22,11 +23,16 @@ function Popup({
   subTitleClass = 'text-sm',
   containerClass = 'w-[560px] h-auto',
   onClickLogic2,
+  onClickLogic1,
+  onClose, 
   children,
   buttonText = { text1: '이전', text2: '다음' },
 }: PopupProps): JSX.Element {
   const popup = usePopupStore(state => state.popup);
-  const closePopup = usePopupStore(state => state.closePopup);
+  const closePopup = () => {
+    if (onClose) onClose(); 
+    usePopupStore.getState().closePopup(); 
+  };
 
   return (
     <>
