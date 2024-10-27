@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import MembershipWithdrawal from './MembershipWithdrawal';
 import { getUserOrderList } from '../../axios/orderApi';
 import Divider from '../../assets/Divider';
+import useAuthStore from '../../stores/useAuthStore';
 
 interface UserInfo {
   email: string;
@@ -31,6 +32,12 @@ const Mypage = () => {
   const popup = usePopupStore(state => state.popup);
   const closePopup = usePopupStore(state => state.closePopup);
   const [leave, setLeave] = useState(false);
+
+  const popupShow = () => {
+    if (popup && !leave) return <WarningNotice setLeave={setLeave} />;
+    if (popup && leave) return <MembershipWithdrawal />;
+  };
+
   useEffect(() => {
     const fetchGetLoad = async () => {
       const mypageInfo = await getUserOrderList();
@@ -38,19 +45,9 @@ const Mypage = () => {
     };
     fetchGetLoad();
   }, []);
-  console.log(userInfo);
-  const popupShow = () => {
-    if (popup && !leave) return <WarningNotice setLeave={setLeave} />;
-    if (popup && leave) return <MembershipWithdrawal />;
-  };
   return (
     <div>
-      <Header
-        labels={[
-          { title: '호스트 모드로 전환', link: '/host' },
-          { title: '로그아웃', link: '/user/logout' },
-        ]}
-      />
+      <Header />
       <div className="pt-20 text-center">
         <h1 className="text-3xl font-bold">
           안녕하세요, {userInfo?.login_user.name}

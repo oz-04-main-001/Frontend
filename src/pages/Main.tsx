@@ -27,11 +27,7 @@ const Main: React.FC = () => {
 
   return (
     <div>
-      <Header
-        labels={[{ title: '마이페이지', link: '/mypage' }]}
-        color="white"
-        border={false}
-      />
+      <Header border={false} />
       <div className="mt-16">
         <Search />
       </div>

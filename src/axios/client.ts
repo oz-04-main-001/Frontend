@@ -1,20 +1,21 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import useAuthStore from '../stores/useAuthStore';
 const serverURL = import.meta.env.VITE_SERVER_URL;
-let token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMDM4NjA1LCJpYXQiOjE3MzAwMzE0MDUsImp0aSI6ImIzZjI1NDk3MzcwMjQ1NTBhNmVhZDRkM2YxNWU2MDMxIiwidXNlcl9pZCI6MzN9.T8y5OF_zAmkD90oRIZfaUJ242csNepLJdQHfKVTq3cM';
+
 const client = axios.create({
   baseURL: serverURL,
-  headers: { 'Content-Type': 'application/json' }
+  headers: { 'Content-Type': 'application/json' },
 });
 
 client.interceptors.request.use(
   config => {
-    //const token = localStorage.getItem('auth_token'); // 토큰을 로컬 스토리지에서 가져옴
+    const token = localStorage.getItem('auth_token'); // 토큰을 로컬 스토리지에서 가져옴
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Authorization 헤더에 토큰 추가
-
+      config.headers.Authorization = `Bearer ${token}`;
+      //로그인 로직 완료 시 삭제하기
+      const { setUsertype } = useAuthStore.getState();
+      setUsertype('guest');
     }
     return config;
   },
@@ -43,7 +44,9 @@ client.interceptors.response.use(
 
       try {
         // 리프레시 API 호출
-        const refreshResponse = await client.post('/api/v1/auth/token/refresh/');
+        const refreshResponse = await client.post(
+          '/api/v1/auth/token/refresh/'
+        );
         const newAccessToken = refreshResponse.data.accessToken;
 
         // 새로운 토큰을 로컬 스토리지에 저장

@@ -117,7 +117,7 @@ export default function Orders() {
       </Layout>
       <Divider />
       <Layout>
-        <div className="flex flex-col gap-5">
+        {/* <div className="flex flex-col gap-5">
           <Checkbox id={0} label="전체동의" bold={true} check={false} />
           {checkListData.map(checkbox => (
             <Checkbox
@@ -130,7 +130,7 @@ export default function Orders() {
               checkList={checkList}
             />
           ))}
-        </div>
+        </div> */}
         <div className="my-20">
           <Button
             size={BtnSize.l}

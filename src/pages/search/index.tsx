@@ -46,10 +46,9 @@ export default function index() {
     };
     fetchGetLoad();
   }, []);
-  const headerLabels = [{ title: '마이페이지', link: '/mypage' }];
   return (
     <>
-      <Header labels={headerLabels} />
+      <Header />
       <Search />
       <Filter />
       <Layout2>

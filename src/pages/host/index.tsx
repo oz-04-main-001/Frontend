@@ -3,7 +3,10 @@ import Header, { labels } from '../../assets/Header';
 import Layout from '../../layouts/Layout2';
 
 export default function index() {
-  const headerLabelArr: labels[] = [{ title: '로그인', link: '/user/login' }];
+  const headerLabelArr: labels[] = [
+    { title: '게스트 메인', link: '/' },
+    { title: '새 숙소 등록', link: '/host/SelectType' },
+  ];
   return (
     <Layout>
       <Header labels={headerLabelArr} />;
