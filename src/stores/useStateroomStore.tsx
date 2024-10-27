@@ -5,11 +5,9 @@ interface Image {
 }
 
 export interface StateRoomOption {
-  option: {
-    name: string;
-    category: string;
-    is_custom: boolean;
-  };
+  name: string;
+  category: string;
+  is_custom: boolean;
 }
 interface State {
   stateRoom: {

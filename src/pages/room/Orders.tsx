@@ -27,6 +27,7 @@ const checkListData = [
 ];
 
 export default function Orders() {
+  const navigate = useNavigate();
   const [checkList, setCheckList] = useState<CheckBox[]>([]);
   const { accommodationId, stateroomId } = useParams();
   const { search } = useSearchStore();
@@ -36,31 +37,41 @@ export default function Orders() {
   const checkInDate = useDateDashFormet(search.date.checkIn);
   const checkOutDate = useDateDashFormet(search.date.checkOut);
   const guestsCount = search.personnel.adult;
+  console.log(
+    accommodationId,
+    stateroomId,
+    checkInDate,
+    checkOutDate,
+    guestsCount
+  );
   const fetchGetLoad = async () => {
-    try {
-      await postBooking(
-        Number(accommodationId),
-        Number(stateroomId),
-        checkInDate,
-        checkOutDate,
-        guestsCount
-      );
-    } catch (err) {
-      const axiosError = err as AxiosError;
-      if (axiosError.response) {
-        const statusCode = axiosError.response.status;
-        switch (statusCode) {
-          case 401:
-            // navigate('/user/login');
-            break;
-          default:
-            console.log('요청 에러');
-            break;
+    if (accommodationId && stateroomId) {
+      try {
+        const order = await postBooking(
+          accommodationId,
+          stateroomId,
+          checkInDate,
+          checkOutDate,
+          guestsCount
+        );
+        console.log('예약이 성공적으로 완료되었습니다!', order);
+        await navigate(`/mypage`);
+      } catch (err) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response) {
+          const statusCode = axiosError.response.status;
+          switch (statusCode) {
+            case 401:
+              // navigate('/user/login');
+              break;
+            default:
+              console.log('요청 에러');
+              break;
+          }
         }
       }
     }
   };
-  console.log(stateRoom);
 
   return (
     <>
