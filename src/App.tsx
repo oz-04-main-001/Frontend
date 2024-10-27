@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react'; // useState 추가
 
 import Search from './pages/search';
 import Main from './pages/Main';
 import Accommodations from './pages/room/Accommodations';
 import Stateroom from './pages/room/Stateroom';
 import Orders from './pages/room/Orders';
-import Management from './pages/host/Management';
 import Host from './pages/host';
 import ReservationCompleted from './pages/reservations/ReservationCompleted';
 import CancelPopup from './pages/reservations/CancelPopup';
@@ -21,15 +21,23 @@ import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
 import ReservationCanceled from './pages/reservations/ResevationCanceled';
 import HostDocuments from './pages/host/setAccommodations/HostDocuments';
-import Documents from './pages/host/setAccommodations/components/Documents';
 import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
 import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation';
 import Popup from './components/Popup';
-
+import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
+import HostMain from './pages/host/HostMain';
+import SignOut from './pages/user/SignOut'; // SignOut 컴포넌트 추가
 
 function App() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태를 관리합니다.
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false); // 팝업을 닫는 함수
+    console.log('팝업 닫힘');
+  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -42,37 +50,38 @@ function App() {
             element={<Stateroom />}
           />
         </Route>
-
         <Route path="/mypage" element={<Mypage />} />
+
         {/* 유저관련 */}
         <Route path="/user" element={<User />}>
           <Route path="login" element={<SignIn />} />
           <Route path="join" element={<SignUp />} />
+          <Route path="leaveId" element={<MembershipWithdrawal />} />
+          <Route path="logout" element={<SignOut onClose={handleClosePopup} />} /> 
         </Route>
+        
         {/* 호스트관련 */}
-
         <Route path="/host" element={<Host />}>
-          <Route path="" element={<Management />} />
+          <Route path="" element={<HostMain />} />
           <Route path="SelectType" element={<SelectType />} />
           <Route path="StructureType" element={<StructureType />} />
         </Route>
 
-        <Route path="HostDocuments" element={<HostDocuments />} />   
-        <Route path="OnlyAccommodation" element={<OnlyAccommodation />} />   
+        <Route path="HostDocuments" element={<HostDocuments />} />
+        <Route path="OnlyAccommodation" element={<OnlyAccommodation />} />
         <Route path="OnlyStaterRoom" element={<OnlyStaterRoom />} />
         <Route path="MultiAccommodations" element={<MultiAccommodations />} />
         <Route path="MultiStaterRoom" element={<MultiStaterRoom />} />
         <Route path="EditOnlyRoom" element={<EditOnlyRoom />} />
         <Route path="EditMultiRoom" element={<EditMultiRoom />} />
-        <Route
-          path="EditMultiAccommodations"
-          element={<EditMultiAccommodations />}
-        />
-
+        <Route path="EditMultiAccommodations" element={<EditMultiAccommodations />} />
 
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
-          <Route path="stateroom/order" element={<Orders />} />
+          <Route
+            path="stateroom/order/:accommodationId/:stateroomId"
+            element={<Orders />}
+          />
           <Route path="info/complete" element={<ReservationCompleted />} />
           <Route path="info/canceled" element={<ReservationCanceled />} />
           <Route path="cancelpopup" element={<CancelPopup />} />

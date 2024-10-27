@@ -1,14 +1,22 @@
 import Header from '../../assets/Header';
 import CardMypage from '../../components/cards/CardMypage';
 import { BadgeStatus } from '../../assets/Badges';
+import useAuthStore from '../../stores/useAuthStore';
+import usePopupStore from '../../stores/usePopupStore';
+import WarningNotice from './WarningNotice';
+import { useState } from 'react';
+import MembershipWithdrawal from './MembershipWithdrawal';
 
 const Mypage = () => {
+  const email = useAuthStore.getState().email;
+  const popup = usePopupStore(state => state.popup);
+  const closePopup = usePopupStore(state => state.closePopup);
   const userInfo = {
     name: '오즈님',
     email: 'ozcoding@gmail.com',
     phone: '010 - 1234 - 5678',
   };
-
+  const [leave, setLeave] = useState(false);
   const cards = [
     {
       imageUrl: 'https://example.com/1.jpg',
@@ -39,25 +47,23 @@ const Mypage = () => {
       roomName: '룸 4',
     },
   ];
-
+  const popupShow = () => {
+    if (popup && !leave) return <WarningNotice setLeave={setLeave} />;
+    if (popup && leave) return <MembershipWithdrawal />;
+  };
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header 컴포넌트 */}
+    <div>
       <Header
         labels={[
           { title: '호스트 모드로 전환', link: '/host' },
-          { title: '마이페이지', link: '/mypage' },
+          { title: '로그아웃', link: '/user/logout' },
         ]}
       />
-
-      {/* 사용자 정보 섹션 */}
       <div className="pt-20 text-center">
         <h1 className="text-3xl font-bold">안녕하세요, {userInfo.name}</h1>
         <p className="text-gray-600">이메일: {userInfo.email}</p>
         <p className="text-gray-600">전화번호: {userInfo.phone}</p>
       </div>
-
-      {/* 마이페이지 카드 섹션 */}
       <div className="grid grid-cols-1 gap-6 px-4 mt-8">
         {cards.map((card, index) => (
           <CardMypage
@@ -70,6 +76,15 @@ const Mypage = () => {
           />
         ))}
       </div>
+      <div
+        className="text-center text-gray-400 b1 mt-14"
+        onClick={() => {
+          closePopup();
+        }}
+      >
+        회원탈퇴
+      </div>
+      {popupShow()}
     </div>
   );
 };

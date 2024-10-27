@@ -16,7 +16,7 @@ export function CardMypage({
   roomName, // roomName 추가
 }: CardProps) {
   return (
-    <div className="border border-gray-200 rounded-lg shadow-lg w-[1400px] flex">
+    <div className="flex w-full border border-gray-200 rounded-lg shadow-lg">
       {/* 이미지 섹션 */}
       <div className="w-[150px] h-[150px]">
         <img
