@@ -1,10 +1,9 @@
 import { create } from 'zustand';
 
-
 interface BusinessProfile {
-  name: string;   
-  address: string; 
-  phone: string;   
+  name: string;
+  address: string;
+  phone: string;
 }
 
 interface AuthState {
@@ -19,13 +18,14 @@ interface AuthState {
   clearBusinessProfile: () => void;
 }
 
-const useAuthStore = create<AuthState>((set) => ({
+const useAuthStore = create<AuthState>(set => ({
   email: null,
   usertype: null,
   businessProfile: null,
   setEmail: (email: string) => set({ email }),
   setUsertype: (usertype: string) => set({ usertype }),
-  setBusinessProfile: (profile: BusinessProfile) => set({ businessProfile: profile }),
+  setBusinessProfile: (profile: BusinessProfile) =>
+    set({ businessProfile: profile }),
   clearEmail: () => set({ email: null }),
   clearUsertype: () => set({ usertype: null }),
   clearBusinessProfile: () => set({ businessProfile: null }),

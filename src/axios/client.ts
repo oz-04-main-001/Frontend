@@ -1,39 +1,20 @@
 import axios from 'axios';
 const serverURL = import.meta.env.VITE_SERVER_URL;
-
+let token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMDM4NjA1LCJpYXQiOjE3MzAwMzE0MDUsImp0aSI6ImIzZjI1NDk3MzcwMjQ1NTBhNmVhZDRkM2YxNWU2MDMxIiwidXNlcl9pZCI6MzN9.T8y5OF_zAmkD90oRIZfaUJ242csNepLJdQHfKVTq3cM';
 const client = axios.create({
   baseURL: serverURL,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
 
-// function getCsrfToken() {
-//   const name = 'csrftoken=';
-//   const decodedCookie = decodeURIComponent(document.cookie);
-//   const cookies = decodedCookie.split(';');
-//   for (let i = 0; i < cookies.length; i++) {
-//     let c = cookies[i].trim();
-//     if (c.indexOf(name) === 0) {
-//       return c.substring(name.length, c.length);
-//     }
-//   }
-//   return '';
-// }
-
-// 요청 인터셉터 설정
 client.interceptors.request.use(
-  function (config) {
-    // Authorization 헤더에 토큰 추가
+  config => {
     //const token = localStorage.getItem('auth_token'); // 토큰을 로컬 스토리지에서 가져옴
-    let token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMDIzMzYyLCJpYXQiOjE3MzAwMTQxNzMsImp0aSI6IjlhZTY5M2FmNDM1ZjRhMDI5ZWY5ZDBiMzdlOGI5ODY0IiwidXNlcl9pZCI6MzN9.SpNNTyfbFnJXu3UvHBECwqPTW1teEsqZFMY9smIIjkk';
-    // const csrfToken = getCsrfToken();
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; // Authorization 헤더에 토큰 추가
     }
-    // if (csrfToken) {
-    //   config.headers['X-CSRFTOKEN'] = csrfToken;
-    // }
     return config;
   },
   function (error) {

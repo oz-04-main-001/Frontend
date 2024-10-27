@@ -1,13 +1,11 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 export interface Amenity {
-  amenity: {
-    name: string;
-    category: string;
-    description: string;
-    icon: null;
-    is_custom: boolean;
-  };
+  name: string;
+  category: string;
+  description: string;
+  icon: null;
+  is_custom: boolean;
 }
 interface Accommodation {
   name: string;

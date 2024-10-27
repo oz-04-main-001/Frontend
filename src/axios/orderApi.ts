@@ -1,14 +1,14 @@
 import client from './client';
 
 export const postBooking = async (
-  accommodationId: number,
-  stateRoomId: number,
+  accommodationId: string | number,
+  stateRoomId: string,
   checkInDate: string,
   checkOutDate: string,
   guestsCount: number
 ) => {
   return await client
-    .post(`/api/v1/ui/bookings/request/${accommodationId}/${stateRoomId}`, {
+    .post(`/api/v1/ui/bookings/request/${accommodationId}/${stateRoomId}/`, {
       check_in_date: checkInDate,
       check_out_date: checkOutDate,
       guests_count: guestsCount,
@@ -44,4 +44,8 @@ export const putBookingCancel = async (bookingId: number) => {
     .catch(error => {
       console.log(error);
     });
+};
+
+export const getUserOrderList = async () => {
+  return await client.get('api/v1/ui/mypage/').then(response => response.data);
 };
