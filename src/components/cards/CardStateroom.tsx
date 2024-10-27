@@ -65,14 +65,12 @@ export default function StateroomCard({
               <p className="text-gray-400 b2"> /1박</p>
             </div>
             <div className="flex justify-end w-full text-right">
-              <div
-                onClick={() => {
-                  navigate('/reservation');
-                }}
-              >
+              <div>
                 <Button
                   onClick={() => {
-                    navigate('/reservation/stateroom/order');
+                    navigate(
+                      `/reservation/stateroom/order/${accommodation?.accommodationId}/${id}`
+                    );
                   }}
                   size={BtnSize.m}
                   text="객실예약"

@@ -36,7 +36,6 @@ const badgeStyle: { [key in BadgeStatus]: [string[], string] } = {
 };
 
 export function Badges({ status }: BadgesProps) {
-  console.log('Badge Status:', status);
   const badgeInfo = badgeStyle[status];
   if (!badgeInfo) {
     console.error(`Badge style not found for status: ${status}`);
