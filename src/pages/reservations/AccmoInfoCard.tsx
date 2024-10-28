@@ -2,49 +2,77 @@ import Badges, { BadgeStatus } from '../../assets/Badges';
 import CheckInOut from '../../components/CheckInOut';
 import ReservAccoCard from './ReservAccoCard';
 import Logo from '../../../public/staynest.svg';
-import arrow from '../../assets/icons/arrow3.svg';
-import pin from '../../assets/icons/pin.svg';
+import Arrow from '../../assets/icons/arrow3.svg?react';
+import Pin from '../../assets/icons/pin.svg?react';
+import { useEffect } from 'react';
+import useErrorImage from '../../customHooks/useErrorImage';
 
+interface Bed {
+  total_beds: number;
+  bed_names: string[];
+}
 interface AccmoInfoCardProps {
-  status?: BadgeStatus;
-  label?: string;
+  status: BadgeStatus;
+  image?: string;
   address?: string;
+  accommodationName?: string;
+  stateRoomName: string;
+  guestsCount: number;
+  bed: Bed;
+  checkIn: string;
+  checkOut: string;
 }
 
 export default function AccomoInfoCard({
-  label = '이용완료',
-  address = '강원도 강릉시 강릉구 강릉대로 123길',
-}: AccmoInfoCardProps) {
+  status,
+  address,
+  image = '/staynest.svg',
+  accommodationName,
+  stateRoomName,
+  guestsCount,
+  bed,
+  checkIn,
+  checkOut,
+}: AccmoInfoCardProps): JSX.Element {
+  const handleErrorImage = useErrorImage();
+
   return (
     <div>
-      <div className="flex items-center">
-        <img
-          src={arrow}
-          alt="이전 페이지로 돌아가기"
-          className="w-6 h-9 pb-1"
-        />
-        <span className="text-xl ml-2">예약내역 상세</span>
+      <div className="flex items-center text-gray-800">
+        <Arrow width={24} height={24} />
+        <h5 className="pl-2 mt-1"> 예약내역 상세</h5>
       </div>
-      <div className="mt-11 mb-5">
-        <Badges label={label} status={BadgeStatus.완료} />
+      <div className="mb-5 mt-11">
+        <Badges status={status} />
       </div>
       <div className="flex flex-row items-center">
-        <img
-          src={Logo}
-          alt="숙소 이미지 대체"
-          className="w-32 h-32 bg-gray-100 rounded-sm"
-        />
-        <div className="flex flex-col ml-10 justify-center">
+        <div className="w-1/5 overflow-hidden bg-gray-100 border-2 border-gray-200 rounded-md">
+          <img
+            src={image}
+            alt="숙소 이미지 대체"
+            className="w-full"
+            onError={handleErrorImage}
+          />
+        </div>
+
+        <div className="flex flex-col justify-center ml-10">
           <div className="text-gray-400 text-2xs">
-            <img src={pin} alt="지도 핀 이미지" className="w-3 inline-block" />
+            <Pin width={24} height={24} />
             {address}
           </div>
-          <ReservAccoCard />
+          <ReservAccoCard
+            accommodation={accommodationName}
+            room={stateRoomName}
+            guestsCount={guestsCount}
+            bedType={bed.bed_names}
+            bedCount={bed.total_beds}
+            roomCount={2}
+          />
         </div>
       </div>
       <div className="flex flex-row mt-6">
-        <CheckInOut />
-        <CheckInOut title="체크아웃" date="2025.12.04(수)" time="11:00" />
+        <CheckInOut title="체크인" date={checkIn} />
+        <CheckInOut title="체크아웃" date={checkOut} />
       </div>
     </div>
   );
