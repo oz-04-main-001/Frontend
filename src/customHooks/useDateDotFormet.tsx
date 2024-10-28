@@ -1,5 +1,10 @@
 export default function useDateDotFormet(time: string) {
-  const formattedDate = `${time.slice(0, 4)}.${time.slice(4, 6)}.${time.slice(6)}`;
+  let timeData = time;
+
+  if (time.includes('-')) {
+    timeData = time.replace(/-/g, '');
+  }
+  const formattedDate = `${timeData.slice(0, 4)}.${timeData.slice(4, 6)}.${timeData.slice(6)}`;
 
   return formattedDate;
 }
