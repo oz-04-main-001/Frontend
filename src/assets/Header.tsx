@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Logo from './logo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/useAuthStore';
+import usePopupStore from '../stores/usePopupStore'; 
 
 export interface labels {
   title: string;
   link: string;
 }
+
 interface HeaderProps {
   labels?: labels[];
   color?: string;
   title?: string;
   border?: boolean;
-  onClick?: (link: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -21,15 +22,38 @@ const Header: React.FC<HeaderProps> = ({
   border = true,
 }) => {
   const { usertype } = useAuthStore();
+  const { openPopup } = usePopupStore();
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
-  const userTypeLabelText = (): labels => {
+  const handleLogoutClick = (event: React.MouseEvent) => {
+    event.preventDefault(); // 기본 링크 클릭 이벤트 방지
+    openPopup(); // 팝업 열기
+    navigate('/user/logout'); // 로그아웃 페이지로 이동
+  };
+
+  const renderUserLinks = () => {
     switch (usertype) {
       case 'guest':
-        return { title: '마이페이지', link: '/mypage' };
       case 'host':
-        return { title: '로그아웃', link: '/user/logout' };
+        return (
+          <>
+            <span className="text-gray-600">
+              <Link to="/mypage">마이페이지</Link>
+            </span>
+            <span
+              className="text-gray-600 cursor-pointer"
+              onClick={handleLogoutClick} // 로그아웃 클릭 시 팝업 열기
+            >
+              로그아웃
+            </span>
+          </>
+        );
       default:
-        return { title: '로그인', link: '/user/login' };
+        return (
+          <span className="text-gray-600">
+            <Link to="/user/login">로그인</Link>
+          </span>
+        );
     }
   };
 
@@ -50,9 +74,7 @@ const Header: React.FC<HeaderProps> = ({
             <Link to={label.link}>{label.title}</Link>
           </span>
         ))}
-        <span>
-          <Link to={userTypeLabelText().link}>{userTypeLabelText().title}</Link>
-        </span>
+        {renderUserLinks()}
       </div>
     </header>
   );
