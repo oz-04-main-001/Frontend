@@ -4,7 +4,7 @@ import useErrorImage from '../../customHooks/useErrorImage';
 interface CardProp {
   id: number;
   title: string;
-  price: number;
+  price?: number | string;
   image?: string;
 }
 
@@ -27,7 +27,7 @@ const MainCard: React.FC<CardProp> = ({
     >
       <div className="flex items-center justify-center w-full bg-gray-200 rounded-md aspect-video">
         <img
-          src={image}
+          src={image || '/staynest.svg'}
           alt="숙소 이미지"
           width="80"
           height="80"

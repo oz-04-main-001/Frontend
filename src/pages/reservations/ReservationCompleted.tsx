@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom';
 import { BadgeStatus } from '../../assets/Badges';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import useTimeFormet from '../../customHooks/useTimeFormet';
-import useDateCount from '../../customHooks/useDateCount';
 
 interface OrderInfo {
   id: number | string;
@@ -101,7 +100,7 @@ export default function ReservationCompleted() {
           <PaymentInfo
             title="결제 정보"
             dateCount={dateCount}
-            price={orderInfo ? orderInfo.room.price * dateCount : 0}
+            price={orderInfo?.total_price}
           />
         ) : (
           '결제 정보를 가져오고 있습니다.'

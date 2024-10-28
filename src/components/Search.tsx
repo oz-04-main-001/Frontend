@@ -78,7 +78,7 @@ const Search = () => {
   };
 
   return (
-    <div className="s1 rounded-full h-24 p-4 max-w-[750px] mx-auto flex justify-center items-center border border-gray-300 bg-white">
+    <div className="z-50 s1 rounded-full h-24 p-4 max-w-[750px] mx-auto flex justify-center items-center border border-gray-300 bg-white">
       <Dropdown
         menuItems={destinations}
         title={search.city ? search.city : '여행지 선택'}
@@ -158,7 +158,7 @@ const Search = () => {
                 </button>
               </div>
             </div>
-            <div className="flex items-center justify-between mb-2">
+            {/* <div className="flex items-center justify-between mb-2">
               <p className="mr-2">아동</p>
               <div className="flex content-center justify-between">
                 <button
@@ -176,7 +176,7 @@ const Search = () => {
                   <PlusIcon width="24" height="24" fill="#BDBDBD" />
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         )}
         <span
