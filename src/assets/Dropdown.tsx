@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 interface DropdownProps {
   width?: string;
-  menuItems: string[];
+  menuItems: string[] | undefined[];
   title?: string;
   style?: string | undefined;
   btnStyle?: string | undefined;
   selectedItem?: string | null;
-  setSelectedItem?: (item: string) => void;
-  onClick?: (item: string) => void;
+  setSelectedItem?: (item: string | undefined) => void;
+  onClick?: (item: string | undefined) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -21,21 +21,19 @@ const Dropdown: React.FC<DropdownProps> = ({
   setSelectedItem = () => {},
   onClick = () => {},
 }) => {
-  // const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleItemClick = (item: string) => {
+  const handleItemClick = (item: string | undefined) => {
     onClick(item);
     setSelectedItem(item);
     setIsOpen(false);
   };
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(prev => !prev);
   };
 
   return (
-
     <div className="relative inline-block text-left z-50" style={{ width }}>
       <button
         onClick={toggleDropdown}

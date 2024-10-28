@@ -1,7 +1,8 @@
-import { MouseEventHandler, useState } from 'react';
+import { useState } from 'react';
 import Button, { BtnType } from '../../../assets/buttons/Button';
 import close from '../../../assets/icons/icon.svg';
 import AccommodationAPI from '../managementAPI/AccommodationAPI';
+import logo from '/staynest.svg';
 
 interface AccommodationProp {
   handleDeleteClick: (id: number) => void;
@@ -49,7 +50,7 @@ export default function HostAccommoList({
             ) : (
               <div>
                 <img
-                  src="http://www.w3.org/2000/svg"
+                  src={logo}
                   alt="숙소 이미지 대체"
                   className="w-full h-28 bg-gray-100 rounded-md"
                 />

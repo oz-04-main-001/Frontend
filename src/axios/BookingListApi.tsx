@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import client from '../axios/client';
 import useSelectedDateStore from '../stores/useSelectedDateStore';
+import axios, { AxiosError } from 'axios';
 
 interface Booking {
   id: number;
@@ -30,9 +31,16 @@ const BookingListApi = () => {
         );
         setData(response.data);
         console.log('API Response:', response);
+        console.log('data', data);
       } catch (error) {
-        console.error(error);
-        setError('데이터를 가져오는 데 실패했습니다.');
+        if (axios.isAxiosError(error) && error.response) {
+          const errorMessage = error.response.data.errors;
+          console.error('Error message:', errorMessage);
+          setError(errorMessage);
+        } else {
+          console.error('Unexpected error:', error);
+          setError('Unexpected error occurred');
+        }
       } finally {
         setLoading(false);
       }
@@ -42,7 +50,7 @@ const BookingListApi = () => {
       fetchData();
     }
   }, [selectedDate]);
-  return { data, loading, error };
+  return { data, error, loading };
 };
 
 export default BookingListApi;

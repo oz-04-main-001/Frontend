@@ -21,22 +21,25 @@ export default function Management({
 }: ButtonLogicProp) {
   const [tap, setTap] = useState(0);
   const taps = ['이용 요청', '예약 확정'];
-  const AccommodationsArr = ['a', 'b'];
-  const room = ['a', 'b'];
   const [selectedAccommodation, setSelectedAccommodation] = useState<
     string | null
   >(null);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const { selectedDate } = useSelectedDateStore();
 
-  const { data } = BookingListApi();
-  console.log(data);
+  const { data, error } = BookingListApi();
+
+  const accommodationArr = data?.map(acco => acco.accommodation_name) || [
+    undefined,
+  ];
+  const room = ['a', 'b'];
+
   return (
     <>
       <div className="sticky col-span-5 p-5 bg-gray-100 rounded-md top-7 ">
         <div className="relative mb-3">
           <h6 className="text-center">예약관리</h6>
-          <p className="absolute right-1 text-gray-800 top-1 s2">
+          <p className="absolute right-1 text-gray-800 top-1 text-sm">
             {selectedDate}
           </p>
         </div>
@@ -45,10 +48,10 @@ export default function Management({
           <div className="flex justify-end mt-3 mr-3">
             <Dropdown
               width="90px"
-              menuItems={AccommodationsArr}
-              title={'숙소 🔽'}
+              menuItems={accommodationArr}
+              title={'숙소 선택 🔽'}
               selectedItem={selectedAccommodation}
-              setSelectedItem={setSelectedAccommodation}
+              setSelectedItem={() => setSelectedAccommodation}
               btnStyle="text-sm pt-1 text-left font-medium"
             />
             <Dropdown
@@ -56,7 +59,7 @@ export default function Management({
               menuItems={room}
               title={'객실유형 🔽'}
               selectedItem={selectedRoom}
-              setSelectedItem={setSelectedRoom}
+              setSelectedItem={() => setSelectedRoom}
               btnStyle="text-sm pt-1 text-left font-medium"
             />
           </div>
