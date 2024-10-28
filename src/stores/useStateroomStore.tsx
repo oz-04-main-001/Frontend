@@ -18,7 +18,7 @@ interface State {
       capacity: number | null;
       max_capacity: number | null;
       description: string;
-      price: number | string;
+      price: string;
       check_in_time: string;
       check_out_time: string;
       bed_info: {

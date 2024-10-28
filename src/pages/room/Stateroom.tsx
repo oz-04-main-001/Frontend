@@ -15,13 +15,13 @@ import useDateCount from '../../customHooks/useDateCount';
 import Header from '../../assets/Header';
 import useTimeFormet from '../../customHooks/useTimeFormet';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
+import usePriceFormet from '../../customHooks/usePriceFormet';
 
 export default function Stateroom() {
   const navigate = useNavigate();
   const { accommodationId, stateroomId } = useParams();
   const { search } = useSearchStore();
   const { stateRoom, actions } = useStateroomStore();
-  const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
   useEffect(() => {
     const fetchGetLoad = async () => {
       try {
@@ -47,6 +47,12 @@ export default function Stateroom() {
     };
     fetchGetLoad();
   }, []);
+  const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
+  const priceFormet = usePriceFormet(
+    stateRoom.room.price,
+    search.date.checkIn,
+    search.date.checkOut
+  );
   return (
     <>
       <Header />
@@ -84,7 +90,7 @@ export default function Stateroom() {
               </p>
             </div>
             <div className="mt-6 text-right text-gray-800 s1">
-              {Number(stateRoom.room.price) * Number(dateCount)}원
+              {priceFormet}원
               <span className="text-gray-400 b2">/{dateCount}박</span>
             </div>
           </div>
@@ -101,7 +107,7 @@ export default function Stateroom() {
             {search.date.checkIn} ~ {search.date.checkOut}
           </p>
           <h4>
-            {Number(stateRoom.room.price) * Number(dateCount)}
+            {priceFormet}
             <span className="text-gray-400 b1">/{dateCount}박</span>
           </h4>
         </div>
@@ -109,7 +115,7 @@ export default function Stateroom() {
           <Button
             size={BtnSize.l}
             text="예약하기"
-            type={stateRoom.stay_type ? BtnType.normal : BtnType.disabled}
+            type={BtnType.normal}
             onClick={() => {
               navigate(
                 `/reservation/stateroom/order/${accommodationId}/${stateroomId}`

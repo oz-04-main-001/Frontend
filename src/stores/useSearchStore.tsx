@@ -31,7 +31,7 @@ const tomorrowDate = `${year}${month}${date + 1} ${getDayOfWeek(day + 1)}`;
 
 interface State {
   search: {
-    city: string | null;
+    city: string;
     date: {
       checkIn: string;
       checkOut: string;
@@ -59,7 +59,7 @@ interface Actions {
 }
 const initialState: State = {
   search: {
-    city: null,
+    city: '서울특별시',
     date: {
       checkIn: todayDate,
       checkOut: tomorrowDate,

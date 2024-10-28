@@ -6,6 +6,7 @@ import Arrow from '../../assets/icons/arrow3.svg?react';
 import Pin from '../../assets/icons/pin.svg?react';
 import { useEffect } from 'react';
 import useErrorImage from '../../customHooks/useErrorImage';
+import { useNavigate } from 'react-router-dom';
 
 interface Bed {
   total_beds: number;
@@ -35,11 +36,18 @@ export default function AccomoInfoCard({
   checkOut,
 }: AccmoInfoCardProps): JSX.Element {
   const handleErrorImage = useErrorImage();
-
+  const navigate = useNavigate();
   return (
     <div>
       <div className="flex items-center text-gray-800">
-        <Arrow width={24} height={24} />
+        <div
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <Arrow width={24} height={24} />
+        </div>
+
         <h5 className="pl-2 mt-1"> 예약내역 상세</h5>
       </div>
       <div className="mb-5 mt-11">

@@ -14,6 +14,7 @@ import { AxiosError } from 'axios';
 import useTimeFormet from '../../customHooks/useTimeFormet';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import useDateDashFormet from '../../customHooks/useDateDashFormet';
+import usePriceFormet from '../../customHooks/usePriceFormet';
 
 const checkListData = [
   {
@@ -65,7 +66,11 @@ export default function Orders() {
       }
     }
   };
-
+  const priceFormet = usePriceFormet(
+    stateRoom.room.price,
+    search.date.checkIn,
+    search.date.checkOut
+  );
   return (
     <>
       <Layout>
@@ -98,7 +103,7 @@ export default function Orders() {
           </p>
         </div>
         <div className="mt-6 text-right text-gray-800 s1">
-          {Number(stateRoom.room.price) * Number(dateCount)}원
+          {priceFormet}원
           <span className="text-gray-400 b2">/{dateCount}박</span>
         </div>
       </Layout>
@@ -125,7 +130,7 @@ export default function Orders() {
         <div className="my-20">
           <Button
             size={BtnSize.l}
-            text={`${Number(stateRoom.room.price) * Number(dateCount)}원 결제하기`}
+            text={`${priceFormet}원 결제하기`}
             type={agree ? BtnType.normal : BtnType.disabled}
             onClick={fetchGetLoad}
           />
