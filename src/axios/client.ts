@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/useAuthStore';
+import { useNavigate } from 'react-router-dom';
+
 const serverURL = import.meta.env.VITE_SERVER_URL;
 
 const client = axios.create({
@@ -10,12 +11,12 @@ const client = axios.create({
 
 client.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('auth_token'); // 토큰을 로컬 스토리지에서 가져옴
+    const userType = useAuthStore.getState().usertype; // Zustand에서 사용자 유형 가져오기
+    const tokenKey = userType === 'guest' ? 'guest_token' : 'host_token'; // 사용자 유형에 따른 키 설정
+    const token = localStorage.getItem(tokenKey); // 해당 키로 로컬 스토리지에서 토큰 가져오기
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      //로그인 로직 완료 시 삭제하기
-      const { setUsertype } = useAuthStore.getState();
-      setUsertype('guest');
     }
     return config;
   },
@@ -27,11 +28,18 @@ client.interceptors.request.use(
 // 응답 인터셉터 설정
 client.interceptors.response.use(
   function (response) {
-    // 서버 응답에서 accessToken 추출하여 저장
     const accessToken = response.data.accessToken;
+    const userType = response.data.userType; // 응답에 userType이 포함되어 있다고 가정
+
     if (accessToken) {
-      console.log('Access token received:', accessToken); // 토큰 수신 확인 로그
-      localStorage.setItem('auth_token', accessToken); // 로컬 스토리지에 저장
+      console.log('Access token received:', accessToken);
+      const tokenKey = userType === 'guest' ? 'guest_token' : 'host_token';
+      localStorage.setItem(tokenKey, accessToken); // 사용자 유형에 따라 다르게 저장
+
+      const { setUsertype } = useAuthStore.getState();
+      if (userType) {
+        setUsertype(userType); // 'guest' 또는 'host'로 설정
+      }
     }
     return response;
   },
@@ -44,13 +52,13 @@ client.interceptors.response.use(
 
       try {
         // 리프레시 API 호출
-        const refreshResponse = await client.post(
-          '/api/v1/auth/token/refresh/'
-        );
+        const refreshResponse = await client.post('/api/v1/auth/token/refresh/');
         const newAccessToken = refreshResponse.data.accessToken;
 
-        // 새로운 토큰을 로컬 스토리지에 저장
-        localStorage.setItem('auth_token', newAccessToken);
+        // 사용자 유형 재확인
+        const userType = refreshResponse.data.userType;
+        const tokenKey = userType === 'guest' ? 'guest_token' : 'host_token';
+        localStorage.setItem(tokenKey, newAccessToken); // 새로운 토큰 저장
 
         // 원래 요청에 새로운 토큰 추가
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
@@ -58,10 +66,10 @@ client.interceptors.response.use(
         // 원래 요청 다시 시도
         return client(originalRequest);
       } catch (refreshError) {
-        // 리프레시 토큰이 만료된 경우
         console.error('Refresh token expired:', refreshError);
         // 로그인 페이지로 리다이렉트
-        useNavigate()('/login');
+        const navigate = useNavigate(); // 컴포넌트 내에서 호출
+        navigate('/login');
       }
     }
     return Promise.reject(error);

@@ -1,5 +1,3 @@
-//전화번호에 - 포함하기
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '../../assets/Input';
@@ -64,7 +62,7 @@ const SignUp: React.FC = () => {
     setConfirmPassword(e.target.value);
     setConfirmPasswordError('');
   };
-
+  
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -97,6 +95,7 @@ const SignUp: React.FC = () => {
     setAgreement(e.target.checked);
   };
 
+    // handleSubmit 함수 내에서 필수 필드 체크
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -117,26 +116,10 @@ const SignUp: React.FC = () => {
     }
 
     // 필수 필드 체크
-    if (!email || !password || !firstName || !lastName || !birthdate || !selectedGender || !phoneFirst || !phoneMiddle || !phoneLast) {
+    if (!email || !password || !firstName || !confirmPassword || !lastName || !birthdate || !selectedGender || !phoneFirst || !phoneMiddle || !phoneLast) {
       setRegisterError('모든 필드를 올바르게 입력해 주세요.');
       return;
     }
-
-    // 필수 필드 체크
-  if (
-    !email ||
-    !password ||
-    !firstName ||
-    !lastName ||
-    !birthdate ||
-    !selectedGender ||
-    !phoneFirst ||
-    !phoneMiddle ||
-    !phoneLast
-  ) {
-    setRegisterError('모든 필드를 올바르게 입력해 주세요.');
-    return;
-  }
 
     // 전화번호 형식 조합
     const phoneNumber = `${phoneFirst}-${phoneMiddle}-${phoneLast}`;
@@ -146,6 +129,7 @@ const SignUp: React.FC = () => {
       first_name: firstName,
       last_name: lastName,
       password,
+      password2: confirmPassword, 
       birth_date: birthdate,
       gender: selectedGender,
       phone_number: phoneNumber // 조합된 전화번호 사용
@@ -156,12 +140,13 @@ const SignUp: React.FC = () => {
     try {
       const response = await getUserRegister(registerData);
       console.log('회원가입 성공:', response);
-      navigate('/login'); // 로그인 페이지로 리다이렉트
+      navigate('/'); // 로그인 페이지로 리다이렉트
     } catch (error: any) {
       console.error('회원가입 중 오류 발생:', error.response.data);
       setRegisterError(error.response?.data?.message || '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.');
     }
   };
+
 
   return (
     <div className="container mx-auto px-6 py-12 max-w-[500px] bg-gray-50 rounded-md shadow-lg">

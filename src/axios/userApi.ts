@@ -12,13 +12,16 @@ export const getUserLogin = async (LoginData: {
     // 서버에서 받은 응답에서 access_token 및 user_type 추출
     const { access_token, user_type } = response.data;
 
-    // access_token을 로컬 스토리지에 저장
+    // access_token을 사용자 유형에 따라 로컬 스토리지에 저장
     if (access_token) {
       console.log('Access token received:', access_token);
-      localStorage.setItem('auth_token', access_token);
+      
+      // 사용자 유형에 따른 키 설정
+      const tokenKey = user_type === 'guest' ? 'guest_token' : 'host_token';
+      localStorage.setItem(tokenKey, access_token);
 
       // 저장 후 확인
-      console.log('Stored access token:', localStorage.getItem('auth_token'));
+      console.log('Stored access token:', localStorage.getItem(tokenKey));
     }
 
     // 이메일, usertype, 비즈니스 프로필 추출
@@ -44,7 +47,8 @@ export const getUserRegister = async (userData: {
   email: string; 
   first_name: string; 
   last_name: string; 
-  password: string; 
+  password: string;
+  password2: string; 
   birth_date: string; 
   gender: string; 
   phone_number: string 
