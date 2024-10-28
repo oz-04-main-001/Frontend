@@ -8,10 +8,9 @@ import CheckInOut from '../../components/CheckInOut';
 import { useSearchStore } from '../../stores/useSearchStore';
 import { useStateroomStore } from '../../stores/useStateroomStore';
 import useDateCount from '../../customHooks/useDateCount';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { postBooking } from '../../axios/orderApi';
 import { AxiosError } from 'axios';
-import useAuthStore from '../../stores/useAuthStore';
 import useTimeFormet from '../../customHooks/useTimeFormet';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import useDateDashFormet from '../../customHooks/useDateDashFormet';
@@ -37,13 +36,7 @@ export default function Orders() {
   const checkInDate = useDateDashFormet(search.date.checkIn);
   const checkOutDate = useDateDashFormet(search.date.checkOut);
   const guestsCount = search.personnel.adult;
-  console.log(
-    accommodationId,
-    stateroomId,
-    checkInDate,
-    checkOutDate,
-    guestsCount
-  );
+
   const fetchGetLoad = async () => {
     if (accommodationId && stateroomId) {
       try {
@@ -87,13 +80,11 @@ export default function Orders() {
           <div className="flex mt-8">
             <CheckInOut
               title="체크인"
-              date={useDateDotFormet(search.date.checkIn)}
-              time={useTimeFormet(stateRoom.room.check_in_time)}
+              date={`${useDateDotFormet(search.date.checkIn)} ${useTimeFormet(stateRoom.room.check_in_time)}`}
             />
             <CheckInOut
               title="체크아웃"
-              date={useDateDotFormet(search.date.checkOut)}
-              time={useTimeFormet(stateRoom.room.check_out_time)}
+              date={`${useDateDotFormet(search.date.checkOut)} ${useTimeFormet(stateRoom.room.check_out_time)}`}
             />
           </div>
           <p className="mt-6 b2">

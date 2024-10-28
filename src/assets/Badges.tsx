@@ -12,7 +12,7 @@ export enum BadgeStatus {
   completed = 'completed',
 }
 interface BadgesProps {
-  status: BadgeStatus;
+  status?: BadgeStatus;
 }
 
 const badgeStyle: { [key in BadgeStatus]: [string[], string] } = {
@@ -36,12 +36,20 @@ const badgeStyle: { [key in BadgeStatus]: [string[], string] } = {
 };
 
 export function Badges({ status }: BadgesProps) {
-  const badgeInfo = badgeStyle[status];
-  if (!badgeInfo) {
+  const badgeInfo = () => {
+    if (status) {
+      return badgeStyle[status];
+    }
+    return null;
+  };
+
+  const badgeData = badgeInfo();
+  if (!badgeData) {
     console.error(`Badge style not found for status: ${status}`);
     return null;
   }
-  const [badgeClass, label] = badgeInfo;
+
+  const [badgeClass, label] = badgeData;
   return (
     <div
       className={`${badgeClass.join(' ')} px-2 py-1 inline-block text-center rounded-md text-base font-regular`}

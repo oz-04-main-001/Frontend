@@ -62,6 +62,7 @@ const Mypage = () => {
           return (
             <CardMypage
               key={card?.id}
+              id={card?.id}
               imageUrl={card?.accommodation_img}
               badgeStatus={card?.status}
               accommodationName={card.accommodation_name}

@@ -1,26 +1,20 @@
 interface PaymentInfoProps {
   title?: string;
-  text?: string;
-  won?: string | number;
-  divStyle?: string;
-  pStyle1?: string;
-  pStyle2?: string;
+  dateCount?: number;
+  price?: string | number;
 }
 
 export default function PaymentInfo({
-  title = '결제 정보',
-  text = '객실 가격(2박)',
-  divStyle = 'flex flex-col w-1vz',
-  won = '34,000원',
-  pStyle1 = 'text-gray-500 text-medium',
-  pStyle2 = 'text-xl',
+  title,
+  dateCount,
+  price,
 }: PaymentInfoProps) {
   return (
-    <div className={divStyle}>
+    <div className="flex flex-col w-1vz">
       <h6 className="mb-4 text-gray-500">{title}</h6>
-      <div className="flex flex-row justify-between items-center mr-44">
-        <p className={pStyle1}>{text}</p>
-        <p className={pStyle2}>{won}</p>
+      <div className="flex flex-row items-center justify-between mr-44">
+        <p className="text-gray-500 text-medium">객실 가격{dateCount}박</p>
+        <p className="text-xl">{price}원</p>
       </div>
     </div>
   );
