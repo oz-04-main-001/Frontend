@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import MembershipWithdrawal from './MembershipWithdrawal';
 import { getUserOrderList } from '../../axios/orderApi';
 import Divider from '../../assets/Divider';
-import useAuthStore from '../../stores/useAuthStore';
 
 interface UserInfo {
   email: string;
