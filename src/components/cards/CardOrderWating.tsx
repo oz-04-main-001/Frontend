@@ -1,6 +1,20 @@
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import BookingListApi from '../../axios/BookingListApi';
 
+interface Booking {
+  id: number;
+  guest: number;
+  room: number;
+  check_in_datetime: string;
+  check_out_datetime: string;
+  total_price: number;
+  status: string;
+  request: string;
+  guests_count: number;
+  guest_name: string;
+  accommodation_name: string;
+  room_name: string;
+}
 interface Prop {
   accommodations?: string;
   room?: string;
@@ -8,8 +22,11 @@ interface Prop {
   checkOut?: string;
   user?: string;
   phoneNumber?: string;
+  pendingBooking?: Booking[];
   onClose1: () => void;
   onClose2: () => void;
+  selectedAccommodation: string | null;
+  selectedRoom: string | null;
 }
 
 export default function CardOrderWating({
@@ -21,19 +38,30 @@ export default function CardOrderWating({
   phoneNumber = '01012345678',
   onClose1,
   onClose2,
+  pendingBooking,
+  selectedAccommodation,
+  selectedRoom,
 }: Prop) {
-  const { data } = BookingListApi();
-  const pendingReservation = data?.filter(
-    reservation => reservation.status === 'pending'
+  const filteredBookings = pendingBooking?.filter(
+    booking =>
+      (selectedAccommodation
+        ? booking.accommodation_name === selectedAccommodation
+        : true) && (selectedRoom ? booking.room_name === selectedRoom : true)
   );
-  console.log(pendingReservation);
+  console.log('filteredBookings', filteredBookings);
+
   return (
     <>
-      {pendingReservation?.map(pend => (
-        <div className="overflow-y-auto max-h-72 flex-row p-4 mx-3 my-4 bg-white border-2 border-gray-100 border-solid rounded-md">
+      {filteredBookings?.map(pend => (
+        <div
+          key={pend.id}
+          className="flex-row p-4 mx-3 my-4 bg-white border-2 border-gray-100 border-solid rounded-md"
+        >
           <div className="flex justify-between flex-col">
             <div>
-              <p className="s1 inline-block mr-3">{pend.accommodation_name}</p>
+              <p key={pend.id} className="s1 inline-block mr-3">
+                {pend.accommodation_name}
+              </p>
               <p className="s2">
                 {pend.check_in_datetime.split('T')[0]} ~
                 {pend.check_out_datetime.split('T')[0]}

@@ -1,6 +1,21 @@
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import BookingListApi from '../../axios/BookingListApi';
 
+interface Booking {
+  id: number;
+  guest: number;
+  room: number;
+  check_in_datetime: string;
+  check_out_datetime: string;
+  total_price: number;
+  status: string;
+  request: string;
+  guests_count: number;
+  guest_name: string;
+  accommodation_name: string;
+  room_name: string;
+}
+
 interface Prop {
   accommodations?: string;
   stateroom?: string;
@@ -9,6 +24,9 @@ interface Prop {
   user?: string;
   phoneNumber?: string;
   onClose3: () => void;
+  selectedAccommodation: string | null;
+  selectedRoom: string | null;
+  confirmedBooking: Booking[] | undefined;
 }
 
 export default function CardOrderFix({
@@ -18,16 +36,26 @@ export default function CardOrderFix({
   checkOut = '2024.10.15',
   user = '한기선',
   phoneNumber = '01012345678',
+  selectedRoom,
+  selectedAccommodation,
+  confirmedBooking,
   onClose3,
 }: Prop) {
   const { data } = BookingListApi();
-  const confirmedReservation = data?.filter(
-    reservation => reservation.status === 'confirmed'
+
+  const filteredBookings = confirmedBooking?.filter(
+    booking =>
+      (selectedAccommodation
+        ? booking.accommodation_name === selectedAccommodation
+        : true) && (selectedRoom ? booking.room_name === selectedRoom : true)
   );
   return (
     <>
-      {confirmedReservation?.map(confirm => (
-        <div className="flex-row p-5 mx-3 my-4 bg-white border-2 border-gray-100 border-solid rounded-md">
+      {filteredBookings?.map(confirm => (
+        <div
+          key={confirm.id}
+          className="flex-row p-5 mx-3 my-4 bg-white border-2 border-gray-100 border-solid rounded-md"
+        >
           <div className="flex justify-between flex-col">
             <div>
               <p className="s1 inline-block mr-3">

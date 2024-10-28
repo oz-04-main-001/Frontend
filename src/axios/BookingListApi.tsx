@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import client from '../axios/client';
 import useSelectedDateStore from '../stores/useSelectedDateStore';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
+import useManagementFilterStore from '../stores/useManagementFilterStore';
 
 interface Booking {
   id: number;
@@ -23,6 +24,7 @@ const BookingListApi = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const selectedDate = useSelectedDateStore(state => state.selectedDate);
+  const { filteredData, setFilteredData } = useManagementFilterStore();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,8 +32,6 @@ const BookingListApi = () => {
           `api/v1/host/bookingcheck/?date=${selectedDate}`
         );
         setData(response.data);
-        console.log('API Response:', response);
-        console.log('data', data);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
           const errorMessage = error.response.data.errors;
@@ -45,10 +45,9 @@ const BookingListApi = () => {
         setLoading(false);
       }
     };
-
-    if (selectedDate) {
-      fetchData();
-    }
+    fetchData(); 
+    console.log(selectedDate);
+    console.log('data', data);
   }, [selectedDate]);
   return { data, error, loading };
 };

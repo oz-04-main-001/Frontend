@@ -69,7 +69,7 @@ const HostCalendar = () => {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500 }}
+        style={{ height: 520 }}
         defaultView="month"
         views={['month']}
         components={{

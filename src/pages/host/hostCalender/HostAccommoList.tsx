@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button, { BtnType } from '../../../assets/buttons/Button';
 import close from '../../../assets/icons/icon.svg';
-import AccommodationAPI from '../managementAPI/AccommodationAPI';
+import HostAccommodationAPI from '../../../axios/HostAccommodationAPI';
 import logo from '/staynest.svg';
 
 interface AccommodationProp {
@@ -13,7 +13,7 @@ export default function HostAccommoList({
   const [isShow, setIsShow] = useState(false);
   // const [isDeleted, setIsDeleted] = useState(false);
   // const [deletePopup, setDeletePopup] = useState(false);
-  const { data } = AccommodationAPI();
+  const { accommoData } = HostAccommodationAPI();
 
   function onClickCloseBtn() {
     setIsShow(prev => !prev);
@@ -31,8 +31,8 @@ export default function HostAccommoList({
           숙소 삭제
         </button>
       </div>
-      <div className="flex flex-row flex-wrap justify-around gap-4 max-w-2xl">
-        {data.map(acco => (
+      <div className="flex flex-row flex-wrap justify-between">
+        {accommoData?.map(acco => (
           <div
             key={acco.id}
             className="relative w-64 h-auto p-2 bg-white shadow-md flex flex-col justify-between"
@@ -43,9 +43,9 @@ export default function HostAccommoList({
               alt="숙소 삭제 버튼"
               className={`relative left-56 bottom-1 w-5 h-5 transition duration-100 hover:scale-105 focus:opacity-85 ${isShow ? '' : 'hidden'}`}
             />
-            {acco.images[0] ? (
+            {acco.image ? (
               <div className="w-full h-28 bg-gray-100 rounded-md">
-                <img src={acco.images[0]} alt="숙소 이미지" />
+                <img src={acco.image} alt="숙소 이미지" />
               </div>
             ) : (
               <div>
@@ -58,8 +58,7 @@ export default function HostAccommoList({
             )}
             <h3 className="text-base">{acco.name}</h3>
             <p className="text-xs flex flex-wrap">
-              {acco.gps_info.city} {acco.gps_info.states}
-              {acco.gps_info.road_name}
+              <span>{acco.address}</span>
             </p>
             <Button text="수정" type={BtnType.line} />
           </div>
