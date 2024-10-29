@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '../../layouts/Layout2';
 import Popup from '../../components/Popup';
 import HostCalendar from './hostCalender/HostCalendar';
 import HostAccommoList from './hostCalender/HostAccommoList';
 import usePopupStore from '../../stores/usePopupStore';
 import Management from './Management';
-import AccommodationAPI from './managementAPI/AccommodationAPI';
+import HostAccommodationAPI from '../../axios/HostAccommodationAPI';
+import client from '../../axios/client';
+import useHostAccommoDeleteStore from '../../stores/useHostAccommoDelete';
 
 export default function HostMain() {
   const popup = usePopupStore(state => state.popup);
@@ -13,8 +15,8 @@ export default function HostMain() {
   const openPopup = usePopupStore(state => state.openPopup);
   const [popupType, setPopupType] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const { data } = AccommodationAPI();
-
+  const { accommoData, setAccommoData } = HostAccommodationAPI();
+  const { isAccommoDeleted, setIsAccommoDeleted } = useHostAccommoDeleteStore();
 
   // 예약 취소 버튼
   const handleCancelClick = () => {
@@ -27,12 +29,31 @@ export default function HostMain() {
     setPopupType('confirm');
     openPopup();
   };
-
-  const handleDeleteClick = (id: number) => {
+  const handleDeletePopupClick = (id: number | null) => {
     setSelectedId(id);
     setPopupType('delete');
     openPopup();
   };
+
+  const handleDeleteData = async (id: number | null) => {
+    try {
+      setIsAccommoDeleted(true);
+      const response = await client.delete(`/api/v1/accommodations/${id}/`);
+      setAccommoData(response.data);
+      console.log('accommoData', accommoData);
+    } catch (error) {
+      console.error('deleteArror', error);
+    } finally {
+      setSelectedId(null);
+      setIsAccommoDeleted(false);
+      closePopup();
+    }
+  };
+  useEffect(() => {
+    if (selectedId !== null) {
+      handleDeleteData(selectedId);
+    }
+  }, [isAccommoDeleted]);
 
   return (
     <>
@@ -57,29 +78,38 @@ export default function HostMain() {
             subTitleClass="hidden"
           />
         )}
-
-
         {popupType === 'delete' && popup && (
           <Popup
-            title={`${data.find(acco => acco.id === selectedId)?.name}을(를) 삭제하시겠습니까?`}
+            title={`${Array.isArray(accommoData) ? accommoData.find(acco => acco.id === selectedId)?.name : ''}을(를) 삭제하시겠습니까?`}
             buttonText={{ text1: '아니오', text2: '숙소 삭제' }}
             subTitleClass="hidden"
+            onClickLogic2={() => {
+              if (selectedId !== null) {
+                handleDeleteData(selectedId);
+              }
+            }}
           />
         )}
 
+        <div className="w-full">
+          <div className="flex flex-row flex-wrap flex-1 gap-10">
+            {/* 캘린더 영역 */}
+            <div className="w-full lg:w-7/12">
+              <HostCalendar />
+              {/* 숙소 목록은 캘린더 아래에 위치 */}
+              <HostAccommoList
+                handleDeletePopupClick={handleDeletePopupClick}
+              />
+            </div>
 
-        <div className="grid grid-cols-12 gap-4 w-full">
-          <div className="col-span-7">
-            <HostCalendar />
-          </div>
-          <Management
-            date={'2024-10-25'}
-            handleCancelClick={handleCancelClick}
-            handleConfirmClick={handleConfirmClick}
-          />
-          <div className="col-span-7">
-
-            <HostAccommoList handleDeleteClick={handleDeleteClick} />
+            {/* 사이드바 영역 */}
+            <div className="flex-1 lg:w-5/12 sticky top-0">
+              <Management
+                date={'2024-10-25'}
+                handleCancelClick={handleCancelClick}
+                handleConfirmClick={handleConfirmClick}
+              />
+            </div>
           </div>
         </div>
       </Layout>

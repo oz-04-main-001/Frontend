@@ -17,7 +17,7 @@ const localizer = momentLocalizer(moment);
 // 더미 데이터 생성 함수
 const generateDummyData = (): Record<string, number> => {
   const startDate = new Date(2024, 9, 1);
-  const endDate = new Date(2024, 9, 31);
+  const endDate = new Date(2024, 10, 31);
   const reservationCounts: Record<string, number> = {};
 
   for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
@@ -69,7 +69,7 @@ const HostCalendar = () => {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500 }}
+        style={{ height: 520 }}
         defaultView="month"
         views={['month']}
         components={{
