@@ -36,24 +36,19 @@ export default function Management({
   const confirmedBooking = data?.filter(
     reservation => reservation.status === 'confirmed'
   );
-  const filteredPending = pendingBooking?.filter(pend =>
-    accommoData?.filter(acco => acco.name === pend.accommodation_name)
-  );
-  const nameFilteredPending = filteredPending?.map(item => {
-    return item.accommodation_name;
-  });
-
-  const roomFilteredPending = filteredPending?.map(item => {
+  const uniqueNameFilteredPending = [
+    ...new Set(pendingBooking?.map(item => item.accommodation_name)),
+  ];
+  const roomFilteredPending = pendingBooking?.map(item => {
     return item.room_name;
   });
   //
   const filteredConcirmed = confirmedBooking?.filter(confirm =>
     accommoData?.filter(acco => acco.name === confirm.accommodation_name)
   );
-  const nameFilteredConcirmed = filteredConcirmed?.map(item => {
-    return item.accommodation_name;
-  });
-
+  const uniqueNameFilteredConcirmed = [
+    ...new Set(filteredConcirmed?.map(item => item.accommodation_name)),
+  ];
   const roomFilteredConcirmed = filteredConcirmed?.map(item => {
     return item.room_name;
   });
@@ -71,12 +66,12 @@ export default function Management({
           <SegmentMenu taps={taps} active={tap} setActive={setTap} />
           <div className="flex justify-end mt-3 mr-3">
             <Dropdown
-              width="90px"
+              width="100px"
               tap={tap}
               menuItems={
                 tap === taps.indexOf('이용 요청')
-                  ? nameFilteredPending
-                  : nameFilteredConcirmed
+                  ? uniqueNameFilteredPending
+                  : uniqueNameFilteredConcirmed
               }
               title={'숙소 선택 🔽'}
               selectedItem={selectedAccommodation}
@@ -93,7 +88,7 @@ export default function Management({
               }
               title={'객실유형 🔽'}
               selectedItem={selectedRoom}
-              setSelectedItem={() => setSelectedRoom}
+              setSelectedItem={setSelectedRoom}
               btnStyle="text-sm pt-1 text-left font-medium"
             />
           </div>

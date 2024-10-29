@@ -24,7 +24,7 @@ const BookingListApi = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const selectedDate = useSelectedDateStore(state => state.selectedDate);
-  const { filteredData, setFilteredData } = useManagementFilterStore();
+  // const { filteredData, setFilteredData } = useManagementFilterStore();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -45,7 +45,7 @@ const BookingListApi = () => {
         setLoading(false);
       }
     };
-    fetchData(); 
+    fetchData();
     console.log(selectedDate);
     console.log('data', data);
   }, [selectedDate]);

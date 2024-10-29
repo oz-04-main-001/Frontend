@@ -2,16 +2,16 @@ import usePopupStore from '../stores/usePopupStore';
 import Button from '../assets/buttons/Button';
 import { BtnSize, BtnType } from '../assets/buttons/Button';
 import close from '../assets/icons/close.svg';
+import { MouseEventHandler } from 'react';
 
 interface PopupProps {
   title?: string;
   subTitle?: string;
   children?: React.ReactNode;
   buttonText?: { text1?: string; text2?: string };
-  onClickLogic1?: React.MouseEventHandler;
-  onClickLogic2?: React.MouseEventHandler;
+  onClickLogic2?: MouseEventHandler;
   titleClass?: string;
-  onClose?: () => void; 
+  onClose?: () => void;
   subTitleClass?: string;
   containerClass?: string;
 }
@@ -23,15 +23,14 @@ function Popup({
   subTitleClass = 'text-sm',
   containerClass = 'w-[560px] h-auto',
   onClickLogic2,
-  onClickLogic1,
-  onClose, 
+  onClose,
   children,
   buttonText = { text1: '이전', text2: '다음' },
 }: PopupProps): JSX.Element {
   const popup = usePopupStore(state => state.popup);
   const closePopup = () => {
-    if (onClose) onClose(); 
-    usePopupStore.getState().closePopup(); 
+    if (onClose) onClose();
+    usePopupStore.getState().closePopup();
   };
 
   return (

@@ -5,14 +5,12 @@ import HostAccommodationAPI from '../../../axios/HostAccommodationAPI';
 import logo from '/staynest.svg';
 
 interface AccommodationProp {
-  handleDeleteClick: (id: number) => void;
+  handleDeletePopupClick: (id: number) => void;
 }
 export default function HostAccommoList({
-  handleDeleteClick,
+  handleDeletePopupClick,
 }: AccommodationProp) {
   const [isShow, setIsShow] = useState(false);
-  // const [isDeleted, setIsDeleted] = useState(false);
-  // const [deletePopup, setDeletePopup] = useState(false);
   const { accommoData } = HostAccommodationAPI();
 
   function onClickCloseBtn() {
@@ -39,7 +37,7 @@ export default function HostAccommoList({
           >
             <img
               src={close}
-              onClick={() => handleDeleteClick(acco.id)}
+              onClick={() => handleDeletePopupClick(acco.id)}
               alt="숙소 삭제 버튼"
               className={`relative left-56 bottom-1 w-5 h-5 transition duration-100 hover:scale-105 focus:opacity-85 ${isShow ? '' : 'hidden'}`}
             />
