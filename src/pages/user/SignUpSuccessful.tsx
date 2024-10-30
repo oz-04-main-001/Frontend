@@ -1,19 +1,34 @@
+import React, { useState, useEffect } from 'react';
 import Popup from "../../components/Popup";
 
 const SignUpSuccessful: React.FC = () => {
+  const [showPopup, setShowPopup] = useState(true); 
+
   const handleLogin = () => {
     console.log("로그인 클릭됨");
+    // 로그인 페이지 이동 로직 추가 가능
   };
 
+  useEffect(() => {
+    // SignUpSuccessful 페이지에 들어오면 팝업 표시
+    setShowPopup(true);
+  }, []);
+
   return (
-    <Popup
-      title="회원가입이 되어있습니다."
-      onClose={() => console.log("팝업 닫힘")}
-      buttonText={{ text1: '닫기', text2: '로그인 하기' }} // 버튼 텍스트 수정
-      onClickLogic1={() => { } } // 비밀번호 찾기 클릭 로직을 빈 함수로
-      onClickLogic2={handleLogin} // 로그인 클릭 로직
-      children={undefined}    >
-    </Popup>
+    <div>
+      {showPopup && (
+        <Popup
+          title="회원가입이 되어있습니다."
+          onClose={() => {
+            setShowPopup(false); // 팝업 닫기
+            console.log("팝업 닫힘");
+          }}
+          buttonText={{ text1: '닫기', text2: '로그인 하기' }} // 버튼 텍스트 수정
+          onClickLogic1={() => setShowPopup(false)} // '닫기' 버튼 클릭 시 팝업 닫기
+          onClickLogic2={handleLogin} // '로그인 하기' 버튼 클릭 시 로그인 로직 호출
+        />
+      )}
+    </div>
   );
 };
 
