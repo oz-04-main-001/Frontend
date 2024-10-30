@@ -4,6 +4,7 @@ import moment from 'moment';
 import './custom-calendar.css';
 import Toolbar from './Toolbar';
 import useSelectedDateStore from '../../../stores/useSelectedDateStore';
+import HostTotalManagementAmountAPI from '../../../axios/HostTotalManagementAmountAPI';
 
 // 이벤트 인터페이스 정의
 interface Event {
@@ -15,18 +16,18 @@ interface Event {
 const localizer = momentLocalizer(moment);
 
 // 더미 데이터 생성 함수
-const generateDummyData = (): Record<string, number> => {
-  const startDate = new Date(2024, 9, 1);
-  const endDate = new Date(2024, 10, 31);
-  const reservationCounts: Record<string, number> = {};
+// const generateDummyData = (): Record<string, number> => {
+//   const startDate = new Date(2024, 9, 1);
+//   const endDate = new Date(2024, 10, 31);
+//   const reservationCounts: Record<string, number> = {};
 
-  for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
-    const dateStr = d.toISOString().split('T')[0]; // 날짜를 문자열로 변환
-    reservationCounts[dateStr] = Math.floor(Math.random() * 111); // 예약 건수 생성
-  }
+//   for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+//     const dateStr = d.toISOString().split('T')[0]; // 날짜를 문자열로 변환
+//     reservationCounts[dateStr] = Math.floor(Math.random() * 111); // 예약 건수 생성
+//   }
 
-  return reservationCounts;
-};
+//   return reservationCounts;
+// };
 
 // 커스텀 이벤트 컴포넌트
 const CustomEvent = ({ event }: { event: Event }) => (
@@ -40,20 +41,24 @@ const CustomEvent = ({ event }: { event: Event }) => (
 const HostCalendar = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const { selectedDate, setSelectedDate } = useSelectedDateStore();
+  const [currentMonth, setCurrentMonth] = useState<number | null>(
+    new Date().getMonth() + 1
+  );
+  const amountData = HostTotalManagementAmountAPI({
+    currentMonth,
+  });
 
-  // 컴포넌트가 마운트될 때 더미 데이터를 생성하여 상태에 저장
   useEffect(() => {
-    const reservationCounts = generateDummyData();
-    const newEvents: Event[] = Object.entries(reservationCounts).map(
-      ([date, count]) => ({
-        title: `${count}`, // 이벤트 타이틀 설정
-        start: new Date(date), // 시작 날짜 설정
-        end: new Date(date), // 종료 날짜 설정
-        allDay: true,
-      })
-    );
-    setEvents(newEvents); // 이벤트 상태 업데이트
-  }, []);
+    if (amountData) {
+      const newEvents: Event[] = amountData.map(data => ({
+        title: `${data.total_bookings}`,
+        start: new Date(data.date),
+        end: new Date(data.date),
+        allday: true,
+      }));
+      setEvents(newEvents);
+    }
+  }, [amountData]);
 
   // 이벤트 클릭 시 호출
   const handleSelectEvent = (event: Event) => {
@@ -86,8 +91,9 @@ const HostCalendar = () => {
                 : '',
           };
         }}
-        onNavigate={_date => {
+        onNavigate={date => {
           // 달력을 이동할 때 선택된 날짜 초기화
+          setCurrentMonth(date.getMonth() + 1);
           setSelectedDate(null);
         }}
       />

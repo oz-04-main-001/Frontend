@@ -1,7 +1,9 @@
+import { ReactNode } from 'react';
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
-import BookingListApi from '../../axios/BookingListApi';
 
 interface Booking {
+  booker_phone_number: ReactNode;
+  booker_name: ReactNode;
   id: number;
   guest: number;
   room: number;
@@ -23,7 +25,7 @@ interface Prop {
   checkOut?: string;
   user?: string;
   phoneNumber?: string;
-  onClose3: () => void;
+  onClose3: (id: number) => void;
   selectedAccommodation: string | null;
   selectedRoom: string | null;
   confirmedBooking: Booking[] | undefined;
@@ -41,8 +43,6 @@ export default function CardOrderFix({
   confirmedBooking,
   onClose3,
 }: Prop) {
-  const { data } = BookingListApi();
-
   const filteredBookings = confirmedBooking?.filter(
     booking =>
       (selectedAccommodation
@@ -70,7 +70,9 @@ export default function CardOrderFix({
           </div>
           <div className="mt-2">
             <p className="s2">
-              <span className="b2">{user}</span> {phoneNumber}
+              <span className="b2">{confirm.booker_name}</span>
+              <span className="inline-block px-2">/</span>
+              {confirm.booker_phone_number}
             </p>
             <p className="b2">
               <span>성인</span>
@@ -83,7 +85,7 @@ export default function CardOrderFix({
               size={BtnSize.l}
               text="예약 취소"
               type={BtnType.normal}
-              onClick={onClose3}
+              onClick={() => onClose3(confirm.id)}
             />
           </div>
         </div>

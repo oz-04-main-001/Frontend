@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import client from '../axios/client';
 import useSelectedDateStore from '../stores/useSelectedDateStore';
 import axios from 'axios';
-import useManagementFilterStore from '../stores/useManagementFilterStore';
+import useHostActionStore from '../stores/useHostActionStore';
 
 interface Booking {
+  booker_phone_number: ReactNode;
+  booker_name: ReactNode;
   id: number;
   guest: number;
   room: number;
@@ -24,7 +26,7 @@ const BookingListApi = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const selectedDate = useSelectedDateStore(state => state.selectedDate);
-  // const { filteredData, setFilteredData } = useManagementFilterStore();
+  const { action} = useHostActionStore();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -45,10 +47,11 @@ const BookingListApi = () => {
         setLoading(false);
       }
     };
-    fetchData();
+    if (selectedDate !== null) {
+      fetchData();
+    }
     console.log(selectedDate);
-    console.log('data', data);
-  }, [selectedDate]);
+  }, [selectedDate, action]);
   return { data, error, loading };
 };
 
