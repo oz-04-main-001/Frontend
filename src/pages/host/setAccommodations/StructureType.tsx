@@ -1,10 +1,10 @@
-//건물 타입선택
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../../assets/Header';
 import Chips from '../../../assets/Chips';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
+import useAuthStore from '../../../stores/useAuthStore';
 
 const StructureType: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const StructureType: React.FC = () => {
   };
 
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
+  const isLoggedIn = useAuthStore(state => !!state.email); // 로그인 여부 확인
 
   const buildings = [
     '펜션',
@@ -28,6 +29,7 @@ const StructureType: React.FC = () => {
   const handleBuildingClick = (building: string) => {
     setSelectedBuilding(building);
   };
+
   const handleNextClick = () => {
     if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {
       navigate('/only-starter-room', { state: { selectedBuilding } });
@@ -38,11 +40,12 @@ const StructureType: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header labels={[
-        { title: '게스트 메인', link: '/guest' },
-        { title: '서비스 등록', link: '/register' },
-        { title: '로그아웃', link: '/logout' }
-      ]} />
+      <Header
+        labels={[
+          { title: '게스트 메인', link: '/' },
+        ]}
+        isLoggedIn={isLoggedIn} // 로그인 상태 전달
+      />
       <div className="flex flex-col items-start justify-start w-5/6 mx-auto mt-[12vh]">
         <div className="flex items-center mb-6">
           <img

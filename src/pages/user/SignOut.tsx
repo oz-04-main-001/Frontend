@@ -12,11 +12,8 @@ const SignOut = () => {
     console.log('로그아웃 진행');
     console.log('로그아웃 전 상태:', useAuthStore.getState()); 
 
-    const userType = useAuthStore.getState().usertype; 
-    const tokenKey = userType === 'guest' ? 'guest_token' : 'host_token'; // 사용자 유형에 따른 키 설정
-
-    // 로컬스토리지에서 액세스 토큰 삭제
-    localStorage.removeItem(tokenKey);
+    // 로컬스토리지에서 통합된 auth_token 삭제
+    localStorage.removeItem('auth_token');
 
     // Zustand 스토어 초기화
     clearAuth();
