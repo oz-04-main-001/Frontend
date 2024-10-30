@@ -1,7 +1,10 @@
+import { ReactNode } from 'react';
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import BookingListApi from '../../axios/BookingListApi';
 
 interface Booking {
+  booker_phone_number: ReactNode;
+  booker_name: ReactNode;
   id: number;
   guest: number;
   room: number;
@@ -23,8 +26,8 @@ interface Prop {
   user?: string;
   phoneNumber?: string;
   pendingBooking?: Booking[];
-  onClose1: () => void;
-  onClose2: () => void;
+  onClose1: (id: number) => void;
+  onClose2: (id: number) => void;
   selectedAccommodation: string | null;
   selectedRoom: string | null;
 }
@@ -48,7 +51,6 @@ export default function CardOrderWating({
         ? booking.accommodation_name === selectedAccommodation
         : true) && (selectedRoom ? booking.room_name === selectedRoom : true)
   );
-  console.log('filteredBookings', filteredBookings);
 
   return (
     <>
@@ -71,7 +73,9 @@ export default function CardOrderWating({
           </div>
           <div className="mt-2">
             <p className="s2">
-              <span className="b2">{user}</span> {phoneNumber}
+              <span className="b2">{pend.booker_name}</span>
+              <span className="inline-block px-2">/</span>
+              {pend.booker_phone_number}
             </p>
             <p className="b2">
               <span>성인</span> <span className="s2">{pend.guests_count}</span>
@@ -83,13 +87,13 @@ export default function CardOrderWating({
               size={BtnSize.l}
               text="예약 취소"
               type={BtnType.err}
-              onClick={onClose1}
+              onClick={() => onClose1(pend.id)}
             />
             <Button
               size={BtnSize.l}
               text="예약 확정"
               type={BtnType.normal}
-              onClick={onClose2}
+              onClick={() => onClose2(pend.id)}
             />
           </div>
         </div>
