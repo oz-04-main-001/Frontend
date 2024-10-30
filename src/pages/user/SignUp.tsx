@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { Input } from '../../assets/Input';
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { getUserRegister } from '../../axios/userApi';
+import EmailVerification from './EmailVerification';
 
 const SignUp: React.FC = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null);
   const [password, setPassword] = useState('');
@@ -22,6 +23,7 @@ const SignUp: React.FC = () => {
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [registerError, setRegisterError] = useState('');
+  const [showVerificationPopup, setShowVerificationPopup] = useState(false);
 
   const validatePassword = (value: string) => {
     const hasUpperCase = /[A-Z]/.test(value); // 대문자 포함 여부
@@ -132,7 +134,7 @@ const SignUp: React.FC = () => {
       password2: confirmPassword, 
       birth_date: birthdate,
       gender: selectedGender,
-      phone_number: phoneNumber // 조합된 전화번호 사용
+      phone_number: phoneNumber 
     };
     
     console.log('회원가입 데이터:', registerData); 
@@ -140,11 +142,16 @@ const SignUp: React.FC = () => {
     try {
       const response = await getUserRegister(registerData);
       console.log('회원가입 성공:', response);
-      navigate('/'); // 로그인 페이지로 리다이렉트
+      setShowVerificationPopup(true);
+      //navigate('/user/verify-email'); 
     } catch (error: any) {
       console.error('회원가입 중 오류 발생:', error.response.data);
       setRegisterError(error.response?.data?.message || '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.');
     }
+  };
+
+  const handleClosePopup = () => {
+    setShowVerificationPopup(false);
   };
 
 
@@ -224,14 +231,14 @@ const SignUp: React.FC = () => {
               size={BtnSize.l}
               text="남자"
               type={selectedGender === 'male' ? BtnType.normal : BtnType.normal}
-              className="w-1/2"
+              className={`w-1/2 ${selectedGender === 'male' ? 'bg-[#A0D8F1]' : 'bg-primary-300'}`}
               onClick={() => setSelectedGender('male')}
             />
             <Button
               size={BtnSize.l}
               text="여자"
               type={selectedGender === 'female' ? BtnType.normal : BtnType.normal}
-              className="w-1/2"
+              className={`w-1/2 ${selectedGender === 'female' ? 'bg-[#A0D8F1]' : 'bg-primary-300'}`}
               onClick={() => setSelectedGender('female')}
             />
           </div>
@@ -260,7 +267,7 @@ const SignUp: React.FC = () => {
               id="phoneLast"
               placeholder="5678"
               onChange={handlePhoneLastChange}
-              className="flex-grow min-w-[80px] max-w-[110px]"
+              className="flex-grow min-w-[80px] max-w-[170px]"
             />
           </div>
         </div>
@@ -278,6 +285,7 @@ const SignUp: React.FC = () => {
         {registerError && <p className="mt-1 text-xs text-state-err">{registerError}</p>}
         <Button type={BtnType.submit} text="회원가입" />
       </form>
+      {showVerificationPopup && <EmailVerification onClose={handleClosePopup} />}
     </div>
   );
 };
