@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
 import client from './client';
+import useHostActionStore from '../stores/useHostActionStore';
 
-interface Event {
-  title: string;
-  start: Date;
-  end: Date;
-}
 interface AmountDataType {
   date: string;
   total_bookings: number;
@@ -18,6 +14,7 @@ interface HostTotalProps {
 const HostTotalManagementAmountAPI = ({ currentMonth }: HostTotalProps) => {
   // amountData는 API에서 받아온 예약 데이터를 저장
   const [amountData, setAmountData] = useState<AmountDataType[] | undefined>();
+  const { action } = useHostActionStore();
 
   // 비동기 함수로 API 호출
   const getTotalData = async (currentMonth: number | null) => {
@@ -36,7 +33,7 @@ const HostTotalManagementAmountAPI = ({ currentMonth }: HostTotalProps) => {
     if (currentMonth) {
       getTotalData(currentMonth);
     }
-  }, [currentMonth]);
+  }, [currentMonth, action]);
 
   return amountData; // amountData 반환
 };

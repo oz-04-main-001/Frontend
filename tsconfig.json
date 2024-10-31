@@ -8,7 +8,7 @@
     "typeRoots": ["src/types"],
     "types": ["vite/client", "vite-plugin-svgr/client"],
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "removeComments": true
   }
-
 }
