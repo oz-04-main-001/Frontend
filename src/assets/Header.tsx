@@ -23,18 +23,19 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const { usertype } = useAuthStore();
   const { openPopup } = usePopupStore();
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   const handleLogoutClick = (event: React.MouseEvent) => {
-    event.preventDefault(); // 기본 링크 클릭 이벤트 방지
-    openPopup(); // 팝업 열기
-    navigate('/user/logout'); // 로그아웃 페이지로 이동
+    event.preventDefault();
+    openPopup();
+    navigate('/user/logout');
   };
 
   const renderUserLinks = () => {
     switch (usertype) {
       case 'guest':
       case 'host':
+      case 'admin':
         return (
           <>
             <span className="text-gray-600">
@@ -42,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({
             </span>
             <span
               className="text-gray-600 cursor-pointer"
-              onClick={handleLogoutClick} // 로그아웃 클릭 시 팝업 열기
+              onClick={handleLogoutClick}
             >
               로그아웃
             </span>
