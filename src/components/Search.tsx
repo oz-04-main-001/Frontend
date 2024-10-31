@@ -24,10 +24,9 @@ interface SearchProp {
 
 const Search = ({ border = true }: SearchProp) => {
   const navigate = useNavigate();
-
   const { search, actions: searchActions } = useSearchStore();
   const { actions: roomActions } = useSearchRoomStore();
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<string | null>(search.city);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const checkInDate = search.date.checkIn
@@ -47,7 +46,6 @@ const Search = ({ border = true }: SearchProp) => {
           search.personnel.adult
         );
         roomActions.setSearchData(loadCard);
-        redirect('/search');
       } catch (err) {
         const axiosError = err as AxiosError;
         if (axiosError.response) {
@@ -69,11 +67,10 @@ const Search = ({ border = true }: SearchProp) => {
 
   const handleCityClick = (item: string | null) => {
     if (item) {
+      setSelectedCity(item);
       searchActions.setCity(item);
     }
   };
-
-  const [events, setEvents] = useState<any[]>([]);
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
 
@@ -89,10 +86,10 @@ const Search = ({ border = true }: SearchProp) => {
     '경기도',
     '충청북도',
     '충청남도',
+    '전라북도',
     '전라남도',
     '경상북도',
-    '강원도특별자치도',
-    '전북특별자치도',
+    '강원도',
   ];
   const checkTime = ['checkIn', 'checkOut'];
   const localizer = dateFnsLocalizer({
@@ -127,21 +124,21 @@ const Search = ({ border = true }: SearchProp) => {
       return;
     }
     fetchGetLoad();
+    navigate('/search');
   };
 
   return (
     <div
-      className={`z-[100] s1 rounded-full h-24 p-4 max-w-[750px] mx-auto flex justify-center items-center ${border ? 'border border-gray-300 ' : ''}  bg-white`}
+      className={`s1 rounded-full h-24 p-4 max-w-[750px] mx-auto flex justify-center items-center ${border ? 'border border-gray-300 ' : ''}  bg-white`}
     >
       <Dropdown
         menuItems={destinations}
-        title={search.city ? search.city : '여행지'}
+        title={search.city}
         style="s1 text-black"
         selectedItem={selectedCity}
         setSelectedItem={setSelectedCity}
         onClick={handleCityClick}
       />
-
       {checkTime.map(check => (
         <div className="relative mx-2" key={check}>
           <button
@@ -162,7 +159,6 @@ const Search = ({ border = true }: SearchProp) => {
             <div className="absolute z-10 bg-white border border-gray-300 rounded-md shadow-md">
               <Calendar
                 localizer={localizer}
-                events={events}
                 startAccessor="start"
                 endAccessor="end"
                 selectable
@@ -177,7 +173,6 @@ const Search = ({ border = true }: SearchProp) => {
           )}
         </div>
       ))}
-
       <div className="relative mx-2">
         <button
           className={`block s1 cursor-pointer ${activeDropdown === 'traveler' ? 'bg-gray-300' : 'bg-white'} p-2 rounded-full transition-colors duration-200`}
@@ -215,11 +210,11 @@ const Search = ({ border = true }: SearchProp) => {
           </div>
         )}
       </div>
-
       <button
         type="button"
-        className="z-[100] flex items-center px-4 py-2 mr-2 text-black transition bg-green-500 rounded-md hover:bg-green-600"
+        className="flex items-center px-4 py-2 mr-2 text-black transition bg-green-500 rounded-md hover:bg-green-600"
         onClick={handleSearch}
+        style={{ zIndex: 10, position: 'relative' }}
       >
         <SearchIcon width="24" height="24" fill="black" />
       </button>

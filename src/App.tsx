@@ -7,7 +7,6 @@ import Stateroom from './pages/room/Stateroom';
 import Orders from './pages/room/Orders';
 import Host from './pages/host';
 import ReservationCompleted from './pages/reservations/ReservationCompleted';
-import CancelPopup from './pages/reservations/CancelPopup';
 import SelectType from './pages/host/setAccommodations/SelectType';
 import StructureType from './pages/host/setAccommodations/StructureType';
 import MultiAccommodations from './pages/host/setAccommodations/MultiAccommodations';
@@ -18,7 +17,6 @@ import User from './pages/user';
 import SignUp from './pages/user/SignUp';
 import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
-import ReservationCanceled from './pages/reservations/ResevationCanceled';
 import HostDocuments from './pages/host/setAccommodations/HostDocuments';
 import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
@@ -32,10 +30,6 @@ import EmailVerification from './pages/user/EmailVerification';
 import SignUpSuccessful from './pages/user/SignUpSuccessful';
 
 function App() {
-  const handleClose = () => {
-    console.log('팝업 닫기');
-  };
-
   return (
     <BrowserRouter>
       <Routes>
@@ -56,10 +50,7 @@ function App() {
           <Route path="join" element={<SignUp />} />
           <Route path="leaveId" element={<MembershipWithdrawal />} />
           <Route path="logout" element={<SignOut />} />
-          <Route
-            path="verify-email"
-            element={<EmailVerification onClose={handleClose} />}
-          />
+          <Route path="verify-email" element={<EmailVerification />} />
           <Route path="signup-successful" element={<SignUpSuccessful />} />
         </Route>
 
@@ -81,10 +72,6 @@ function App() {
           path="EditMultiAccommodations"
           element={<EditMultiAccommodations />}
         />
-        <Route
-          path="EditMultiAccommodations"
-          element={<EditMultiAccommodations />}
-        />
 
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
@@ -96,8 +83,6 @@ function App() {
             path="stateroom/order/info/:orderId"
             element={<ReservationCompleted />}
           />
-          <Route path="info/canceled" element={<ReservationCanceled />} />
-          <Route path="cancelpopup" element={<CancelPopup />} />
         </Route>
 
         <Route path="/popup" element={<Popup />}></Route>
