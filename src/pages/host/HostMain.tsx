@@ -37,8 +37,8 @@ export default function HostMain() {
   const { isAccommoDeleted, setIsAccommoDeleted } = useHostAccommoDeleteStore();
   const { action, setAction } = useHostActionStore();
   const [bookingId, setBookingId] = useState<number | null>(null);
-  const [requestData, setRequestData] = useState<responseDataType | null>(null);
-  const [isPatched, setIsPatched] = useState<boolean>(false); // 예약 취소 버튼
+  const [, setRequestData] = useState<responseDataType | null>(null);
+  const [, setIsPatched] = useState<boolean>(false); // 예약 취소 버튼
   const [tap, setTap] = useState(0);
   const taps = ['이용 요청', '예약 확정'];
   const handleCancelClick = (id: number) => {
@@ -82,18 +82,13 @@ export default function HostMain() {
       setRequestData(response.data); // 응답 데이터 저장
       console.log('API 응답:', response.data); // 응답 확인용 로그
     } catch (error) {
-      console.error('ManagementRequestAPI Error:', error);
+      console.error('ManagementRequestAPㅇㅇㅇㅇㅁㅇㅁㅇㅁㅇI Error:', error);
     } finally {
       setIsPatched(false);
-      setAction('none');
-      setBookingId(null);
+      setAction('none'); //
+      setBookingId(null); // 초기화
     }
   };
-  // useEffect(() => {
-  //   if (bookingId && action !== 'none') {
-  //     patchRequestData(bookingId);
-  //   }
-  // }, [action, setIsPatched]);
 
   useEffect(() => {
     if (action !== 'none' && bookingId) {
