@@ -1,59 +1,128 @@
 import { useEffect, useRef } from 'react';
+import {
+  SearchRoom,
+  useSearchRoomStore,
+} from '../../stores/useSearchRoomStore';
 import { useSearchStore } from '../../stores/useSearchStore';
+import useDateDashFormet from '../../customHooks/useDateDashFormet';
+import { getMapLoad } from '../../axios/searchApi';
+import { AxiosError } from 'axios';
+import { redirect } from 'react-router-dom';
 
 declare global {
   interface Window {
     kakao: any;
   }
 }
+
 export default function Map() {
-  const { search, actions } = useSearchStore();
-  const mapContainer = useRef(null);
-  const mapLatLng = search.city;
-  console.log(mapLatLng);
-  const markerdata = [
-    {
-      title: '콜드스퀘어',
-      lat: 37.62197524055062,
-      lng: 127.16017523675508,
-    },
-    {
-      title: '하남돼지집',
-      lat: 37.620842424005616,
-      lng: 127.1583774403176,
-    },
-    {
-      title: '수유리우동',
-      lat: 37.624915253753194,
-      lng: 127.15122688059974,
-    },
-    {
-      title: '맛닭꼬',
-      lat: 37.62456273069659,
-      lng: 127.15211256646381,
-    },
+  const { accommodation_data } = useSearchRoomStore();
+  const { search } = useSearchStore();
+  const { actions: roomActions } = useSearchRoomStore();
+
+  const checkInDate = search.date.checkIn
+    ? useDateDashFormet(search.date.checkIn)
+    : '';
+  const checkOutDate = search.date.checkOut
+    ? useDateDashFormet(search.date.checkOut)
+    : '';
+  const initialCenter = [
+    accommodation_data && accommodation_data.length > 0
+      ? accommodation_data[0].location[0]
+      : 37.49676871972202,
+    accommodation_data && accommodation_data.length > 0
+      ? accommodation_data[0].location[1]
+      : 127.02474726969814,
   ];
+
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const kakaoMapRef = useRef<any>(null);
+  const markerSize = new window.kakao.maps.Size(16, 16);
+  const markerImage = '/marker.png';
+
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const fetchGetLoad = async (point: string) => {
+    try {
+      const loadCard = await getMapLoad(
+        point,
+        checkInDate,
+        checkOutDate,
+        search.personnel.adult
+      );
+      roomActions.setSearchData(loadCard);
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      if (axiosError.response) {
+        const statusCode = axiosError.response.status;
+        switch (statusCode) {
+          case 401:
+            redirect('/user/login');
+            break;
+          default:
+            console.log('요청 에러');
+            break;
+        }
+      } else {
+        console.error('Network or other error:', axiosError);
+      }
+    }
+  };
+
   useEffect(() => {
-    const markerSize = new window.kakao.maps.Size(16, 16);
-    const markerImage = '/marker.png';
-    let options = {
-      center: new window.kakao.maps.LatLng(37.6243, 127.1498), //지도의 중심좌표.
-      level: 5,
-    };
+    const mapRef = mapContainer.current;
 
-    let map = new window.kakao.maps.Map(mapContainer.current, options);
+    if (mapRef && window.kakao) {
+      const options = {
+        center: new window.kakao.maps.LatLng(
+          initialCenter[0],
+          initialCenter[1]
+        ),
+        level: 5,
+      };
 
-    markerdata.forEach(el => {
-      const marker = new window.kakao.maps.MarkerImage(markerImage, markerSize);
+      const map = new window.kakao.maps.Map(mapRef, options);
+      map.setZoomable(false);
+      kakaoMapRef.current = map;
 
-      new window.kakao.maps.Marker({
-        map: map,
-        position: new window.kakao.maps.LatLng(el.lat, el.lng),
-        title: el.title,
-        image: marker,
+      window.kakao.maps.event.addListener(map, 'idle', () => {
+        if (debounceTimerRef.current) {
+          clearTimeout(debounceTimerRef.current);
+        }
+
+        debounceTimerRef.current = setTimeout(() => {
+          const centerLatLng = map.getCenter();
+          const point = `${centerLatLng.La},${centerLatLng.Ma}`;
+          fetchGetLoad(point);
+        }, 500);
       });
-    });
-  }, []);
+
+      accommodation_data?.forEach((el: SearchRoom) => {
+        new window.kakao.maps.Marker({
+          map,
+          position: new window.kakao.maps.LatLng(
+            el.location[0],
+            el.location[1]
+          ),
+          title: el.name,
+          image: new window.kakao.maps.MarkerImage(markerImage, markerSize),
+        });
+      });
+    }
+
+    return () => {
+      if (kakaoMapRef.current) {
+        window.kakao.maps.event.removeListener(
+          kakaoMapRef.current,
+          'idle',
+          () => {}
+        );
+      }
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [accommodation_data]);
 
   return (
     <div

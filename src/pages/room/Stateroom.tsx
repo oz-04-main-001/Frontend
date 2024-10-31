@@ -36,7 +36,7 @@ export default function Stateroom() {
           const statusCode = axiosError.response.status;
           switch (statusCode) {
             case 401:
-              // navigate('/user/login');
+              navigate('/user/login');
               break;
             default:
               console.log('요청 에러');
@@ -59,11 +59,13 @@ export default function Stateroom() {
       <div className="mb-36">
         <Layout>
           <DetailInfo
+            image={stateRoom.images.map(img => img.image)}
             subTitle={stateRoom.accommodation_name}
             title={stateRoom.room.name}
             price={stateRoom.room.price}
             capacity={stateRoom.room.capacity}
             detailType={DetailType.Stateroom}
+            roomCount={stateRoom.room.room_count}
           />
         </Layout>
         <Divider />

@@ -26,7 +26,7 @@ const BookingListApi = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const selectedDate = useSelectedDateStore(state => state.selectedDate);
-  const { action} = useHostActionStore();
+  const { action } = useHostActionStore();
   useEffect(() => {
     const fetchData = async () => {
       try {
