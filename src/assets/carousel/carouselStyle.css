@@ -1,0 +1,40 @@
+.slick-dots {
+  bottom: 16px;
+}
+
+.slick-dots li button:before {
+  font-family: 'slick';
+  font-size: 8px;
+  line-height: 20px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 8px;
+  height: 8px;
+
+  content: '•';
+  text-align: center;
+
+  opacity: 0.25;
+  color: #5c6373;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.slick-dots li.slick-active button:before {
+  opacity: 0.75;
+  color: #fff;
+}
+
+.slick-prev {
+  left: -50px; /* 화살표 왼쪽 위치 */
+}
+
+.slick-next {
+  right: -50px; /* 화살표 오른쪽 위치 */
+}
+.arrow-button:hover {
+  transform: scale(1.2);
+}

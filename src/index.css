@@ -7,27 +7,30 @@
   html {
     font-family: 'Spoqa Han Sans Neo', 'sans-serif', 'ui-sans-serif',
       'system-ui';
+    box-sizing: border-box;
+    color: #15161a;
   }
+
   .d1 {
     @apply font-bold text-7xl;
   }
   .d2 {
-    @apply font-bold text-6xl;
+    @apply text-6xl font-bold;
   }
   h1 {
-    @apply font-medium text-5xl;
+    @apply text-5xl font-medium;
   }
   h2 {
-    @apply font-medium text-4xl;
+    @apply text-4xl font-medium;
   }
   h3 {
-    @apply font-bold text-3xl;
+    @apply text-3xl font-bold;
   }
   h4 {
-    @apply font-medium text-2xl;
+    @apply text-2xl font-medium;
   }
   h5 {
-    @apply font-medium text-xl;
+    @apply text-xl font-medium;
   }
   h6 {
     @apply font-bold text-large;
@@ -36,19 +39,19 @@
     @apply font-medium text-medium;
   }
   .s2 {
-    @apply font-medium text-base;
+    @apply text-base font-medium;
   }
   .b1 {
-    @apply font-medium text-base;
+    @apply text-base font-medium;
   }
   .b2 {
-    @apply font-regular text-xs;
+    @apply text-xs font-regular;
   }
   .btn1 {
-    @apply font-regular text-base;
+    @apply text-base font-regular;
   }
   .btn2 {
-    @apply font-light text-xs;
+    @apply text-xs font-light;
   }
   .c1 {
     @apply font-regular text-2xs;
