@@ -20,3 +20,23 @@ export const getSearchLoad = async (
       console.log(error);
     });
 };
+export const getMapLoad = async (
+  point: string,
+  checkInDate: string,
+  checkOutDate: string,
+  personnel: number
+) => {
+  return await client
+    .get(`/api/v1/accommodations/search/`, {
+      params: {
+        point: point,
+        check_in_date: checkInDate,
+        check_out_date: checkOutDate,
+        guests_count: personnel,
+      },
+    })
+    .then(response => response.data)
+    .catch(error => {
+      console.log(error);
+    });
+};

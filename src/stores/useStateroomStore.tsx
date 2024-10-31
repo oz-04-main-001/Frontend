@@ -9,6 +9,7 @@ export interface StateRoomOption {
   category: string;
   is_custom: boolean;
 }
+
 interface State {
   stateRoom: {
     accommodation_name: string;
@@ -25,6 +26,7 @@ interface State {
         total_beds: number;
         bed_names: string[];
       };
+      room_count: number;
     };
     room_options: StateRoomOption[];
     images: Image[];
@@ -52,6 +54,7 @@ const initialState: State = {
         total_beds: 0,
         bed_names: [],
       },
+      room_count: 0,
     },
     room_options: [],
     images: [],

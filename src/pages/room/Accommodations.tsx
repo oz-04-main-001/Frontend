@@ -57,7 +57,7 @@ export default function Accommodations() {
           const statusCode = axiosError.response.status;
           switch (statusCode) {
             case 401:
-              // navigate('/user/login');
+              navigate('/user/login');
               break;
             default:
               console.log('요청 에러');
@@ -94,8 +94,8 @@ export default function Accommodations() {
                 id={room.id}
                 image={room.representative_image}
                 title={room.name || '객실 이름이 없습니다.'}
-                checkIn={useTimeFormet(room.name || '')}
-                checkOut={useTimeFormet(room.name || '')}
+                checkIn={useTimeFormet(room.check_in_time || '')}
+                checkOut={useTimeFormet(room.check_out_time || '')}
                 price={room.price ?? 0}
                 stayType={true}
                 capacity={room.capacity ?? 0}
