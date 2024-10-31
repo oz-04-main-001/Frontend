@@ -28,14 +28,14 @@ import Popup from './components/Popup';
 import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
 import HostMain from './pages/host/HostMain';
 import SignOut from './pages/user/SignOut';
-import EmailVerification from "./pages/user/EmailVerification";
-import SignUpSuccessful from "./pages/user/SignUpSuccessful"; 
+import EmailVerification from './pages/user/EmailVerification';
+import SignUpSuccessful from './pages/user/SignUpSuccessful';
 
 function App() {
   const handleClose = () => {
     console.log('팝업 닫기');
-  }
-  
+  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -56,8 +56,11 @@ function App() {
           <Route path="join" element={<SignUp />} />
           <Route path="leaveId" element={<MembershipWithdrawal />} />
           <Route path="logout" element={<SignOut />} />
-          <Route path="verify-email" element={<EmailVerification onClose={handleClose} />} />
-          <Route path="signup-successful" element={<SignUpSuccessful />} /> 
+          <Route
+            path="verify-email"
+            element={<EmailVerification onClose={handleClose} />}
+          />
+          <Route path="signup-successful" element={<SignUpSuccessful />} />
         </Route>
 
         {/* 호스트관련 */}

@@ -10,36 +10,39 @@ import { BadgeStatus } from '../../assets/Badges';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import useTimeFormet from '../../customHooks/useTimeFormet';
 
+interface Bed {
+  total_beds: number;
+  bed_type_num: null | string;
+}
 interface OrderInfo {
   id: number | string;
-  room: {
+  accommodation_info: {
+    name: string;
+    representative_image: null | string;
+    address: string;
+  };
+  room_info: {
     id: number | string;
     name: string;
-    capacity: number;
-    max_capacity: number;
+    capacity: 4;
+    max_capacity: 5;
     description: string;
-    price: number;
+    price: string;
     check_in_time: string;
     check_out_time: string;
-    bed_info: {
-      total_beds: number;
-      bed_names: string[];
-    };
-  };
-  booking_user_info: {
-    name: string;
-    phone_number: string;
-    email: string;
+    bed_info: Bed;
+    room_count: number;
   };
   check_in_datetime: string;
   check_out_datetime: string;
-  total_price: number | string;
+  total_price: string;
   status: BadgeStatus;
   request: string;
   guests_count: number;
   booker_name: string;
   booker_phone_number: string;
   guest: number;
+  room: number;
 }
 
 export default function ReservationCompleted() {
@@ -48,8 +51,12 @@ export default function ReservationCompleted() {
   useEffect(() => {
     const fetchGetLoad = async () => {
       if (orderId) {
-        const loadCard = await getBookingStatus(orderId);
-        setOrderInfo(loadCard);
+        try {
+          const loadCard = await getBookingStatus(orderId);
+          setOrderInfo(loadCard);
+        } catch (error) {
+          console.error('Error fetching booking status:', error);
+        }
       }
     };
     fetchGetLoad();
@@ -63,18 +70,30 @@ export default function ReservationCompleted() {
       })()
     : 0;
   return (
-    <div className="">
+    <div>
       <Layout>
         {orderInfo ? (
           <AccomoInfoCard
-            image={undefined}
-            address={undefined}
-            status={orderInfo.status}
-            stateRoomName={orderInfo.room.name}
-            guestsCount={orderInfo.guests_count}
-            bed={orderInfo.room.bed_info}
-            checkIn={`${useDateDotFormet(orderInfo.check_in_datetime)} ${useTimeFormet(orderInfo.room.check_in_time)}`}
-            checkOut={`${useDateDotFormet(orderInfo.check_out_datetime)} ${useTimeFormet(orderInfo.room.check_out_time)}`}
+            image={
+              orderInfo?.accommodation_info?.representative_image ||
+              'defaultImage.jpg'
+            }
+            address={
+              orderInfo?.accommodation_info?.address || 'Address not available'
+            }
+            status={orderInfo?.status || 'Status unavailable'}
+            stateRoomName={
+              orderInfo?.room_info?.name || 'Room name unavailable'
+            }
+            guestsCount={orderInfo?.guests_count}
+            bed={
+              orderInfo?.room_info?.bed_info || {
+                total_beds: 0,
+                bed_type_num: {},
+              }
+            }
+            checkIn={`${useDateDotFormet(orderInfo?.check_in_datetime || '')} ${useTimeFormet(orderInfo?.room_info?.check_in_time || '')}`}
+            checkOut={`${useDateDotFormet(orderInfo?.check_out_datetime || '')} ${useTimeFormet(orderInfo?.room_info?.check_out_time || '')}`}
           />
         ) : (
           '예약하신 숙소 정보를 가져오고 있습니다.'
