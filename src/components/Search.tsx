@@ -47,14 +47,14 @@ const Search = ({ border = true }: SearchProp) => {
           search.personnel.adult
         );
         roomActions.setSearchData(loadCard);
-        navigate('/search');
+        redirect('/search');
       } catch (err) {
         const axiosError = err as AxiosError;
         if (axiosError.response) {
           const statusCode = axiosError.response.status;
           switch (statusCode) {
             case 401:
-              redirect('/user/login');
+              navigate('/user/login');
               break;
             default:
               console.log('요청 에러');

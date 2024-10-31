@@ -43,6 +43,8 @@ interface StateRoom {
   price: string | number;
   is_available: boolean;
   representative_image: string;
+  check_in_time: string;
+  check_out_time: string;
 }
 
 interface State {
