@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../../assets/Header';
 import Chips from '../../../assets/Chips';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
-import useAuthStore from '../../../stores/useAuthStore';
+import { useSelectionStore } from '../../../stores/useSelectionStore';
 
 const StructureType: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { selectedOption } = location.state || {
-    selectedOption: '선택된 유형 없음',
-  };
+  
+  // 전역 상태에서 selectedOption 및 selectedBuilding 가져오기
+  const selectedOption = useSelectionStore((state) => state.selectedOption) || location.state?.selectedOption || '선택된 유형 없음';
+  const selectedBuilding = useSelectionStore((state) => state.selectedBuilding);
+  
+  const setSelectedBuilding = useSelectionStore((state) => state.setSelectedBuilding);
+  const setSelectedOption = useSelectionStore((state) => state.setSelectedOption);
 
-  const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
-  const isLoggedIn = useAuthStore(state => !!state.email); // 로그인 여부 확인
+  // 처음 컴포넌트가 로드될 때 location의 selectedOption 상태를 전역 상태에 설정
+  React.useEffect(() => {
+    if (location.state?.selectedOption) {
+      setSelectedOption(location.state.selectedOption);
+    }
+  }, [location.state, setSelectedOption]);
 
   const buildings = [
     '펜션',
@@ -27,7 +35,14 @@ const StructureType: React.FC = () => {
   ];
 
   const handleBuildingClick = (building: string) => {
-    setSelectedBuilding(building);
+    if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {
+      // 독체 관련 옵션을 선택한 경우
+      const independentBuilding = `독체${building}`;
+      setSelectedBuilding(independentBuilding);
+    } else {
+      // 일반 건물 타입을 선택한 경우
+      setSelectedBuilding(building);
+    }
   };
 
   const handleNextClick = () => {
@@ -40,12 +55,10 @@ const StructureType: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header
-        labels={[
-          { title: '게스트 메인', link: '/' },
-        ]}
-        isLoggedIn={isLoggedIn} // 로그인 상태 전달
-      />
+      <Header labels={[
+        { title: '게스트 메인', link: '/' },
+        { title: '서비스 등록', link: '/host/select-type' },
+      ]} />
       <div className="flex flex-col items-start justify-start w-5/6 mx-auto mt-[12vh]">
         <div className="flex items-center mb-6">
           <img
@@ -63,7 +76,13 @@ const StructureType: React.FC = () => {
           </h3>
           <div className="grid w-full grid-cols-5 gap-4">
             {buildings.map((building, index) => (
-              <div key={index} onClick={() => handleBuildingClick(building)}>
+              <div
+                key={index}
+                onClick={() => handleBuildingClick(building)}
+                className={`cursor-pointer p-2 rounded ${
+                  selectedBuilding === building ? 'bg-[#A0D8F1] text-white' : 'bg-[#E0E0E0]'
+                }`}
+              >
                 <Chips text={building} />
               </div>
             ))}

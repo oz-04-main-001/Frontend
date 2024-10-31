@@ -14,12 +14,15 @@ interface HeaderProps {
   color?: string;
   title?: string;
   border?: boolean;
+  isLoggedIn?: boolean;
+  showUserLinks?: boolean; // 새로운 prop 추가
 }
 
 const Header: React.FC<HeaderProps> = ({
   labels = [],
   color = 'white',
   border = true,
+  showUserLinks = true, // 기본값으로 true 설정
 }) => {
   const { usertype } = useAuthStore();
   const { openPopup } = usePopupStore();
@@ -74,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({
             <Link to={label.link}>{label.title}</Link>
           </span>
         ))}
-        {renderUserLinks()}
+        {showUserLinks && renderUserLinks()} {/* 조건에 따라 표시 */}
       </div>
     </header>
   );

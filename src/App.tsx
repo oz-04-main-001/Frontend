@@ -63,8 +63,8 @@ function App() {
         {/* 호스트관련 */}
         <Route path="/host" element={<Host />}>
           <Route path="" element={<HostMain />} />
-          <Route path="SelectType" element={<SelectType />} />
-          <Route path="StructureType" element={<StructureType />} />
+          <Route path="select-type" element={<SelectType />} />
+          <Route path="structure-type" element={<StructureType />} />
         </Route>
 
         <Route path="HostDocuments" element={<HostDocuments />} />
