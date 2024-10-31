@@ -18,7 +18,7 @@ interface State {
       capacity: number | null;
       max_capacity: number | null;
       description: string;
-      price: number | string;
+      price: string;
       check_in_time: string;
       check_out_time: string;
       bed_info: {
@@ -33,7 +33,7 @@ interface State {
 
 interface Actions {
   actions: {
-    setStateRoomInfo: (info: State) => void;
+    setStateRoomInfo: (info: State['stateRoom']) => void;
   };
 }
 const initialState: State = {
@@ -46,8 +46,8 @@ const initialState: State = {
       max_capacity: null,
       description: '정보없음',
       price: '정보없음',
-      check_in_time: '14:00:00',
-      check_out_time: '11:00:00',
+      check_in_time: '정보없음',
+      check_out_time: '정보없음',
       bed_info: {
         total_beds: 0,
         bed_names: [],
@@ -62,12 +62,10 @@ export const useStateroomStore = create<State & Actions>()(
     set => ({
       ...initialState,
       actions: {
-        setStateRoomInfo: (info: State) =>
-          set(state => ({
-            stateRoom: {
-              ...state.stateRoom,
-              ...info,
-            },
+        setStateRoomInfo: (info: State['stateRoom']) =>
+          set(() => ({
+            ...initialState,
+            stateRoom: info,
           })),
       },
     }),

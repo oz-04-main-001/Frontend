@@ -1,7 +1,6 @@
 import client from './client'; // axios 인스턴스 임포트
 import useAuthStore from '../stores/useAuthStore'; // Zustand 스토어 임포트
 
-// 로그인 함수
 export const getUserLogin = async (LoginData: {
   email: string;
   password: string;
@@ -12,16 +11,13 @@ export const getUserLogin = async (LoginData: {
     // 서버에서 받은 응답에서 access_token 및 user_type 추출
     const { access_token, user_type } = response.data;
 
-    // access_token을 사용자 유형에 따라 로컬 스토리지에 저장
+    // access_token을 auth_token 키로 로컬 스토리지에 저장
     if (access_token) {
       console.log('Access token received:', access_token);
-      
-      // 사용자 유형에 따른 키 설정
-      const tokenKey = user_type === 'guest' ? 'guest_token' : 'host_token';
-      localStorage.setItem(tokenKey, access_token);
+      localStorage.setItem('auth_token', access_token); // auth_token 키 사용
 
       // 저장 후 확인
-      console.log('Stored access token:', localStorage.getItem(tokenKey));
+      console.log('Stored access token:', localStorage.getItem('auth_token'));
     }
 
     // 이메일, usertype, 비즈니스 프로필 추출

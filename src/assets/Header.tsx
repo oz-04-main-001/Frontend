@@ -2,7 +2,7 @@ import React from 'react';
 import Logo from './logo';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/useAuthStore';
-import usePopupStore from '../stores/usePopupStore'; 
+import usePopupStore from '../stores/usePopupStore';
 
 export interface labels {
   title: string;
@@ -14,27 +14,31 @@ interface HeaderProps {
   color?: string;
   title?: string;
   border?: boolean;
+  isLoggedIn?: boolean;
+  showUserLinks?: boolean; // 새로운 prop 추가
 }
 
 const Header: React.FC<HeaderProps> = ({
   labels = [],
   color = 'white',
   border = true,
+  showUserLinks = true, // 기본값으로 true 설정
 }) => {
   const { usertype } = useAuthStore();
   const { openPopup } = usePopupStore();
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   const handleLogoutClick = (event: React.MouseEvent) => {
-    event.preventDefault(); // 기본 링크 클릭 이벤트 방지
-    openPopup(); // 팝업 열기
-    navigate('/user/logout'); // 로그아웃 페이지로 이동
+    event.preventDefault();
+    openPopup();
+    navigate('/user/logout');
   };
 
   const renderUserLinks = () => {
     switch (usertype) {
       case 'guest':
       case 'host':
+      case 'admin':
         return (
           <>
             <span className="text-gray-600">
@@ -42,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({
             </span>
             <span
               className="text-gray-600 cursor-pointer"
-              onClick={handleLogoutClick} // 로그아웃 클릭 시 팝업 열기
+              onClick={handleLogoutClick}
             >
               로그아웃
             </span>
@@ -59,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 flex items-center justify-between w-full p-2 px-16 ${border ? 'border-b border-gray-100' : undefined}`}
+      className={`fixed top-0 left-0 flex items-center justify-between w-full p-2 px-16 ${border ? 'border-b border-gray-100' : undefined}`}
       style={{ backgroundColor: color }}
     >
       <Link to="/">
@@ -74,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({
             <Link to={label.link}>{label.title}</Link>
           </span>
         ))}
-        {renderUserLinks()}
+        {showUserLinks && renderUserLinks()} {/* 조건에 따라 표시 */}
       </div>
     </header>
   );

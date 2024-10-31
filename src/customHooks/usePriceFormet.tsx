@@ -1,9 +1,18 @@
 import { useEffect, useState } from 'react';
 
-export default function useDateDashFormet(time: string): string {
-  if (!time) return '';
+export default function usePriceFormat(
+  price: string,
+  checkIn: string,
+  checkOut: string
+) {
+  const [priceData, setPriceData] = useState<number>(0);
+  const [dayData, setDayData] = useState<number>(0);
   const [value, setValue] = useState<string>('');
+
   useEffect(() => {
+    const numericValue = parseFloat(price.replace(/,/g, ''));
+    setPriceData(numericValue);
+
     const parseDate = (dateStr: string): Date | null => {
       if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
         return new Date(dateStr);
@@ -24,9 +33,21 @@ export default function useDateDashFormet(time: string): string {
       console.error('Unrecognized date format:', dateStr);
       return null;
     };
-    const formattedDate = `${time.slice(0, 4)}-${time.slice(4, 6)}-${time.slice(6)}`;
-    setValue(formattedDate.split(' ')[0]);
-  }, [time]);
+
+    const start = parseDate(checkIn);
+    const end = parseDate(checkOut);
+
+    if (start && end && !isNaN(start.getTime()) && !isNaN(end.getTime())) {
+      const differenceInTime = end.getTime() - start.getTime();
+      const calculatedDays = differenceInTime / (1000 * 3600 * 24);
+      setDayData(calculatedDays > 0 ? calculatedDays : 0);
+    } else {
+      console.error('Invalid date format for check-in or check-out');
+    }
+
+    const totalPrice = priceData * dayData;
+    setValue(totalPrice.toLocaleString()); // 천 단위 쉼표를 추가하여 문자열로 변환
+  }, [price, checkIn, checkOut, priceData, dayData]);
 
   return value;
 }

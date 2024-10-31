@@ -4,6 +4,7 @@ interface ButtonProps {
   type?: BtnType; // BtnType에 submit 추가
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string; // className 추가
+  disabled?: boolean;
 }
 
 export enum BtnSize {

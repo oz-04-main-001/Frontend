@@ -1,89 +1,105 @@
-// 이메일 인증 팝업
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Popup from '../../components/Popup';
-import Button, { BtnSize, BtnType } from '../..//assets/buttons/Button'; // BtnSize와 BtnType을 import
+import usePopupStore from '../../stores/usePopupStore';
+import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { Input } from '../../assets/Input';
+import axios from 'axios';
 
-const EmailVerification = ({ onClose }: { onClose: () => void }) => {
-  const handleRequestVerification = () => {
-    console.log('인증번호 요청');
-    // 추가 로직을 여기에 작성할 수 있습니다.
-  };
+const EmailVerification = () => {
+  const navigate = useNavigate();
+  const { openPopup, closePopup, popup } = usePopupStore();
+  const [email, setEmail] = useState<string>('');
+  const [otp, setOtp] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const handleCompleteVerification = () => {
-    console.log('인증번호 완료 요청');
-    // 추가 로직을 여기에 작성할 수 있습니다.
+  // 인증번호 확인 함수
+  const verifyCode = async () => {
+    if (!otp || !email) {
+      setErrorMessage('이메일과 인증번호를 모두 입력하세요.');
+      return;
+    }
+
+    console.log("전달할 데이터:", { otp, email });
+
+    try {
+      const response = await axios.post(
+        'http://localhost/api/v1/auth/register/verify/', 
+        { otp, email },
+        { withCredentials: true }
+      );
+      console.log("서버 응답:", response);
+
+      if (response.status === 200 || response.status === 201) {
+        alert('인증이 성공적으로 완료되었습니다.');
+        closePopup();
+        navigate('/user/login'); // 인증 성공 시 로그인 페이지로 이동
+      } else {
+        setErrorMessage('인증 실패: 서버에서 승인되지 않았습니다.');
+      }
+    } catch (error: any) {
+      if (error.response) {
+        console.error('서버 응답 데이터:', error.response.data);
+        if (error.response.status === 400) {
+          const serverError = error.response.data;
+          setErrorMessage(serverError?.message || '잘못된 요청: 필수 입력값이 누락되었거나 형식이 맞지 않습니다.');
+        } else {
+          setErrorMessage('인증번호 확인 중 오류가 발생했습니다.');
+        }
+      } else {
+        setErrorMessage('서버에 연결할 수 없습니다.');
+      }
+    }
   };
 
   return (
-    <Popup
-      title="이메일 인증"
-      onClose={onClose}
-      subTitle=""
-      buttonText={{ text1: '취소', text2: '확인' }}
-      onClickLogic1={onClose} // 취소 버튼 로직
-      onClickLogic2={onClose} // 확인 버튼 로직 (필요시 추가 로직을 여기에 추가할 수 있습니다)
-      titleClass="font-bold text-2xl"
-      subTitleClass="hidden"
-      containerClass="w-auto h-auto"
-    >
-      <div className="flex flex-col space-y-4">
-        <label className="text-sm" htmlFor="email">
-          이메일
-        </label>
-        
-        {/* 이메일 입력과 '@' 기호, 도메인 입력란, 인증번호 요청 버튼을 한 줄로 배치 */}
-        <div className="flex items-baseline space-x-2">
-          <Input
-            id="email"
-            type="email"
-            placeholder="이메일 입력"
-            className="flex-grow w-60" // 너비 조정
-          />
-          <span>@</span>
-          <Input
-            id="domain"
-            type="text"
-            placeholder="도메인 입력"
-            className="w-32" // 너비 조정
-          />
-          <Button
-            size={BtnSize.l}
-            text="인증번호 요청"
-            type={BtnType.popup}
-            onClick={handleRequestVerification}
-            className="w-40" // 너비 조정
-          />
-        </div>
+    <div>
+      {/* 팝업을 열기 위한 버튼 */}
+      <Button 
+        onClick={openPopup}
+        text="이메일 인증" 
+        size={BtnSize.l} 
+        type={BtnType.normal} 
+      />
 
-        <label className="text-sm" htmlFor="verificationCode">
-          인증번호
-        </label>
-        
-        {/* 인증번호 입력란과 버튼을 한 줄로 배치 */}
-        <div className="flex items-baseline space-x-2">
-          <Input
-            id="verificationCode"
-            type="text"
-            placeholder="인증번호 입력"
-            className="flex-grow w-[410px]" 
-          />
-          <Button
-            size={BtnSize.l}
-            text="인증번호 완료 요청"
-            type={BtnType.popup}
-            onClick={handleCompleteVerification}
-            className="w-10" 
-          />
-        </div>
-
-        <div className="flex items-center mt-4">
-          <input type="checkbox" id="privacyAgreement" />
-          <label className="ml-2" htmlFor="privacyAgreement">
-            개인정보 이용 동의
-          </label>
-        </div>
-      </div>
-    </Popup>
+      {/* 인증 팝업 */}
+      {popup && (
+        <Popup
+          title="이메일 인증"
+          subTitle="이메일과 인증번호를 입력하세요."
+          buttonText={{ text1: '취소', text2: '인증 완료' }}
+          onClickLogic1={closePopup}
+          onClickLogic2={verifyCode}
+          onClose={closePopup}
+        >
+          <div className="flex flex-col space-y-4">
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            
+            <Input
+              type="email"
+              id="email"
+              placeholder="이메일 입력"
+              value={email}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+              label="이메일"
+              validate={(value: string) => (!value ? '이메일을 입력하세요.' : null)}
+              className="w-full"
+            />
+            
+            <Input
+              type="text"
+              id="otp"
+              placeholder="인증번호 입력"
+              value={otp}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOtp(e.target.value)}
+              label="인증번호"
+              validate={(value: string) => (!value ? '인증번호를 입력하세요.' : null)}
+              className="w-full"
+            />
+          </div>
+        </Popup>
+      )}
+    </div>
   );
 };
 

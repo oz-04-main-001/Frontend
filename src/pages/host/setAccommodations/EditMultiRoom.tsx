@@ -8,9 +8,21 @@ import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
 import RoomPhoto from './components/RoomPhoto';
 
-const EditMultiStaterRoom: React.FC = () => {
+const EditMultiRoom: React.FC = () => {
     const navigate = useNavigate();
     const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+    const [roomInfo, setRoomInfo] = useState({
+        checkin: '',
+        checkout: '',
+        pricing: '',
+        roomName: '',
+        description: '',
+        selectedBeds: [''],
+        room: 1,
+        capacity: 1,
+        bedRows: 1,
+    });
+    console.log(roomInfo)
 
     const handleAddRoom = () => {
         console.log('신규 객실 추가하기 클릭됨');
@@ -19,6 +31,11 @@ const EditMultiStaterRoom: React.FC = () => {
     const handleSelectRoom = (room: string) => {
         setSelectedRoom(room);
         console.log(`${room} 객실 선택됨`);
+    };
+
+    const handleRoomInfoChange = (data: any) => {
+        setRoomInfo(data);
+        console.log("객실 정보 업데이트:", data);
     };
 
     return (
@@ -39,7 +56,7 @@ const EditMultiStaterRoom: React.FC = () => {
                     />
                 </div>
 
-                <div className="flex-grow ml-[330px] px-20 mx-48 pt-[10vh]">
+                <div className="flex-grow justify-center ml-[330px] px-20 mx-48 pt-[10vh]">
                     <div className="flex items-center mb-4">
                         <img
                             src={ArrowIcon}
@@ -47,7 +64,7 @@ const EditMultiStaterRoom: React.FC = () => {
                             className="w-6 h-6 mr-4 cursor-pointer"
                             onClick={() => navigate(-1)}
                         />
-                        <h1 className="text-2xl font-bold">숙소 객실 등록</h1>
+                        <h1 className="text-2xl font-bold">숙소 객실 수정</h1>
                     </div>
 
                     <div className="mb-4">
@@ -58,17 +75,24 @@ const EditMultiStaterRoom: React.FC = () => {
 
                     <div className="space-y-10">
                         <RoomPhoto />
-                        <MultiRoomInformation />
+                        <MultiRoomInformation
+                            room={roomInfo.room}
+                            onRoomChange={(value) => setRoomInfo({ ...roomInfo, room: value })}
+                            capacity={roomInfo.capacity}
+                            onCapacityChange={(value) => setRoomInfo({ ...roomInfo, capacity: value })}
+                            onStateChange={handleRoomInfoChange}
+                        />
                     </div>
 
                     <div className="flex justify-center w-full mt-12 mb-10 space-x-4">
-
                         <div className="w-[800px]">
                             <Button
                                 size={BtnSize.l}
                                 text="저장"
                                 type={BtnType.normal}
-                                onClick={() => navigate('/management')}
+                                onClick={() => {
+                                    navigate('/management');
+                                }}
                             />
                         </div>
                     </div>
@@ -78,4 +102,4 @@ const EditMultiStaterRoom: React.FC = () => {
     );
 };
 
-export default EditMultiStaterRoom;
+export default EditMultiRoom;

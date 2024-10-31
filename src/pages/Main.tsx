@@ -10,8 +10,8 @@ import Layout from '../layouts/Layout2';
 interface FetchCardInfo {
   id: number;
   name: string;
-  rooms: number;
-  hotel_img: string;
+  accommodation_img: string;
+  min_price: string;
 }
 
 const Main: React.FC = () => {
@@ -36,15 +36,17 @@ const Main: React.FC = () => {
 
       <Layout>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {cardList?.map(card => (
-            <MainCard
-              key={card.id}
-              id={card.id}
-              title={card.name}
-              price={card.rooms}
-              image={card.hotel_img}
-            />
-          ))}
+          {cardList?.map(card => {
+            return (
+              <MainCard
+                key={card.id}
+                id={card.id}
+                title={card.name}
+                price={card.min_price}
+                image={card.accommodation_img}
+              />
+            );
+          })}
         </div>
       </Layout>
     </div>
