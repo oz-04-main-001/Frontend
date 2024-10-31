@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-export default function useDateDashFormet(time: string) {
-  const [value, setValue] = useState<string>();
+export default function useDateDashFormet(time: string): string {
+  if (!time) return '';
+  const [value, setValue] = useState<string>('');
   useEffect(() => {
     const parseDate = (dateStr: string): Date | null => {
       if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
@@ -23,8 +24,6 @@ export default function useDateDashFormet(time: string) {
       console.error('Unrecognized date format:', dateStr);
       return null;
     };
-
-    console.log(time);
     const formattedDate = `${time.slice(0, 4)}-${time.slice(4, 6)}-${time.slice(6)}`;
     setValue(formattedDate.split(' ')[0]);
   }, [time]);

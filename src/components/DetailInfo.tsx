@@ -27,7 +27,7 @@ export default function DetailInfo({
   detailType,
 }: DetailInfoProps) {
   return (
-    <>
+    <div className="mt-32">
       <Carousel imgs={loremImg} />
       <div className="flex items-end justify-between mt-8">
         <div className="w-full">
@@ -61,6 +61,6 @@ export default function DetailInfo({
       ) : (
         ''
       )}
-    </>
+    </div>
   );
 }

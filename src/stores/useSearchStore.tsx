@@ -3,10 +3,15 @@ import { devtools } from 'zustand/middleware';
 
 let today = new Date();
 
-let year = today.getFullYear();
-let month = today.getMonth() + 1;
-let date = today.getDate();
-let day = today.getDay();
+const dayFormet = (dateString: Date) => {
+  let year = dateString.getFullYear();
+  let month = (dateString.getMonth() + 1).toString().padStart(2, '0');
+  let date = dateString.getDate().toString().padStart(2, '0');
+  let day = dateString.getDay();
+
+  return `${year}${month}${date} ${getDayOfWeek(day)}`;
+};
+
 function getDayOfWeek(day: number) {
   switch (day) {
     case 0:
@@ -25,9 +30,10 @@ function getDayOfWeek(day: number) {
       return '토';
   }
 }
-
-const todayDate = `${year}${month}${date} ${getDayOfWeek(day)}`;
-const tomorrowDate = `${year}${month}${date + 1} ${getDayOfWeek(day + 1)}`;
+const tomorrow = new Date(today);
+tomorrow.setDate(today.getDate() + 1);
+const todayDate = dayFormet(today);
+const tomorrowDate = dayFormet(tomorrow);
 
 interface State {
   search: {
@@ -59,7 +65,7 @@ interface Actions {
 }
 const initialState: State = {
   search: {
-    city: '서울특별시',
+    city: '여행지',
     date: {
       checkIn: todayDate,
       checkOut: tomorrowDate,

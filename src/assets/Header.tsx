@@ -2,7 +2,7 @@ import React from 'react';
 import Logo from './logo';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../stores/useAuthStore';
-import usePopupStore from '../stores/usePopupStore'; 
+import usePopupStore from '../stores/usePopupStore';
 
 export interface labels {
   title: string;
@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 flex items-center justify-between w-full p-2 px-16 ${border ? 'border-b border-gray-100' : undefined}`}
+      className={`fixed top-0 left-0 flex items-center justify-between w-full p-2 px-16 ${border ? 'border-b border-gray-100' : undefined}`}
       style={{ backgroundColor: color }}
     >
       <Link to="/">
