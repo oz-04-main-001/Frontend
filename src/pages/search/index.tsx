@@ -1,22 +1,17 @@
-import { useState } from 'react';
 import Header from '../../assets/Header';
 import CardAccommodations from '../../components/cards/CardAccommodations';
 import Filter from '../../components/Filter';
 import Search from '../../components/Search';
 import Layout2 from '../../layouts/Layout2';
 import Map from './Map';
-import { useNavigate } from 'react-router-dom';
 import {
   SearchRoom,
   useSearchRoomStore,
 } from '../../stores/useSearchRoomStore';
 
 export default function Index() {
-  const navigate = useNavigate();
-  const [searchError, setSearchError] =
-    useState<string>('검색 리스트를 불러오고 있습니다.');
-  const { accommodation_data, kakao_place_data } = useSearchRoomStore();
-  console.log(accommodation_data);
+  const searchError = '검색 리스트를 불러오고 있습니다.';
+  const { accommodation_data } = useSearchRoomStore();
   return (
     <>
       <Header border={false} />

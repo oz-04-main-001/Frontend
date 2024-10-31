@@ -1,7 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import HostAccommodationAPI from '../axios/HostAccommodationAPI';
-import useManagementFilterStore from '../stores/useManagementFilterStore';
-import BookingListApi from '../axios/BookingListApi';
 
 interface DropdownProps {
   width?: string;
@@ -18,7 +15,7 @@ interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = ({
   width = '200px',
   menuItems,
-  title = 'Select an Item',
+  title,
   style = 'text-center',
   btnStyle = 'text-sm font-medium px-4 py-2',
   selectedItem = null,
@@ -27,18 +24,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   tap = 0,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { filteredData, setFilteredData } = useManagementFilterStore();
-  const { accommoData } = HostAccommodationAPI();
-  const { data } = BookingListApi();
-
-  // Effect to handle changes in selectedItem
-  useEffect(() => {
-    if (menuItems) {
-      const filtered = data?.filter(item => item.room_name === selectedItem);
-      console.log('filtered', filtered);
-      setFilteredData(filtered);
-    }
-  }, [selectedItem]);
 
   useEffect(() => {
     if (tap === 1 || !tap) {
