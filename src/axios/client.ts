@@ -52,7 +52,9 @@ client.interceptors.response.use(
 
       try {
         // 리프레시 API 호출
-        const refreshResponse = await client.post('/api/v1/auth/token/refresh/');
+        const refreshResponse = await client.post(
+          '/api/v1/auth/token/refresh/'
+        );
         const newAccessToken = refreshResponse.data.accessToken;
 
         // 사용자 유형 재확인

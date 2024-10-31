@@ -8,16 +8,20 @@ import HostAccommodationAPI from '../../axios/HostAccommodationAPI';
 import BookingListApi from '../../axios/BookingListApi';
 
 interface ButtonLogicProp {
-  handleCancelClick: (id: number | null) => void;
-  handleConfirmClick: (id: number | null) => void;
+  handleCancelClick: (id: number) => void;
+  handleConfirmClick: (id: number) => void;
+  tap: number;
+  setTap: (tap: number) => void;
+  taps: string[];
 }
 
 export default function Management({
   handleCancelClick,
   handleConfirmClick,
+  tap,
+  setTap,
+  taps,
 }: ButtonLogicProp) {
-  const [tap, setTap] = useState(0);
-  const taps = ['이용 요청', '예약 확정'];
   const [selectedAccommodation, setSelectedAccommodation] = useState<
     string | null
   >(null);
