@@ -37,9 +37,9 @@ const HostDocuments: React.FC = () => {
           </div>
         </div>
       </div>
-    
+
       <div className="w-[400px] mx-auto mt-10 mb-6">
-        <Button size={BtnSize.l} text="완료" type={BtnType.normal} onClick={() => navigate('/management')} />
+        <Button size={BtnSize.l} text="완료" type={BtnType.normal} onClick={() => navigate('/Host/SelectType')} />
       </div>
     </div>
   );

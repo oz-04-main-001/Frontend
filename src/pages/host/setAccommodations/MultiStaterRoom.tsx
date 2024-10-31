@@ -11,6 +11,18 @@ import RoomPhoto from './components/RoomPhoto';
 const MultiStaterRoom: React.FC = () => {
   const navigate = useNavigate();
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [roomInfo, setRoomInfo] = useState({
+    checkin: '',
+    checkout: '',
+    pricing: '',
+    roomName: '',
+    description: '',
+    selectedBeds: [''],
+    room: 1,
+    capacity: 1,
+    bedRows: 1,
+  });
+  console.log(roomInfo)
 
   const handleAddRoom = () => {
     console.log('신규 객실 추가하기 클릭됨');
@@ -19,6 +31,11 @@ const MultiStaterRoom: React.FC = () => {
   const handleSelectRoom = (room: string) => {
     setSelectedRoom(room);
     console.log(`${room} 객실 선택됨`);
+  };
+
+  const handleRoomInfoChange = (data: any) => {
+    setRoomInfo(data);
+    console.log("객실 정보 업데이트:", data);
   };
 
   return (
@@ -30,7 +47,6 @@ const MultiStaterRoom: React.FC = () => {
           { title: '로그아웃', link: '/logout' }
         ]}
       />
-      
 
       <div className="flex">
         <div className="w-[300px] bg-gray-100">
@@ -40,7 +56,7 @@ const MultiStaterRoom: React.FC = () => {
           />
         </div>
 
-        <div className="flex-grow ml-[330px] px-20 mx-48 pt-[10vh]">
+        <div className="flex-grow justify-center ml-[330px] px-20 mx-48 pt-[10vh]">
           <div className="flex items-center mb-4">
             <img
               src={ArrowIcon}
@@ -59,17 +75,24 @@ const MultiStaterRoom: React.FC = () => {
 
           <div className="space-y-10">
             <RoomPhoto />
-            <MultiRoomInformation />
+            <MultiRoomInformation 
+              room={roomInfo.room} 
+              onRoomChange={(value) => setRoomInfo({ ...roomInfo, room: value })}
+              capacity={roomInfo.capacity} 
+              onCapacityChange={(value) => setRoomInfo({ ...roomInfo, capacity: value })}
+              onStateChange={handleRoomInfoChange}
+            />
           </div>
 
-          <div className="flex justify-center w-full mt-12 mb-10 space-x-4">
-
+          <div className="flex justify-center flex-grow w-full mt-12 mb-10 space-x-4">
             <div className="w-[800px]">
               <Button
                 size={BtnSize.l}
                 text="다음"
                 type={BtnType.normal}
-                onClick={() => navigate('/management')}
+                onClick={() => {
+                  navigate('/management');
+                }}
               />
             </div>
           </div>
