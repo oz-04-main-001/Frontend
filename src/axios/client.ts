@@ -1,6 +1,5 @@
 import axios from 'axios';
 import useAuthStore from '../stores/useAuthStore';
-import { useNavigate } from 'react-router-dom';
 
 const serverURL = import.meta.env.VITE_SERVER_URL;
 
@@ -23,10 +22,6 @@ client.interceptors.request.use(
   }
 );
 
-// 타임아웃 구현 함수
-const timeout = (ms: number): Promise<never> => 
-  new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms));
-
 // 응답 인터셉터 설정
 client.interceptors.response.use(
   function (response) {
@@ -39,6 +34,7 @@ client.interceptors.response.use(
 
       const { setUsertype } = useAuthStore.getState();
       if (userType) {
+        console.log('User type received:', userType);
         setUsertype(userType);
       }
     }
@@ -47,32 +43,54 @@ client.interceptors.response.use(
   async function (error) {
     const originalRequest = error.config;
 
+    // 401 에러 발생 시 처리
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
+        // 로컬 스토리지에서 만료된 액세스 토큰을 그대로 가져옴
+        const expiredAccessToken = localStorage.getItem('auth_token');
 
-        // 리프레시 API 호출
+        // 리프레시 API 호출 (만료된 액세스 토큰을 Authorization 헤더에 포함)
         const refreshResponse = await client.post(
-          '/api/v1/auth/token/refresh/'
+          '/api/v1/auth/token/refresh/',
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${expiredAccessToken}`, 
+            },
+          }
         );
-        const newAccessToken = refreshResponse.data.accessToken;
-//         const refreshPromise = client.post<{ accessToken: string }>('/api/v1/auth/token/refresh/');
-//         const refreshResponse = await Promise.race([refreshPromise, timeout(60000)]);
 
-
-        console.log('Refresh Response:', refreshResponse);
         const newAccessToken = refreshResponse.data.accessToken;
 
+        // 새로운 액세스 토큰을 auth_token 키로 저장
         localStorage.setItem('auth_token', newAccessToken);
+
+        // 리프레시로 받은 토큰을 refresh_auth_token으로 저장
+        const refreshAuthToken = refreshResponse.data.refreshToken;
+        if (refreshAuthToken) {
+          localStorage.setItem('refresh_auth_token', refreshAuthToken);
+        }
+
+        // 원래 요청에 새로운 토큰 추가
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
+        // 원래 요청 다시 시도
         return client(originalRequest);
       } catch (refreshError) {
-        console.error('Refresh token error or timeout:', refreshError);
+        console.error('Refresh token expired:', refreshError);
 
-        const navigate = useNavigate();
-        navigate('/login');
+        // 모든 인증 데이터 삭제
+        localStorage.removeItem('auth_token'); 
+        localStorage.removeItem('refresh_auth_token'); 
+
+        // Zustand 스토어 초기화 (사용자 세션 상태 초기화)
+        const { clearAuth } = useAuthStore.getState();
+        clearAuth();
+
+        // 로그인 페이지로 리디렉트
+        window.location.href = '/user/login';
       }
     }
     return Promise.reject(error);

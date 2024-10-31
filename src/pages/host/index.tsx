@@ -5,7 +5,7 @@ import Layout from '../../layouts/Layout2';
 export default function index() {
   const headerLabelArr: labels[] = [
     { title: '게스트 메인', link: '/' },
-    { title: '새 숙소 등록', link: '/host/SelectType' },
+    { title: '새 숙소 등록', link: '/host/select-type' },
   ];
   return (
     <Layout>
