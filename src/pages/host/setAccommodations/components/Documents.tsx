@@ -24,7 +24,9 @@ const Documents: React.FC = () => {
     const [phone3, setPhone3] = useState('');
     const [address, setAddress] = useState('');
 
-    const VITE_DOCUMENT_API_URL = import.meta.env.VITE_DOCUMENT_API_URL;
+    const VITE_DOCUMENT_API_URL = import.meta.env.VITE_DOCUMENT_API_URL
+
+    console.log(import.meta.env.VITE_DOCUMENT_API_URL);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, part: string) => {
         const value = e.target.value;
@@ -36,7 +38,7 @@ const Documents: React.FC = () => {
         setError('');
         setIsBusinessVerified(false);
 
-        const businessNumber = `${businessRegNum.part1}${businessRegNum.part2}${businessRegNum.part3}`; // 사업자 번호 결합
+        const businessNumber = `${businessRegNum.part1}${businessRegNum.part2}${businessRegNum.part3}`; 
         try {
             const url = 'https://api.odcloud.kr/api/nts-businessman/v1/status';
             const payload = { b_no: [businessNumber] };
