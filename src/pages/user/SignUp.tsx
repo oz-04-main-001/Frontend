@@ -166,10 +166,6 @@ const SignUp: React.FC = () => {
     }
   };
 
-  const handleClosePopup = () => {
-    setShowVerificationPopup(false);
-  };
-
   return (
     <div className="container mx-auto px-6 py-12 max-w-[500px] bg-gray-50 rounded-md shadow-lg">
       <div className="flex items-center justify-center mb-8">
