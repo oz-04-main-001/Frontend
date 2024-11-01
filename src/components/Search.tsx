@@ -73,7 +73,7 @@ const Search = ({ border = true }: SearchProp) => {
     }
   };
 
-  const [events, setEvents] = useState<any[]>([]);
+  const [events] = useState<any[]>([]);
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
 

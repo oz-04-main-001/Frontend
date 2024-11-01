@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
-import BookingListApi from '../../axios/BookingListApi';
 
 interface Booking {
   booker_phone_number: ReactNode;
@@ -33,12 +32,6 @@ interface Prop {
 }
 
 export default function CardOrderWating({
-  accommodations = ' 가나다 호텔',
-  room = '프리미엄 오션뷰 객실',
-  checkIn = '2024.10.14',
-  checkOut = '2024.10.15',
-  user = '한기선',
-  phoneNumber = '01012345678',
   onClose1,
   onClose2,
   pendingBooking,

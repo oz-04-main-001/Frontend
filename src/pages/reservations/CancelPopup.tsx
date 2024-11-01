@@ -13,7 +13,6 @@ const CancelPopup = ({
       onClose={onClose}
       buttonText={{ text1: '이전', text2: '예약 취소 확정' }}
       containerClass="w-[60rem]"
-      onClickLogic1={onClickLogic1}
       onClickLogic2={onClickLogic2}
     >
       <div className="text-left flex flex-col">

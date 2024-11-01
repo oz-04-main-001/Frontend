@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import HostAccommodationAPI from '../axios/HostAccommodationAPI';
 import useManagementFilterStore from '../stores/useManagementFilterStore';
 import BookingListApi from '../axios/BookingListApi';
 
@@ -28,7 +27,6 @@ const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const {setFilteredData } = useManagementFilterStore();
-  const { accommoData } = HostAccommodationAPI();
   const { data } = BookingListApi();
 
   // Effect to handle changes in selectedItem

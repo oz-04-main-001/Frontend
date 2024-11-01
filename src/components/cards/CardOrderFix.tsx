@@ -32,12 +32,6 @@ interface Prop {
 }
 
 export default function CardOrderFix({
-  accommodations = '나라마 숙소',
-  stateroom = '건강 청정 황토방',
-  checkIn = '2024.10.14',
-  checkOut = '2024.10.15',
-  user = '한기선',
-  phoneNumber = '01012345678',
   selectedRoom,
   selectedAccommodation,
   confirmedBooking,

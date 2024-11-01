@@ -12,7 +12,7 @@ import ArrowIcon from '../../../assets/icons/arrow3.svg';
 
 const EditMultiAccommodations: React.FC = () => {
     const navigate = useNavigate();
-    const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+    const [setSelectedRoom] = useState<string | null>(null);
     const [formData, setFormData] = useState({
         photos: [],
         accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
