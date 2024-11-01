@@ -18,6 +18,7 @@ const CancelPopup: React.FC = () => {
     <Popup
       title="예약 취소"
       buttonText={{ text1: '이전', text2: '예약 취소 확정' }}
+
       onClickLogic2={() => {
         fetchGetLoad();
       }}

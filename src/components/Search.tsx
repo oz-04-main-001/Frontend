@@ -71,6 +71,7 @@ const Search = ({ border = true }: SearchProp) => {
       searchActions.setCity(item);
     }
   };
+
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
 
