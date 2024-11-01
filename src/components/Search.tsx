@@ -8,7 +8,7 @@ import { useSearchStore } from '../stores/useSearchStore';
 import PlusIcon from '../assets/icons/plus.svg?react';
 import MinusIcon from '../assets/icons/minus.svg?react';
 import SearchIcon from '../assets/icons/search.svg?react';
-import { useNavigate, redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSearchRoomStore } from '../stores/useSearchRoomStore';
 import useDateDashFormet from '../customHooks/useDateDashFormet';
 import { getSearchLoad } from '../axios/searchApi';
@@ -71,6 +71,7 @@ const Search = ({ border = true }: SearchProp) => {
       searchActions.setCity(item);
     }
   };
+
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
 

@@ -1,5 +1,4 @@
 // 숙소유형선택
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import Header from '../../../assets/Header';

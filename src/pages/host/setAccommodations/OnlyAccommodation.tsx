@@ -18,7 +18,6 @@ const OnlyAccommodation: React.FC = () => {
         accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
         accommodationUse: { amenities: [], rules: '' },
     });
-    const [amenities, setAmenities] = useState<string[]>([]);
 
     const handleFormChange = (sectionName: string, data: any) => {
         setFormData((prevData) => ({
@@ -55,6 +54,7 @@ const OnlyAccommodation: React.FC = () => {
                 ],
             }
         };
+        // 이부분 백엔드 custom_name이 get받아온 리스트에 있는 것들 보냈을때만 가능함 ㅜㅜ 수정 요청하기 ㅜㅜ
         const amenities = {
             new: [{ name: "소방시설", is_custom: true }],
             default: [{ accommodation: 0, amenitiy_id: 0 }]

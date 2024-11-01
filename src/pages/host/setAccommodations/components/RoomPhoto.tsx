@@ -1,5 +1,5 @@
 //객실 사진 등록
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CloseIcon from '../../../../assets/icons/close.svg';
 
 const RoomPhoto: React.FC = () => {

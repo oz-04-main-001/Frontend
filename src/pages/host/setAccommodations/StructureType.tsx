@@ -1,10 +1,10 @@
-import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../../assets/Header';
 import Chips from '../../../assets/Chips';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
+import React from 'react';
 
 const StructureType: React.FC = () => {
   const navigate = useNavigate();

@@ -1,12 +1,5 @@
 import { create } from 'zustand';
 
-interface Accommodation {
-  id: 0;
-  name: string;
-  image: string;
-  address: string;
-}
-
 interface Booking {
   id: number;
   guest: number;

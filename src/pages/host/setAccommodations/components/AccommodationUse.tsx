@@ -1,21 +1,45 @@
 //숙소 이용
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Input } from '../../../../assets/Input';
 import InputChips from '../../../../assets/InputChips';
 
-interface AccommodationUseProps {
-    initialAmenities: string[];
-    onStateChange: (data: { amenities: string[]; rules: string }) => void;
+interface Amenity {
+    id: number | null;
+    name: string;
 }
 
-const AccommodationUse: React.FC<AccommodationUseProps> = ({ initialAmenities, onStateChange }) => {
-    const [amenities, setAmenities] = useState<string[]>(initialAmenities);
+interface AccommodationUseProps {
+    onStateChange: (data: { amenities: Amenity[]; rules: string }) => void;
+}
+
+const AccommodationUse: React.FC<AccommodationUseProps> = ({ onStateChange }) => {
+    const [amenities, setAmenities] = useState<Amenity[]>([]);
+    const [selectedAmenities, setSelectedAmenities] = useState<Amenity[]>([]);
     const [rules, setRules] = useState<string>('');
     const [value, setValue] = useState<string>('');
 
+    
     useEffect(() => {
-        onStateChange({ amenities, rules }); 
-    }, [amenities, rules]);
+        const fetchAmenities = async () => {
+            try {
+                const response = await axios.get('http://localhost/api/v1/accommodations/amenity-choices/', {
+                    headers: {
+                        accept: 'application/json',
+                    },
+                });
+                setAmenities(response.data.map((name: string, index: number) => ({ id: index, name })));
+            } catch (error) {
+                console.error('어메니티 리스트 가져오기 오류:', error);
+            }
+        };
+
+        fetchAmenities();
+    }, []);
+
+    useEffect(() => {
+        onStateChange({ amenities: selectedAmenities, rules });
+    }, [selectedAmenities, rules]);
 
     const handleRulesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputText = e.target.value;
@@ -25,10 +49,21 @@ const AccommodationUse: React.FC<AccommodationUseProps> = ({ initialAmenities, o
     };
 
     const handleAddAmenity = (newAmenity: string) => {
-        if (newAmenity && !amenities.includes(newAmenity)) {
-            setAmenities([...amenities, newAmenity]);
+        if (newAmenity && !amenities.find((a) => a.name === newAmenity)) {
+            const newAmenityObj = { id: null, name: newAmenity };
+            setAmenities([...amenities, newAmenityObj]);
             setValue('');
         }
+    };
+
+    const handleAmenityClick = (amenity: Amenity) => {
+        setSelectedAmenities((prevSelected) => {
+            if (prevSelected.find((a) => a.name === amenity.name)) {
+                return prevSelected.filter((a) => a.name !== amenity.name);
+            } else {
+                return [...prevSelected, amenity];
+            }
+        });
     };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -60,22 +95,33 @@ const AccommodationUse: React.FC<AccommodationUseProps> = ({ initialAmenities, o
 
             <div>
                 <h3 className="mb-4 text-base text-gray-400">숙소 시설/서비스</h3>
-                <div className="grid grid-cols-7 gap-4">
-                    {amenities.map((amenity, index) => (
-                        <InputChips
-                            key={index}
-                            text={amenity}
-                            value={amenity}
-                            setValue={setValue}
-                            className="text-xs text-gray-400"
-                        />
+                <div className="grid grid-cols-4 gap-4">
+                    {amenities.map((amenity) => (
+                        <div
+                            key={amenity.id ?? amenity.name}
+                            onClick={() => handleAmenityClick(amenity)}
+                            className={`cursor-pointer p-2 rounded text-xs ${
+                                selectedAmenities.find((a) => a.name === amenity.name)
+                                    ? 'bg-gray-50 text-white font-bold' 
+                                    : ' text-gray-400'    
+                            }`}
+                        >
+                            <InputChips
+                                key={amenity.id ?? amenity.name}
+                                text={amenity.name}
+                                value={amenity.name}
+                                setValue={setValue}
+                                className="text-xs"
+                            />
+
+                        </div>
                     ))}
                     <InputChips
                         value={value}
                         setValue={setValue}
                         editable={true}
                         placeholder="기타"
-                        className="text-xs text-gray-400"
+                        className="text-xs"
                         onKeyPress={handleKeyPress}
                     />
                 </div>

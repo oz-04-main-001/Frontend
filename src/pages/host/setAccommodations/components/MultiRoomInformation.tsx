@@ -1,5 +1,5 @@
 // 숙소 객실 정보 컴포넌트
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Input } from '../../../../assets/Input';
 import InputChips from '../../../../assets/InputChips';
 import Counter from '../../../../assets/Counter';

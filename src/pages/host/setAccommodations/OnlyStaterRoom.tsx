@@ -1,11 +1,9 @@
-//독채인 경우 객실 등록
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../../assets/Header';
 import OnlyRoomInformation from './components/OnlyRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
-import axios from 'axios';
 
 const OnlyStaterRoom: React.FC = () => {
   const navigate = useNavigate();
@@ -16,11 +14,11 @@ const OnlyStaterRoom: React.FC = () => {
     selectedBeds: [],
     capacity: 1,
     room: 1,
-    selectedFacilities: [], 
+    selectedFacilities: [],
   });
 
   const handleRoomInfoChange = (data: any) => {
-    setRoomData((prevData) => ({
+    setRoomData(prevData => ({
       ...prevData,
       ...data,
     }));
@@ -31,23 +29,22 @@ const OnlyStaterRoom: React.FC = () => {
   }, [roomData]);
 
   const handleSubmit = async () => {
-    const postData = {
-      check_in_time: roomData.checkin,
-      check_out_time: roomData.checkout,
-      price: parseInt(roomData.pricing) || 0,
-      stay_type: true,
-      is_available: true,
-      capacity: roomData.capacity,
-      room_type: {
-        room: roomData.room,
-      },
-      facilities: roomData.selectedFacilities, 
-      upload_images: [""],
-      inventory: {
-        count_room: 1,
-      },
-    };
-
+    // const postData = {
+    //   check_in_time: roomData.checkin,
+    //   check_out_time: roomData.checkout,
+    //   price: parseInt(roomData.pricing) || 0,
+    //   stay_type: true,
+    //   is_available: true,
+    //   capacity: roomData.capacity,
+    //   room_type: {
+    //     room: roomData.room,
+    //   },
+    //   facilities: roomData.selectedFacilities,
+    //   upload_images: [""],
+    //   inventory: {
+    //     count_room: 1,
+    //   },
+    // };
     // try {
     //   const response = await axios.post('http://localhost/api/v1/rooms/', postData);
     //   console.log('객실 등록 성공', response.data);
