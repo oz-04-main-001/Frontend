@@ -1,4 +1,6 @@
+
 //객실이 여러개 있는 숙소 세팅
+
 import { useState, useEffect } from 'react';
 import MultiRoomList from './components/MultiRoomList';
 import AccommodationsPhoto from './components/AccommodationsPhoto';
@@ -9,6 +11,7 @@ import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import Header from '../../../assets/Header';
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
+
 import axios from 'axios';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 
@@ -17,7 +20,15 @@ const MultiAccommodations: React.FC = () => {
   const selectedBuilding = useSelectionStore((state) => state.selectedBuilding)|| '독채펜션'; 
   const [formData, setFormData] = useState({
     images: [],
-    accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
+    accommodationInfo: {
+      name: '',
+      address: '',
+      description: '',
+      sido: '',
+      sigungu: '',
+      roadname: '',
+      latitude: '',
+      longitude: '',
     accommodationUse: { amenities: [], rules: '' },
   });
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
@@ -39,9 +50,9 @@ const MultiAccommodations: React.FC = () => {
   }, [formData]);
 
   const handleFormChange = (sectionName: string, data: any) => {
-    setFormData((prevData) => ({
+    setFormData(prevData => ({
       ...prevData,
-      [sectionName]: data
+      [sectionName]: data,
     }));
   };
 
@@ -73,7 +84,7 @@ const MultiAccommodations: React.FC = () => {
         road_name: formData.accommodationInfo.roadname,
         address: formData.accommodationInfo.address,
         location: {
-          type: "Point",
+          type: 'Point',
           coordinates: [
             parseFloat(formData.accommodationInfo.longitude),
             parseFloat(formData.accommodationInfo.latitude),
@@ -90,10 +101,12 @@ const MultiAccommodations: React.FC = () => {
           .map((amenity: { id: number }) => ({ amenity_id: amenity.id }))
   };
 
+
     formDataToSend.append("accommodation_data", JSON.stringify(accommodationData));
     formDataToSend.append("amenities",JSON.stringify(amenities));
     formData.images.forEach((image) => {
       formDataToSend.append(`images`, image);
+
     });
     for (let [key, value] of formDataToSend.entries()) {
       console.log(`${key}: ${value}`);
@@ -120,7 +133,7 @@ try {
         labels={[
           { title: '게스트 메인', link: '/guest' },
           { title: '서비스 등록', link: '/register' },
-          { title: '로그아웃', link: '/logout' }
+          { title: '로그아웃', link: '/logout' },
         ]}
       />
 
@@ -142,19 +155,20 @@ try {
 
         <div className="">
           <AccommodationsPhoto
-            onStateChange={(data) => handleFormChange('photos', data)}
+            onStateChange={data => handleFormChange('photos', data)}
           />
           <AccommodationInformation
-            onStateChange={(data) => handleFormChange('accommodationInfo', data)}
+            onStateChange={data => handleFormChange('accommodationInfo', data)}
           />
           <AccommodationUse
             onStateChange={(data) => handleFormChange('accommodationUse', data)}
+
           />
           <RefundPolicy />
         </div>
 
         <div className="flex justify-center w-full mt-12 mb-10 space-x-4">
-          <div className='w-[550px]'>
+          <div className="w-[550px]">
             <Button
               size={BtnSize.l}
               text="임시저장"
@@ -162,7 +176,7 @@ try {
               onClick={handleTemporarySave}
             />
           </div>
-          <div className='w-[550px]'>
+          <div className="w-[550px]">
             <Button
               size={BtnSize.l}
               text="다음"

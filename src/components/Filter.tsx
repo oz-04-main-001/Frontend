@@ -12,16 +12,14 @@ const cities = [
   '경기도',
   '충청북도',
   '충청남도',
+  '전라북도',
   '전라남도',
   '경상북도',
-  '강원도특별자치도',
-  '전북특별자치도',
+  '강원도',
 ];
 const Filter = () => {
-  const { actions } = useSearchStore();
-  const [active, setActive] = useState<string>();
+  const { search, actions } = useSearchStore();
   const scrollContainerRef = useRef<HTMLUListElement>(null);
-
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -54,14 +52,13 @@ const Filter = () => {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        {cities?.map((city, idx) => (
+        {cities?.map(city => (
           <li
-            key={idx}
+            key={city}
             onClick={() => {
               actions.setCity(city);
-              setActive(city);
             }}
-            className={`select-none items-stretch inline-block p-2 btn1 grow flex-nowrap whitespace-nowrap ${active === city ? 'rounded-md bg-gray-800 font-bold text-white' : ''} `}
+            className={`select-none items-stretch inline-block p-2 btn1 grow flex-nowrap whitespace-nowrap ${search.city === city ? 'rounded-md bg-gray-800 font-bold text-white' : ''} `}
           >
             {city}
           </li>

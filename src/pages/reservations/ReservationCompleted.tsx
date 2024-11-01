@@ -9,51 +9,65 @@ import { useParams } from 'react-router-dom';
 import { BadgeStatus } from '../../assets/Badges';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import useTimeFormet from '../../customHooks/useTimeFormet';
+import Arrow from '../../assets/icons/arrow.svg?react';
+import usePopupStore from '../../stores/usePopupStore';
+import CancelPopup from './CancelPopup';
 
+interface Bed {
+  total_beds: number;
+  bed_type_num: null | string;
+}
 interface OrderInfo {
   id: number | string;
-  room: {
+  accommodation_info: {
+    name: string;
+    representative_image: null | string;
+    address: string;
+  };
+  room_info: {
     id: number | string;
     name: string;
-    capacity: number;
-    max_capacity: number;
+    capacity: 4;
+    max_capacity: 5;
     description: string;
-    price: number;
+    price: string;
     check_in_time: string;
     check_out_time: string;
-    bed_info: {
-      total_beds: number;
-      bed_names: string[];
-    };
-  };
-  booking_user_info: {
-    name: string;
-    phone_number: string;
-    email: string;
+    bed_info: Bed;
+    room_count: number;
   };
   check_in_datetime: string;
   check_out_datetime: string;
-  total_price: number | string;
+  total_price: string;
   status: BadgeStatus;
   request: string;
   guests_count: number;
   booker_name: string;
   booker_phone_number: string;
   guest: number;
+  room: number;
 }
 
 export default function ReservationCompleted() {
+  const { popup, openPopup } = usePopupStore();
+
   const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null);
   const { orderId } = useParams();
+
   useEffect(() => {
     const fetchGetLoad = async () => {
       if (orderId) {
-        const loadCard = await getBookingStatus(orderId);
-        setOrderInfo(loadCard);
+        try {
+          const loadCard = await getBookingStatus(orderId);
+          setOrderInfo(loadCard);
+        } catch (error) {
+          console.error('Error fetching booking status:', error);
+        }
       }
     };
     fetchGetLoad();
   }, [orderId]);
+
   const dateCount = orderInfo
     ? (() => {
         const start = new Date(orderInfo.check_in_datetime);
@@ -62,19 +76,32 @@ export default function ReservationCompleted() {
         return differenceInTime / (1000 * 3600 * 24);
       })()
     : 0;
+
+  console.log(orderInfo?.status);
+
   return (
-    <div className="">
+    <div>
       <Layout>
         {orderInfo ? (
           <AccomoInfoCard
-            image={undefined}
-            address={undefined}
-            status={orderInfo.status}
-            stateRoomName={orderInfo.room.name}
+            image={
+              orderInfo.accommodation_info?.representative_image ||
+              'defaultImage.jpg'
+            }
+            address={
+              orderInfo.accommodation_info?.address || 'Address not available'
+            }
+            status={orderInfo.status || 'Status unavailable'}
+            stateRoomName={orderInfo.room_info?.name || 'Room name unavailable'}
             guestsCount={orderInfo.guests_count}
-            bed={orderInfo.room.bed_info}
-            checkIn={`${useDateDotFormet(orderInfo.check_in_datetime)} ${useTimeFormet(orderInfo.room.check_in_time)}`}
-            checkOut={`${useDateDotFormet(orderInfo.check_out_datetime)} ${useTimeFormet(orderInfo.room.check_out_time)}`}
+            bed={
+              orderInfo.room_info?.bed_info || {
+                total_beds: 0,
+                bed_type_num: null,
+              }
+            }
+            checkIn={`${useDateDotFormet(orderInfo.check_in_datetime || '')} ${useTimeFormet(orderInfo.room_info?.check_in_time || '')}`}
+            checkOut={`${useDateDotFormet(orderInfo.check_out_datetime || '')} ${useTimeFormet(orderInfo.room_info?.check_out_time || '')}`}
           />
         ) : (
           '예약하신 숙소 정보를 가져오고 있습니다.'
@@ -100,12 +127,33 @@ export default function ReservationCompleted() {
           <PaymentInfo
             title="결제 정보"
             dateCount={dateCount}
-            price={orderInfo?.total_price}
+            price={orderInfo.total_price}
           />
         ) : (
           '결제 정보를 가져오고 있습니다.'
         )}
       </Layout>
+
+      {['pending', 'confirmed', 'paid', 'partially_paid'].includes(
+        orderInfo?.status || ''
+      ) ? (
+        <>
+          <Divider />
+          <Layout>
+            <div
+              className="flex justify-between text-gray-500 cursor-pointer"
+              onClick={() => {
+                openPopup();
+              }}
+            >
+              <h6>예약취소</h6>
+              <Arrow width={24} height={24} />
+            </div>
+          </Layout>
+        </>
+      ) : null}
+
+      {popup && <CancelPopup />}
     </div>
   );
 }

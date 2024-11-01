@@ -1,7 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import HostAccommodationAPI from '../axios/HostAccommodationAPI';
-import useManagementFilterStore from '../stores/useManagementFilterStore';
-import BookingListApi from '../axios/BookingListApi';
 
 interface DropdownProps {
   width?: string;
@@ -11,14 +8,14 @@ interface DropdownProps {
   btnStyle?: string | undefined;
   selectedItem?: string | null;
   setSelectedItem?: Dispatch<SetStateAction<string | null>>;
-  onClick?: (item: string | null) => void;
-  tap: number;
+  onClick?: (item: string) => void;
+  tap?: number;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
   width = '200px',
   menuItems,
-  title = 'Select an Item',
+  title,
   style = 'text-center',
   btnStyle = 'text-sm font-medium px-4 py-2',
   selectedItem = null,
@@ -27,19 +24,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   tap = 0,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { filteredData, setFilteredData } = useManagementFilterStore();
-  const { accommoData } = HostAccommodationAPI();
-  const { data } = BookingListApi();
-
-  // Effect to handle changes in selectedItem
-  useEffect(() => {
-    if (menuItems) {
-      const filtered = data?.filter(item => item.room_name === selectedItem);
-      console.log('filtered', filtered);
-      setFilteredData(filtered);
-    }
-  }, [selectedItem]);
-
 
   useEffect(() => {
     if (tap === 1 || !tap) {
@@ -47,7 +31,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [tap]);
 
-  const handleItemClick = (item: string | null) => {
+  const handleItemClick = (item: string) => {
     onClick(item);
     setSelectedItem(item);
     setIsOpen(false);
@@ -58,7 +42,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className="relative inline-block text-left z-50" style={{ width }}>
+    <div className="relative z-50 inline-block text-left" style={{ width }}>
       <button
         onClick={toggleDropdown}
         className={`inline-flex items-center justify-between w-full ${btnStyle} text-gray-700 rounded-md focus:outline-none`}
@@ -74,7 +58,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       {isOpen && (
         <div className="absolute right-0 w-full mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div
-            className="py-1 text-center text-xs overflow-y-auto max-h-60"
+            className="py-1 overflow-y-auto text-xs text-center max-h-60"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="options-menu"

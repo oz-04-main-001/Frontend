@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import MembershipWithdrawal from './MembershipWithdrawal';
 import { getUserOrderList } from '../../axios/orderApi';
 import Divider from '../../assets/Divider';
+import { useNavigate } from 'react-router-dom';
 
 interface UserInfo {
   email: string;
@@ -27,15 +28,10 @@ interface MypageInfo {
 }
 
 const Mypage = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<MypageInfo>();
-  const popup = usePopupStore(state => state.popup);
-  const closePopup = usePopupStore(state => state.closePopup);
+  const { popup, openPopup } = usePopupStore();
   const [leave, setLeave] = useState(false);
-
-  const popupShow = () => {
-    if (popup && !leave) return <WarningNotice setLeave={setLeave} />;
-    if (popup && leave) return <MembershipWithdrawal />;
-  };
 
   useEffect(() => {
     const fetchGetLoad = async () => {
@@ -44,6 +40,7 @@ const Mypage = () => {
     };
     fetchGetLoad();
   }, []);
+
   return (
     <div>
       <Header />
@@ -55,6 +52,18 @@ const Mypage = () => {
         <p className="text-gray-600">
           전화번호: {userInfo?.login_user.phone_number}
         </p>
+        <div
+          className="mt-6 text-gray-400 cursor-pointer c1"
+          onClick={() => {
+            if (userInfo?.login_user.user_type === 'guest') {
+              navigate('/HostDocuments');
+            } else {
+              navigate('/host');
+            }
+          }}
+        >
+          {userInfo?.login_user.name}님 호스트가 되어보세요.
+        </div>
       </div>
       <Divider />
       <div className="px-4 mt-8 ">
@@ -72,14 +81,17 @@ const Mypage = () => {
         })}
       </div>
       <div
-        className="text-center text-gray-400 b1 mt-14"
+        className="text-center text-gray-400 cursor-pointer b1 mt-14"
         onClick={() => {
-          closePopup();
+          setLeave(false);
+          openPopup();
         }}
       >
         회원탈퇴
       </div>
-      {popupShow()}
+
+      {popup && !leave && <WarningNotice setLeave={setLeave} />}
+      {popup && leave && <MembershipWithdrawal />}
     </div>
   );
 };

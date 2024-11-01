@@ -27,7 +27,8 @@ export default function StateroomCard({
 }: StateRoomCardProp) {
   const navigate = useNavigate();
   const handleErrorImage = useErrorImage();
-  const { accommodation } = useAccommodationsStore();
+  const { accommodationId } = useAccommodationsStore();
+
   return (
     <div className="flex gap-8 p-5 mb-8 rounded-md bg-gray-50">
       <div className="flex items-center justify-center overflow-hidden bg-gray-100 border-2 border-gray-100 border-solid rounded-md aspect-square basis-1/4">
@@ -45,9 +46,7 @@ export default function StateroomCard({
             type="button"
             className="text-right b1 text-primary-600 "
             onClick={() => {
-              navigate(
-                `/accommodations/stateroom/${accommodation?.accommodationId}/${id}`
-              );
+              navigate(`/accommodations/stateroom/${accommodationId}/${id}`);
             }}
           >
             상세보기
@@ -69,7 +68,7 @@ export default function StateroomCard({
                 <Button
                   onClick={() => {
                     navigate(
-                      `/reservation/stateroom/order/${accommodation?.accommodationId}/${id}`
+                      `/reservation/stateroom/order/${accommodationId}/${id}`
                     );
                   }}
                   size={BtnSize.m}

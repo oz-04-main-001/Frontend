@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import Button, { BtnType, BtnSize } from '../../assets/buttons/Button';
-import Checkbox, { CheckBox } from '../../assets/Checkbox';
 import Divider from '../../assets/Divider';
 import InfoTemp from '../../components/InfoTemp1';
 import Layout from '../../layouts/Layout1';
@@ -8,7 +7,6 @@ import CheckInOut from '../../components/CheckInOut';
 import { useSearchStore } from '../../stores/useSearchStore';
 import { useStateroomStore } from '../../stores/useStateroomStore';
 import useDateCount from '../../customHooks/useDateCount';
-import { useState } from 'react';
 import { postBooking } from '../../axios/orderApi';
 import { AxiosError } from 'axios';
 import useTimeFormet from '../../customHooks/useTimeFormet';
@@ -16,23 +14,11 @@ import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import useDateDashFormet from '../../customHooks/useDateDashFormet';
 import usePriceFormet from '../../customHooks/usePriceFormet';
 
-const checkListData = [
-  {
-    id: 1,
-    label: '숙소 이용규칙 및 취소/환불규정 동의 (필수)',
-    check: false,
-  },
-  { id: 2, label: '개인정보 수집 및 이용 동의 (필수)', check: false },
-  { id: 3, label: '개인정보 제3자 제공 동의 (필수)', check: false },
-];
-
 export default function Orders() {
   const navigate = useNavigate();
-  const [checkList, setCheckList] = useState<CheckBox[]>([]);
   const { accommodationId, stateroomId } = useParams();
   const { search } = useSearchStore();
   const { stateRoom } = useStateroomStore();
-  const [agree, setAgree] = useState(false);
   const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
   const checkInDate = useDateDashFormet(search.date.checkIn);
   const checkOutDate = useDateDashFormet(search.date.checkOut);
@@ -56,7 +42,7 @@ export default function Orders() {
           const statusCode = axiosError.response.status;
           switch (statusCode) {
             case 401:
-              // navigate('/user/login');
+              navigate('/user/login');
               break;
             default:
               console.log('요청 에러');
@@ -113,25 +99,11 @@ export default function Orders() {
       </Layout>
       <Divider />
       <Layout>
-        {/* <div className="flex flex-col gap-5">
-          <Checkbox id={0} label="전체동의" bold={true} check={false} />
-          {checkListData.map(checkbox => (
-            <Checkbox
-              checkbox={checkbox}
-              key={checkbox.id}
-              label={checkbox.label}
-              id={checkbox.id}
-              check={checkbox.check}
-              onChange={checkHandler}
-              checkList={checkList}
-            />
-          ))}
-        </div> */}
         <div className="my-20">
           <Button
             size={BtnSize.l}
             text={`${priceFormet}원 결제하기`}
-            type={agree ? BtnType.normal : BtnType.disabled}
+            type={BtnType.normal}
             onClick={fetchGetLoad}
           />
         </div>
