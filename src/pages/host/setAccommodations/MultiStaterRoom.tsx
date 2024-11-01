@@ -43,7 +43,6 @@ const MultiStaterRoom: React.FC = () => {
       <Header
         labels={[
           { title: '게스트 메인', link: '/guest' },
-          { title: '서비스 등록', link: '/register' },
           { title: '로그아웃', link: '/logout' }
         ]}
       />
@@ -91,7 +90,7 @@ const MultiStaterRoom: React.FC = () => {
                 text="다음"
                 type={BtnType.normal}
                 onClick={() => {
-                  navigate('/management');
+                  navigate('/host/management');
                 }}
               />
             </div>

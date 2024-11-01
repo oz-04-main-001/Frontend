@@ -1,5 +1,5 @@
 //숙소 이용
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Input } from '../../../../assets/Input';
 import InputChips from '../../../../assets/InputChips';

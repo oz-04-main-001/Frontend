@@ -5,6 +5,7 @@ import OnlyRoomInformation from './components/OnlyRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
+import axios from 'axios';
 
 const OnlyStaterRoom: React.FC = () => {
   const navigate = useNavigate();
@@ -15,11 +16,11 @@ const OnlyStaterRoom: React.FC = () => {
     selectedBeds: [],
     capacity: 1,
     room: 1,
-    selectedFacilities: [],
+    selectedFacilities: [], 
   });
 
   const handleRoomInfoChange = (data: any) => {
-    setRoomData(prevData => ({
+    setRoomData((prevData) => ({
       ...prevData,
       ...data,
     }));
@@ -40,12 +41,20 @@ const OnlyStaterRoom: React.FC = () => {
       room_type: {
         room: roomData.room,
       },
-      facilities: roomData.selectedFacilities,
-      upload_images: [''],
+      facilities: roomData.selectedFacilities, 
+      upload_images: [""],
       inventory: {
         count_room: 1,
       },
     };
+
+    // try {
+    //   const response = await axios.post('http://localhost/api/v1/rooms/', postData);
+    //   console.log('객실 등록 성공', response.data);
+    //   navigate('/management');
+    // } catch (error) {
+    //   console.error('객실 등록 중 오류 발생', error);
+    // }
   };
 
   return (

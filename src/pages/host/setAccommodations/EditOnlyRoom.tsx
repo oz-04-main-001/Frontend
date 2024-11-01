@@ -30,7 +30,7 @@ const EditOnlyRoom: React.FC = () => {
 
     const handleSubmit = () => {
         console.log('저장된 데이터:', formData);
-        navigate('/management');
+        navigate('/host/management');
     };
 
     return (

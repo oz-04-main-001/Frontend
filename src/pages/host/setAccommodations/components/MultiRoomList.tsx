@@ -1,5 +1,5 @@
 // 객실 리스트 컴포넌트
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import SVGIcon from '../../../../assets/logo';
 import Button, { BtnSize, BtnType } from '../../../../assets/buttons/Button'; 
