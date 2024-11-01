@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../../assets/Header';
 import Documents from './components/Documents';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
-import ArrowIcon from '../../../assets/icons/Arrow3.svg?react';
+import ArrowIcon from '../../../assets/icons/arrow3.svg?react';
 
 const HostDocuments: React.FC = () => {
   const navigate = useNavigate();
