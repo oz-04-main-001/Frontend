@@ -9,6 +9,7 @@ interface PopupProps {
   subTitle?: string;
   children?: React.ReactNode;
   buttonText?: { text1?: string; text2?: string };
+  onClickLogic1?: MouseEventHandler;
   onClickLogic2?: MouseEventHandler;
   titleClass?: string;
   onClose?: () => void;

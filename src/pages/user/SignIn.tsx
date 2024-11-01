@@ -51,7 +51,7 @@ const SignIn = () => {
         />
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       </div>
-      <div className="w-1/3 shrink-0">
+      <div className="w-1/4 shrink-0">
         <Buttons
           size={BtnSize.l}
           text="로그인"
