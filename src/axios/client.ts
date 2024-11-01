@@ -50,6 +50,7 @@ client.interceptors.response.use(
       try {
         // 로컬 스토리지에서 만료된 액세스 토큰을 그대로 가져옴
         const expiredAccessToken = localStorage.getItem('auth_token');
+        console.log(expiredAccessToken)
 
         // 리프레시 API 호출 (만료된 액세스 토큰을 Authorization 헤더에 포함)
         const refreshResponse = await client.post(
@@ -62,8 +63,9 @@ client.interceptors.response.use(
           }
         );
 
-        const newAccessToken = refreshResponse.data.accessToken;
-
+        const newAccessToken = refreshResponse.data.access_token;
+        console.log(refreshResponse.data)
+       
         // 새로운 액세스 토큰을 auth_token 키로 저장
         localStorage.setItem('auth_token', newAccessToken);
 
@@ -72,6 +74,8 @@ client.interceptors.response.use(
         if (refreshAuthToken) {
           localStorage.setItem('refresh_auth_token', refreshAuthToken);
         }
+
+        console.log('재발급 성공');
 
         // 원래 요청에 새로운 토큰 추가
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
