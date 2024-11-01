@@ -12,11 +12,9 @@ interface CardAccommodationsProp {
 
 export default function CardAccommodations({
   id,
-  location,
   lowestPrice,
   accommodationsName,
   representativeImage = '/staynest.svg',
-  room,
 }: CardAccommodationsProp) {
   const handleErrorImage = useErrorImage();
   const navigate = useNavigate();

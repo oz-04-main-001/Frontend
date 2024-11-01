@@ -25,9 +25,9 @@ export const getBookingStatus = async (id: string) => {
     });
 };
 
-export const putBookingCancel = async (bookingId: number) => {
+export const putBookingCancel = async (bookingId: string) => {
   return await client
-    .put(`/api/v1/bookings/cancel/${bookingId}/`)
+    .patch(`/api/v1/bookings/cancel/${bookingId}/`)
     .then(response => response.data)
     .catch(error => {
       console.log(error);
