@@ -22,7 +22,7 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({ onClose }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost/api/v1/auth/register/verify/', 
+        'http://localhost/api/v1/auth/register/verify/',
         { otp, email },
         { withCredentials: true }
       );

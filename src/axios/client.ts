@@ -62,7 +62,6 @@ client.interceptors.response.use(
             },
           }
         );
-
         const newAccessToken = refreshResponse.data.access_token;
         console.log(refreshResponse.data)
        

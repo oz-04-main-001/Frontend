@@ -8,59 +8,94 @@ export interface Amenity {
   is_custom: boolean;
 }
 interface Accommodation {
-  name: string;
-  phone_number: string;
-  description: string;
-  rules: string;
+  accommodation_img: null | string;
+  accommodation_info: {
+    name: string;
+    phone_number: string;
+    description: string;
+    rules: string;
+  };
+  address: string;
+  min_price: string | number;
+  accommodation_amenity: Amenity[];
+  refund_policy: [
+    {
+      seven_days_before: string;
+      five_days_before: string;
+      three_days_before: string;
+      one_day_before: string;
+      same_day: string;
+    },
+  ];
+  accommodation_type: [
+    {
+      accommodation: number;
+      is_customized: boolean;
+      type_name: string;
+    },
+  ];
 }
 interface StateRoom {
   id: number;
   name: string;
   capacity: number;
-  max_capacity: number | string;
-  description: string;
-  price: number | string;
+  max_capacity: number;
+  price: string | number;
+  is_available: boolean;
+  representative_image: string;
   check_in_time: string;
   check_out_time: string;
-  bed_info: {
-    total_beds: number;
-    bed_names: string[];
-  };
-  images: string;
 }
 
 interface State {
-  accommodation: {
-    accommodationId: number | null;
-    accommodation_img: null;
-    accommodation_info: Accommodation;
-    address: string;
-    min_price: string | number;
-    rooms: StateRoom[] | string;
-    accommodation_amenity: Amenity[];
-  };
+  accommodationId: number;
+  data: Data;
 }
 
 interface Actions {
   actions: {
-    setAccommodationsInfo: (info: State) => void;
-    setAccommodationId: (id: number) => void;
+    setAccommodationsInfo: (id: number, info: Data) => void;
   };
 }
+
+interface Data {
+  accommodation: Accommodation;
+  available_rooms: StateRoom[];
+  unavailable_rooms: StateRoom[];
+}
 const initialState: State = {
-  accommodation: {
-    accommodationId: null,
-    accommodation_img: null,
-    accommodation_info: {
-      name: '정보없음',
-      phone_number: '정보없음',
-      description: '정보없음',
-      rules: '정보없음',
+  accommodationId: 0,
+  data: {
+    accommodation: {
+      accommodation_img: null,
+      accommodation_info: {
+        name: '',
+        phone_number: '',
+        description: '',
+        rules: '',
+      },
+      address: '',
+      min_price: '',
+      accommodation_amenity: [],
+      refund_policy: [
+        {
+          seven_days_before: '',
+          five_days_before: '',
+          three_days_before: '',
+          one_day_before: '',
+          same_day: '',
+        },
+      ],
+      accommodation_type: [
+        {
+          accommodation: 0,
+          is_customized: false,
+          type_name: '',
+        },
+      ],
     },
-    address: '정보없음',
-    min_price: '정보없음',
-    rooms: '예약 가능한 객실이 없습니다.',
-    accommodation_amenity: [],
+    available_rooms: [],
+    unavailable_rooms: [],
   },
 };
 export const useAccommodationsStore = create<State & Actions>()(
@@ -68,19 +103,12 @@ export const useAccommodationsStore = create<State & Actions>()(
     set => ({
       ...initialState,
       actions: {
-        setAccommodationsInfo: (info: State) =>
-          set(state => ({
-            accommodation: {
-              ...state.accommodation,
-              ...info,
-            },
-          })),
-        setAccommodationId: (id: number) =>
-          set(state => ({
-            accommodation: {
-              ...state.accommodation,
-              accommodationId: id,
-            },
+        ...initialState,
+        setAccommodationsInfo: (id: number, info: Data) =>
+          set(() => ({
+            ...initialState,
+            accommodationId: id,
+            data: info,
           })),
       },
     }),

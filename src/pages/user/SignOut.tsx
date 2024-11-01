@@ -10,7 +10,14 @@ const SignOut = () => {
   const clearAuth = useAuthStore(state => state.clearAuth); 
   const handleLogout = async () => {
     console.log('로그아웃 진행');
-    console.log('로그아웃 전 상태:', useAuthStore.getState()); 
+    console.log('로그아웃 전 상태:', useAuthStore.getState());
+
+    try {
+      // 서버에 로그아웃 요청
+      await client.post('/api/v1/auth/logout/');
+    } catch (error) {
+      console.error('로그아웃 요청 오류:', error);
+    }
 
     try {
       // 서버에 로그아웃 요청
@@ -18,7 +25,6 @@ const SignOut = () => {
     } catch (error) {
       console.error('로그아웃 요청 오류:', error);
     }
-
     // 로컬 스토리지에서 통합된 auth_token 및 refresh_token 삭제
     localStorage.removeItem('auth_token');
     localStorage.removeItem('refresh_token');
@@ -26,16 +32,16 @@ const SignOut = () => {
     // Zustand 스토어 초기화
     clearAuth();
 
-    console.log('로그아웃 후 상태:', useAuthStore.getState()); 
+    console.log('로그아웃 후 상태:', useAuthStore.getState());
 
     closePopup();
-    navigate('/'); 
-  };  
+    navigate('/');
+  };
 
   const handleCancel = () => {
     console.log('취소 클릭');
     closePopup();
-    navigate('/'); 
+    navigate('/');
   };
 
   return (

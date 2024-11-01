@@ -10,8 +10,7 @@ import Layout from '../layouts/Layout2';
 interface FetchCardInfo {
   id: number;
   name: string;
-  rooms: number;
-  hotel_img: string;
+  accommodation_img: string;
   min_price: string;
 }
 
@@ -44,7 +43,7 @@ const Main: React.FC = () => {
                 id={card.id}
                 title={card.name}
                 price={card.min_price}
-                image={card.hotel_img}
+                image={card.accommodation_img}
               />
             );
           })}

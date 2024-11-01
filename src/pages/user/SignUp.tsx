@@ -8,7 +8,9 @@ import EmailVerification from './EmailVerification';
 const SignUp: React.FC = () => {
   //const navigate = useNavigate();
 
-  const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null);
+  const [selectedGender, setSelectedGender] = useState<
+    'male' | 'female' | null
+  >(null);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -82,16 +84,16 @@ const SignUp: React.FC = () => {
     }
 
     const phoneNumber = `${phoneFirst}-${phoneMiddle}-${phoneLast}`;
-    
+
     const registerData = {
       email,
       first_name: firstName,
       last_name: lastName,
       password,
-      password2: confirmPassword, 
+      password2: confirmPassword,
       birth_date: birthdate,
       gender: selectedGender,
-      phone_number: phoneNumber 
+      phone_number: phoneNumber,
     };
 
     try {
@@ -125,7 +127,9 @@ const SignUp: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           onBlur={() => setPasswordError(validatePassword(password))}
         />
-        {passwordError && <p className="mt-1 text-xs text-state-err">{passwordError}</p>}
+        {passwordError && (
+          <p className="mt-1 text-xs text-state-err">{passwordError}</p>
+        )}
         <Input
           type="password"
           id="confirmPassword"
@@ -140,7 +144,9 @@ const SignUp: React.FC = () => {
             }
           }}
         />
-        {confirmPasswordError && <p className="mt-1 text-xs text-state-err">{confirmPasswordError}</p>}
+        {confirmPasswordError && (
+          <p className="mt-1 text-xs text-state-err">{confirmPasswordError}</p>
+        )}
         <div>
           <label className="block mb-1 text-sm font-medium text-gray-700">이름</label>
           <div className="flex justify-between">
@@ -228,7 +234,9 @@ const SignUp: React.FC = () => {
             className="mr-2"
           />
 
-          <label htmlFor="agreement" className="text-sm text-gray-600">개인정보 이용 동의</label>
+          <label htmlFor="agreement" className="text-sm text-gray-600">
+            개인정보 이용 동의
+          </label>
         </div>
         {registerError && <p className="mt-1 text-xs text-state-err">{registerError}</p>}
         <Button 

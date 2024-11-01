@@ -32,12 +32,6 @@ interface Prop {
 }
 
 export default function CardOrderFix({
-  accommodations = '나라마 숙소',
-  stateroom = '건강 청정 황토방',
-  checkIn = '2024.10.14',
-  checkOut = '2024.10.15',
-  user = '한기선',
-  phoneNumber = '01012345678',
   selectedRoom,
   selectedAccommodation,
   confirmedBooking,
@@ -56,16 +50,16 @@ export default function CardOrderFix({
           key={confirm.id}
           className="flex-row p-5 mx-3 my-4 bg-white border-2 border-gray-100 border-solid rounded-md"
         >
-          <div className="flex justify-between flex-col">
+          <div className="flex flex-col justify-between">
             <div>
-              <p className="s1 inline-block mr-3">
+              <p className="inline-block mr-3 s1">
                 {confirm.accommodation_name}
               </p>
               <p className="s2">
                 {confirm.check_in_datetime.split('T')[0]} ~
                 {confirm.check_out_datetime.split('T')[0]}
               </p>
-              <p className="b2 inline-block">{confirm.room_name}</p>
+              <p className="inline-block b2">{confirm.room_name}</p>
             </div>
           </div>
           <div className="mt-2">

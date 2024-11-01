@@ -1,25 +1,45 @@
 //숙소 이용
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Input } from '../../../../assets/Input';
 import InputChips from '../../../../assets/InputChips';
 
-const AccommodationUse: React.FC = () => {
-    const initialFacilities = [
-        '주차가능',
-        '조식운영',
-        '와이파이',
-        '객실금연',
-        '레스토랑',
-        '바',
-        '연회장',
-        '뷔페',
-    ];
+interface Amenity {
+    id: number | null;
+    name: string;
+}
 
-    const [checkin, setCheckin] = useState<string>('');
-    const [checkout, setCheckout] = useState<string>('');
+interface AccommodationUseProps {
+    onStateChange: (data: { amenities: Amenity[]; rules: string }) => void;
+}
+
+const AccommodationUse: React.FC<AccommodationUseProps> = ({ onStateChange }) => {
+    const [amenities, setAmenities] = useState<Amenity[]>([]);
+    const [selectedAmenities, setSelectedAmenities] = useState<Amenity[]>([]);
     const [rules, setRules] = useState<string>('');
-    const [facilities, setFacilities] = useState<string[]>(initialFacilities);
     const [value, setValue] = useState<string>('');
+
+    
+    useEffect(() => {
+        const fetchAmenities = async () => {
+            try {
+                const response = await axios.get('http://localhost/api/v1/accommodations/amenity-choices/', {
+                    headers: {
+                        accept: 'application/json',
+                    },
+                });
+                setAmenities(response.data.map((name: string, index: number) => ({ id: index, name })));
+            } catch (error) {
+                console.error('어메니티 리스트 가져오기 오류:', error);
+            }
+        };
+
+        fetchAmenities();
+    }, []);
+
+    useEffect(() => {
+        onStateChange({ amenities: selectedAmenities, rules });
+    }, [selectedAmenities, rules]);
 
     const handleRulesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputText = e.target.value;
@@ -28,17 +48,28 @@ const AccommodationUse: React.FC = () => {
         }
     };
 
-    const handleAddFacility = (newFacility: string) => {
-        if (newFacility && !facilities.includes(newFacility)) {
-            setFacilities([...facilities, newFacility]);
+    const handleAddAmenity = (newAmenity: string) => {
+        if (newAmenity && !amenities.find((a) => a.name === newAmenity)) {
+            const newAmenityObj = { id: null, name: newAmenity };
+            setAmenities([...amenities, newAmenityObj]);
             setValue('');
         }
+    };
+
+    const handleAmenityClick = (amenity: Amenity) => {
+        setSelectedAmenities((prevSelected) => {
+            if (prevSelected.find((a) => a.name === amenity.name)) {
+                return prevSelected.filter((a) => a.name !== amenity.name);
+            } else {
+                return [...prevSelected, amenity];
+            }
+        });
     };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && value.trim()) {
             e.preventDefault();
-            handleAddFacility(value.trim());
+            handleAddAmenity(value.trim());
             setValue('');
         }
     };
@@ -46,32 +77,6 @@ const AccommodationUse: React.FC = () => {
     return (
         <div className="p-8 mx-auto bg-white border-none rounded-lg">
             <h2 className="mb-6 text-lg text-gray-500">숙소 이용</h2>
-
-            <div className="mb-6">
-                <h3 className="mb-2 text-base text-gray-400">체크인</h3>
-                <Input
-                    type="text"
-                    id="checkin"
-                    placeholder="시간을 입력해주세요."
-                    width="w-full"
-                    height="h-[60px]"
-                    value={checkin}
-                    onChange={(e) => setCheckin(e.target.value)}
-                />
-            </div>
-
-            <div className="mb-6">
-                <h3 className="mb-2 text-base text-gray-400">체크아웃</h3>
-                <Input
-                    type="text"
-                    id="checkout"
-                    placeholder="시간을 입력해주세요."
-                    width="w-full"
-                    height="h-[60px]"
-                    value={checkout}
-                    onChange={(e) => setCheckout(e.target.value)}
-                />
-            </div>
 
             <div className="mb-6">
                 <h3 className="mb-2 text-base text-gray-400">이용 규칙</h3>
@@ -90,22 +95,33 @@ const AccommodationUse: React.FC = () => {
 
             <div>
                 <h3 className="mb-4 text-base text-gray-400">숙소 시설/서비스</h3>
-                <div className="grid grid-cols-7 gap-4">
-                    {facilities.map((facility, index) => (
-                        <InputChips
-                            key={index}
-                            text={facility}
-                            value={facility}
-                            setValue={setValue}
-                            className="text-xs text-gray-400"
-                        />
+                <div className="grid grid-cols-4 gap-4">
+                    {amenities.map((amenity) => (
+                        <div
+                            key={amenity.id ?? amenity.name}
+                            onClick={() => handleAmenityClick(amenity)}
+                            className={`cursor-pointer p-2 rounded text-xs ${
+                                selectedAmenities.find((a) => a.name === amenity.name)
+                                    ? 'bg-gray-50 text-white font-bold' 
+                                    : ' text-gray-400'    
+                            }`}
+                        >
+                            <InputChips
+                                key={amenity.id ?? amenity.name}
+                                text={amenity.name}
+                                value={amenity.name}
+                                setValue={setValue}
+                                className="text-xs"
+                            />
+
+                        </div>
                     ))}
                     <InputChips
                         value={value}
                         setValue={setValue}
                         editable={true}
                         placeholder="기타"
-                        className="text-xs text-gray-400"
+                        className="text-xs"
                         onKeyPress={handleKeyPress}
                     />
                 </div>
