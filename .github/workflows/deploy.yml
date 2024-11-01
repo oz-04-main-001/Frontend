@@ -12,15 +12,17 @@ jobs:
       - name: Github Repository Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
       - name: 의존성 패키지 설치
         run: npm install
-
       - name: 빌드
         env:
           VITE_DOCUMENT_API_KEY: ${{ secrets.VITE_DOCUMENT_API_KEY }}
           VITE_KAKAO_API: ${{ secrets.VITE_KAKAO_API }}
         run: npm run build
-
       - name: 빌드 파일 디버깅
         run: |
           ls
