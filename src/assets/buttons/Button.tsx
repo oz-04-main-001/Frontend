@@ -1,10 +1,18 @@
+export enum BtnType {
+  normal = 'normal',
+  disabled = 'disabled',
+  popup = 'popup',
+  line = 'line',
+  err = 'err',
+  submit = 'submit',
+}
+
 interface ButtonProps {
   size?: BtnSize;
   text?: string;
-  type?: BtnType; 
+  type?: BtnType; // BtnType에 submit 추가
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  htmlType?: "button" | "submit" | "reset";
-  className?: string; 
+  className?: string; // className 추가
   disabled?: boolean;
 }
 
@@ -13,14 +21,6 @@ export enum BtnSize {
   l = 'l',
 }
 
-export enum BtnType {
-  normal = 'normal',
-  disabled = 'disabled',
-  popup = 'popup',
-  line = 'line',
-  err = 'err',
-  submit = 'submit', 
-}
 
 const btnSize = (size: BtnSize) => {
   switch (size) {
@@ -37,7 +37,7 @@ export default function Button({
   size = BtnSize.l,
   text = 'Button',
   type = BtnType.normal,
-  htmlType = "button", // 기본값을 normal로 변경
+
   onClick,
   className, // className 추가
 }: ButtonProps) {

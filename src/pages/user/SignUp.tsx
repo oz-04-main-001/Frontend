@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { Input } from '../../assets/Input';
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { getUserRegister } from '../../axios/userApi';
 import EmailVerification from './EmailVerification';
 
 const SignUp: React.FC = () => {
-  //const navigate = useNavigate();
-
-  const [selectedGender, setSelectedGender] = useState<
-    'male' | 'female' | null
-  >(null);
+  const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -28,39 +23,26 @@ const SignUp: React.FC = () => {
   const [showVerificationPopup, setShowVerificationPopup] = useState(false);
 
   const validatePassword = (value: string) => {
-    const hasUpperCase = /[A-Z]/.test(value); 
-    const hasNumber = /\d/.test(value); 
-    const hasSpecialChar = /[!@#$%^&*]/.test(value); 
-    const isLengthValid = value.length >= 8; 
-    const hasNoSequentialNumbers = !/(012|123|234|345|456|567|678|789)/.test(
-      value
-    );
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasNumber = /\d/.test(value);
+    const hasSpecialChar = /[!@#$%^&*]/.test(value);
+    const isLengthValid = value.length >= 8;
 
-    if (!isLengthValid) {
-      return '비밀번호는 최소 8자 이상이어야 합니다.';
-    }
-    if (!hasUpperCase) {
-      return '첫 글자는 대문자여야 합니다.';
-    }
-    if (!hasNumber) {
-      return '숫자를 1개 이상 포함해야 합니다.';
-    }
-    if (!hasSpecialChar) {
-      return '특수문자를 1개 이상 포함해야 합니다.';
-    }
-    if (!hasNoSequentialNumbers) {
-      return '연속된 숫자는 사용할 수 없습니다.';
-    }
+    const hasNoSequentialNumbers = !/(012|123|234|345|456|567|678|789)/.test(value);
+
+    if (!isLengthValid) return '비밀번호는 최소 8자 이상이어야 합니다.';
+    if (!hasUpperCase) return '첫 글자는 대문자여야 합니다.';
+    if (!hasNumber) return '숫자를 1개 이상 포함해야 합니다.';
+    if (!hasSpecialChar) return '특수문자를 1개 이상 포함해야 합니다.';
+    if (!hasNoSequentialNumbers) return '연속된 숫자는 사용할 수 없습니다.';
 
     return '';
   };
 
-  const handleSignUpClick = () => {
-    setShowVerificationPopup(true); 
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setShowVerificationPopup(false);
 
     const errorMessage = validatePassword(password);
     if (errorMessage) {
@@ -78,7 +60,18 @@ const SignUp: React.FC = () => {
       return;
     }
 
-    if (!email || !password || !firstName || !confirmPassword || !lastName || !birthdate || !selectedGender || !phoneFirst || !phoneMiddle || !phoneLast) {
+    if (
+      !email ||
+      !password ||
+      !firstName ||
+      !confirmPassword ||
+      !lastName ||
+      !birthdate ||
+      !selectedGender ||
+      !phoneFirst ||
+      !phoneMiddle ||
+      !phoneLast
+    ) {
       setRegisterError('모든 필드를 올바르게 입력해 주세요.');
       return;
     }
@@ -99,10 +92,13 @@ const SignUp: React.FC = () => {
     try {
       const response = await getUserRegister(registerData);
       console.log('회원가입 성공:', response);
-      setShowVerificationPopup(true);
+      setShowVerificationPopup(true); // OTP 발송 후 팝업 표시
     } catch (error: any) {
       console.error('회원가입 중 오류 발생:', error.response.data);
-      setRegisterError(error.response?.data?.message || '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      setRegisterError(
+        error.response?.data?.message ||
+          '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.'
+      );
       setShowVerificationPopup(false);
     }
   };
@@ -116,15 +112,22 @@ const SignUp: React.FC = () => {
 
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label className="block mb-1 text-sm font-medium text-gray-700">이메일</label>
-          <Input type="text" id="email" placeholder="이메일" onChange={(e) => setEmail(e.target.value)} />
+          <label className="block mb-1 text-sm font-medium text-gray-700">
+            이메일
+          </label>
+          <Input
+            type="text"
+            id="email"
+            placeholder="이메일"
+            onChange={e => setEmail(e.target.value)}
+          />
         </div>
         <Input
           type="password"
           id="password"
           label="비밀번호"
           placeholder="비밀번호"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           onBlur={() => setPasswordError(validatePassword(password))}
         />
         {passwordError && (
@@ -135,7 +138,7 @@ const SignUp: React.FC = () => {
           id="confirmPassword"
           label="비밀번호 확인"
           placeholder="비밀번호 확인"
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={e => setConfirmPassword(e.target.value)}
           onBlur={() => {
             if (password !== confirmPassword) {
               setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
@@ -144,18 +147,18 @@ const SignUp: React.FC = () => {
             }
           }}
         />
-        {confirmPasswordError && (
-          <p className="mt-1 text-xs text-state-err">{confirmPasswordError}</p>
-        )}
+        {confirmPasswordError && <p className="mt-1 text-xs text-state-err">{confirmPasswordError}</p>}
         <div>
-          <label className="block mb-1 text-sm font-medium text-gray-700">이름</label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">
+            이름
+          </label>
           <div className="flex justify-between">
             <div className="flex-grow min-w-[110px] lg:min-w-[220px]">
               <Input
                 type="text"
                 id="lastName"
                 placeholder="성"
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={e => setLastName(e.target.value)}
               />
             </div>
             <div className="flex-grow min-w-[110px] lg:min-w-[220px]">
@@ -163,91 +166,92 @@ const SignUp: React.FC = () => {
                 type="text"
                 id="firstName"
                 placeholder="이름"
-                onChange={(e) => setFirstName(e.target.value)}
+                onChange={e => setFirstName(e.target.value)}
               />
             </div>
           </div>
         </div>
+        
         <Input
           type="date"
           id="birthdate"
           label="생년월일"
           placeholder="YYYY-MM-DD"
           value={birthdate}
-          onChange={(e) => setBirthdate(e.target.value)}
+          onChange={e => setBirthdate(e.target.value)}
         />
+
         <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              성별
-            </label>
-            <div className="flex space-x-4">
-              <Button
-                size={BtnSize.l}
-                text={selectedGender === 'male' ? "남자 ✔" : "남자"} // 선택 시 체크 표시 추가
-                type={BtnType.normal}
-                className={`w-1/2 ${selectedGender === 'male' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
-                onClick={() => setSelectedGender('male')}
-              />
-              <Button
-                size={BtnSize.l}
-                text={selectedGender === 'female' ? "여자 ✔" : "여자"} // 선택 시 체크 표시 추가
-                type={BtnType.normal}
-                className={`w-1/2 ${selectedGender === 'female' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
-                onClick={() => setSelectedGender('female')}
-              />
-            </div>
+
+          <label className="block mb-1 text-sm font-medium text-gray-700">성별</label>
+          <div className="flex space-x-4">
+            <Button
+              size={BtnSize.l}
+              text={selectedGender === 'male' ? "남자 ✔" : "남자"} // 선택 시 체크 표시 추가
+              type={BtnType.normal}
+              className={`w-1/2 ${selectedGender === 'male' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
+              onClick={() => setSelectedGender('male')}
+            />
+            <Button
+              size={BtnSize.l}
+              text={selectedGender === 'female' ? '여자 ✔' : '여자'} // 선택 시 체크 표시 추가
+
+              type={BtnType.normal}
+              className={`w-1/2 ${selectedGender === 'female' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
+              onClick={() => setSelectedGender('female')}
+            />
           </div>
+        </div>
+
         <div>
-          <label className="block mb-1 text-sm font-medium text-gray-700">
-            전화번호
-          </label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">전화번호</label>
           <div className="flex space-x-2">
             <Input
               type="text"
               id="phoneFirst"
               placeholder="010"
-              onChange={(e) => setPhoneFirst(e.target.value)}
+              onChange={e => setPhoneFirst(e.target.value)}
               className="flex-grow min-w-[80px] max-w-[110px]"
             />
             <Input
               type="text"
               id="phoneMiddle"
               placeholder="1234"
-              onChange={(e) => setPhoneMiddle(e.target.value)}
+              onChange={e => setPhoneMiddle(e.target.value)}
               className="flex-grow min-w-[80px] max-w-[170px]"
             />
             <Input
               type="text"
               id="phoneLast"
               placeholder="5678"
-              onChange={(e) => setPhoneLast(e.target.value)}
+              onChange={e => setPhoneLast(e.target.value)}
               className="flex-grow min-w-[80px] max-w-[170px]"
             />
           </div>
         </div>
+
         <div className="flex items-center">
           <input
             type="checkbox"
             id="agreement"
             checked={agreement}
-            onChange={(e) => setAgreement(e.target.checked)}
+            onChange={e => setAgreement(e.target.checked)}
             className="mr-2"
           />
 
-          <label htmlFor="agreement" className="text-sm text-gray-600">
-            개인정보 이용 동의
-          </label>
+          <label htmlFor="agreement" className="text-sm text-gray-600">개인정보 이용 동의</label>
         </div>
+
         {registerError && <p className="mt-1 text-xs text-state-err">{registerError}</p>}
         <Button 
-          type="button"
+          type={BtnType.submit} 
           text="회원가입"
           size={BtnSize.l}
-          onClick={handleSignUpClick} // 버튼 클릭 시 팝업 열기
         />
       </form>
+
       {showVerificationPopup && (
-        <EmailVerification onClose={() => setShowVerificationPopup(false)} />
+        <EmailVerification />
       )}
     </div>
   );
