@@ -52,16 +52,16 @@ export default function CardOrderWating({
           key={pend.id}
           className="flex-row p-4 mx-3 my-4 bg-white border-2 border-gray-100 border-solid rounded-md"
         >
-          <div className="flex justify-between flex-col">
+          <div className="flex flex-col justify-between">
             <div>
-              <p key={pend.id} className="s1 inline-block mr-3">
+              <p key={pend.id} className="inline-block mr-3 s1">
                 {pend.accommodation_name}
               </p>
               <p className="s2">
                 {pend.check_in_datetime.split('T')[0]} ~
                 {pend.check_out_datetime.split('T')[0]}
               </p>
-              <p className="b2 inline-block">{pend.room_name}</p>
+              <p className="inline-block b2">{pend.room_name}</p>
             </div>
           </div>
           <div className="mt-2">

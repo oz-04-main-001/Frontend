@@ -9,6 +9,9 @@ import { useParams } from 'react-router-dom';
 import { BadgeStatus } from '../../assets/Badges';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import useTimeFormet from '../../customHooks/useTimeFormet';
+import Arrow from '../../assets/icons/arrow.svg?react';
+import usePopupStore from '../../stores/usePopupStore';
+import CancelPopup from './CancelPopup';
 
 interface Bed {
   total_beds: number;
@@ -46,8 +49,11 @@ interface OrderInfo {
 }
 
 export default function ReservationCompleted() {
+  const { popup, openPopup } = usePopupStore();
+
   const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null);
   const { orderId } = useParams();
+
   useEffect(() => {
     const fetchGetLoad = async () => {
       if (orderId) {
@@ -61,6 +67,7 @@ export default function ReservationCompleted() {
     };
     fetchGetLoad();
   }, [orderId]);
+
   const dateCount = orderInfo
     ? (() => {
         const start = new Date(orderInfo.check_in_datetime);
@@ -69,31 +76,32 @@ export default function ReservationCompleted() {
         return differenceInTime / (1000 * 3600 * 24);
       })()
     : 0;
+
+  console.log(orderInfo?.status);
+
   return (
     <div>
       <Layout>
         {orderInfo ? (
           <AccomoInfoCard
             image={
-              orderInfo?.accommodation_info?.representative_image ||
+              orderInfo.accommodation_info?.representative_image ||
               'defaultImage.jpg'
             }
             address={
-              orderInfo?.accommodation_info?.address || 'Address not available'
+              orderInfo.accommodation_info?.address || 'Address not available'
             }
-            status={orderInfo?.status || 'Status unavailable'}
-            stateRoomName={
-              orderInfo?.room_info?.name || 'Room name unavailable'
-            }
-            guestsCount={orderInfo?.guests_count}
+            status={orderInfo.status || 'Status unavailable'}
+            stateRoomName={orderInfo.room_info?.name || 'Room name unavailable'}
+            guestsCount={orderInfo.guests_count}
             bed={
-              orderInfo?.room_info?.bed_info || {
+              orderInfo.room_info?.bed_info || {
                 total_beds: 0,
-                bed_type_num: {},
+                bed_type_num: null,
               }
             }
-            checkIn={`${useDateDotFormet(orderInfo?.check_in_datetime || '')} ${useTimeFormet(orderInfo?.room_info?.check_in_time || '')}`}
-            checkOut={`${useDateDotFormet(orderInfo?.check_out_datetime || '')} ${useTimeFormet(orderInfo?.room_info?.check_out_time || '')}`}
+            checkIn={`${useDateDotFormet(orderInfo.check_in_datetime || '')} ${useTimeFormet(orderInfo.room_info?.check_in_time || '')}`}
+            checkOut={`${useDateDotFormet(orderInfo.check_out_datetime || '')} ${useTimeFormet(orderInfo.room_info?.check_out_time || '')}`}
           />
         ) : (
           '예약하신 숙소 정보를 가져오고 있습니다.'
@@ -119,12 +127,33 @@ export default function ReservationCompleted() {
           <PaymentInfo
             title="결제 정보"
             dateCount={dateCount}
-            price={orderInfo?.total_price}
+            price={orderInfo.total_price}
           />
         ) : (
           '결제 정보를 가져오고 있습니다.'
         )}
       </Layout>
+
+      {['pending', 'confirmed', 'paid', 'partially_paid'].includes(
+        orderInfo?.status || ''
+      ) ? (
+        <>
+          <Divider />
+          <Layout>
+            <div
+              className="flex justify-between text-gray-500 cursor-pointer"
+              onClick={() => {
+                openPopup();
+              }}
+            >
+              <h6>예약취소</h6>
+              <Arrow width={24} height={24} />
+            </div>
+          </Layout>
+        </>
+      ) : null}
+
+      {popup && <CancelPopup />}
     </div>
   );
 }

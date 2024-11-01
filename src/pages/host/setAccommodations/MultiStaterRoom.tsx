@@ -1,5 +1,5 @@
 //객실이 여러개 있는 숙소의 객실 세팅
-import React, { useState } from 'react';
+import { useState } from 'react';
 import MultiRoomList from './components/MultiRoomList';
 import MultiRoomInformation from './components/MultiRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';

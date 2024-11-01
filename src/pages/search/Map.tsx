@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   SearchRoom,
   useSearchRoomStore,
@@ -26,14 +26,14 @@ export default function Map() {
   const checkOutDate = search.date.checkOut
     ? useDateDashFormet(search.date.checkOut)
     : '';
-  const initialCenter = [
+  const [initialCenter, setInitialCenter] = useState([
     accommodation_data && accommodation_data.length > 0
       ? accommodation_data[0].location[0]
       : 37.49676871972202,
     accommodation_data && accommodation_data.length > 0
       ? accommodation_data[0].location[1]
       : 127.02474726969814,
-  ];
+  ]);
 
   const mapContainer = useRef<HTMLDivElement>(null);
   const kakaoMapRef = useRef<any>(null);
@@ -70,15 +70,15 @@ export default function Map() {
   };
 
   useEffect(() => {
+    if (!accommodation_data) return;
     const mapRef = mapContainer.current;
-
     if (mapRef && window.kakao) {
       const options = {
         center: new window.kakao.maps.LatLng(
           initialCenter[0],
           initialCenter[1]
         ),
-        level: 5,
+        level: 8,
       };
 
       const map = new window.kakao.maps.Map(mapRef, options);
@@ -93,6 +93,7 @@ export default function Map() {
         debounceTimerRef.current = setTimeout(() => {
           const centerLatLng = map.getCenter();
           const point = `${centerLatLng.La},${centerLatLng.Ma}`;
+          setInitialCenter([centerLatLng.getLat(), centerLatLng.getLng()]);
           fetchGetLoad(point);
         }, 500);
       });

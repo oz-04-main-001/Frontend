@@ -1,5 +1,5 @@
 // 객실이 여러개인 숙소 - 객실 수정하기 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import MultiRoomList from './components/MultiRoomList';
 import MultiRoomInformation from './components/MultiRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
@@ -43,7 +43,6 @@ const EditMultiRoom: React.FC = () => {
             <Header
                 labels={[
                     { title: '게스트 메인', link: '/guest' },
-                    { title: '서비스 등록', link: '/register' },
                     { title: '로그아웃', link: '/logout' }
                 ]}
             />

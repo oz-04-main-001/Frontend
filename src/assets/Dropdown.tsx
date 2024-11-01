@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import useManagementFilterStore from '../stores/useManagementFilterStore';
 import BookingListApi from '../axios/BookingListApi';
 
+
 interface DropdownProps {
   width?: string;
   menuItems: string[] | undefined;
@@ -17,7 +18,7 @@ interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = ({
   width = '200px',
   menuItems,
-  title = 'Select an Item',
+  title,
   style = 'text-center',
   btnStyle = 'text-sm font-medium px-4 py-2',
   selectedItem = null,
@@ -26,6 +27,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   tap = 0,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+
   const {setFilteredData } = useManagementFilterStore();
   const { data } = BookingListApi();
 
