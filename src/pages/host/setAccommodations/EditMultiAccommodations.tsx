@@ -1,5 +1,5 @@
 // 객실이 여러개인 숙소 수정하기
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import MultiRoomList from './components/MultiRoomList';
 import AccommodationsPhoto from './components/AccommodationsPhoto';
 import AccommodationInformation from './components/AccommodationInformation';
@@ -14,7 +14,7 @@ const EditMultiAccommodations: React.FC = () => {
     const navigate = useNavigate();
     const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
     const [formData, setFormData] = useState({
-        photos: [],
+        images: [],
         accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
         accommodationUse: { amenities: [], rules: '' },
     });
@@ -49,7 +49,6 @@ const EditMultiAccommodations: React.FC = () => {
             <Header
                 labels={[
                     { title: '게스트 메인', link: '/guest' },
-                    { title: '서비스 등록', link: '/register' },
                     { title: '로그아웃', link: '/logout' }
                 ]}
             />
@@ -58,7 +57,7 @@ const EditMultiAccommodations: React.FC = () => {
                 onSelectRoom={handleSelectRoom}
             />
 
-            <div className="flex-grow ml-[330px] px-20 mx-48 pt-[10vh]">
+            <div className="flex-grow ml-[330px] px-20 mx-28 pt-[10vh]">
                 <div className="flex items-center mb-4">
                     <img
                         src={ArrowIcon}
@@ -82,7 +81,6 @@ const EditMultiAccommodations: React.FC = () => {
                         onStateChange={(data) => handleFormChange('accommodationInfo', data)} 
                     />
                     <AccommodationUse 
-                        initialAmenities={formData.accommodationUse.amenities} 
                         onStateChange={(data) => handleFormChange('accommodationUse', data)} 
                     />
                     <RefundPolicy />

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+//독채인 경우 객실 등록
+import  { useEffect, useState } from 'react';
 import Header from '../../../assets/Header';
 import OnlyRoomInformation from './components/OnlyRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
@@ -45,14 +46,6 @@ const OnlyStaterRoom: React.FC = () => {
         count_room: 1,
       },
     };
-
-    // try {
-    //   const response = await axios.post('http://localhost/api/v1/rooms/', postData);
-    //   console.log('객실 등록 성공', response.data);
-    //   navigate('/management');
-    // } catch (error) {
-    //   console.error('객실 등록 중 오류 발생', error);
-    // }
   };
 
   return (
