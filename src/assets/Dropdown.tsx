@@ -27,7 +27,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   tap = 0,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { filteredData, setFilteredData } = useManagementFilterStore();
+  const {setFilteredData } = useManagementFilterStore();
   const { accommoData } = HostAccommodationAPI();
   const { data } = BookingListApi();
 

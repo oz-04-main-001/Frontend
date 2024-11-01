@@ -24,8 +24,10 @@ client.interceptors.request.use(
 );
 
 // 타임아웃 구현 함수
-const timeout = (ms: number): Promise<never> => 
-  new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms));
+const timeout = (ms: number): Promise<never> =>
+  new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('Timeout')), ms)
+  );
 
 // 응답 인터셉터 설정
 client.interceptors.response.use(
@@ -51,15 +53,13 @@ client.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-
         // 리프레시 API 호출
         const refreshResponse = await client.post(
           '/api/v1/auth/token/refresh/'
         );
-        const newAccessToken = refreshResponse.data.accessToken;
-//         const refreshPromise = client.post<{ accessToken: string }>('/api/v1/auth/token/refresh/');
-//         const refreshResponse = await Promise.race([refreshPromise, timeout(60000)]);
-
+        // const newAccessToken = refreshResponse.data.accessToken;
+        //         const refreshPromise = client.post<{ accessToken: string }>('/api/v1/auth/token/refresh/');
+        //         const refreshResponse = await Promise.race([refreshPromise, timeout(60000)]);
 
         console.log('Refresh Response:', refreshResponse);
         const newAccessToken = refreshResponse.data.accessToken;

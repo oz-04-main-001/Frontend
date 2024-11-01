@@ -82,7 +82,7 @@ export default function HostMain() {
       setRequestData(response.data); // 응답 데이터 저장
       console.log('API 응답:', response.data); // 응답 확인용 로그
     } catch (error) {
-      console.error('ManagementRequestAPㅇㅇㅇㅇㅁㅇㅁㅇㅁㅇI Error:', error);
+      console.error('ManagementRequestAPI Error:', error);
     } finally {
       setIsPatched(false);
       setAction('none'); //
