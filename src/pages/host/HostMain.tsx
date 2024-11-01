@@ -27,7 +27,7 @@ interface responseDataType {
   booker_phone_number: string;
 }
 
-export default function HostMain() {
+export default function  HostMain() {
   const popup = usePopupStore(state => state.popup);
   const closePopup = usePopupStore(state => state.closePopup);
   const openPopup = usePopupStore(state => state.openPopup);

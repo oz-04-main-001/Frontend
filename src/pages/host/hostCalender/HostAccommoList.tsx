@@ -3,7 +3,7 @@ import Button, { BtnType } from '../../../assets/buttons/Button';
 import close from '../../../assets/icons/icon.svg';
 import HostAccommodationAPI from '../../../axios/HostAccommodationAPI';
 import logo from '/staynest.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface AccommodationProp {
   handleDeletePopupClick: (id: number) => void;
@@ -60,12 +60,16 @@ export default function HostAccommoList({
             <p className="flex flex-wrap text-xs">
               <span>{acco.address}</span>
             </p>
-            <div
-              onClick={() => {
-                navigate('');
-              }}
-            >
-              <Button text="수정" type={BtnType.line} />
+            <div>
+              <Button
+                text="수정"
+                type={BtnType.line}
+                onClick={() => {
+                  acco.accommodation_type.includes('독채') === true
+                    ? navigate(`/onlyhost/edit-Onlyroom/${acco.id}`)
+                    : navigate(`/onlyhost/edit-multiroom/${acco.id}`);
+                }}
+              />
             </div>
           </div>
         ))}
