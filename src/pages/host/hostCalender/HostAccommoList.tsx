@@ -3,7 +3,7 @@ import Button, { BtnType } from '../../../assets/buttons/Button';
 import close from '../../../assets/icons/icon.svg';
 import HostAccommodationAPI from '../../../axios/HostAccommodationAPI';
 import logo from '/staynest.svg';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface AccommodationProp {
   handleDeletePopupClick: (id: number) => void;
