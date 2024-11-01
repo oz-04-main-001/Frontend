@@ -10,10 +10,9 @@ export enum BtnType {
 interface ButtonProps {
   size?: BtnSize;
   text?: string;
-  type?: BtnType;
+  type?: BtnType; // BtnType에 submit 추가
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  htmlType?: 'button' | 'submit' | 'reset';
-  className?: string;
+  className?: string; // className 추가
   disabled?: boolean;
 }
 
@@ -21,6 +20,7 @@ export enum BtnSize {
   m = 'm',
   l = 'l',
 }
+
 
 const btnSize = (size: BtnSize) => {
   switch (size) {
@@ -37,6 +37,7 @@ export default function Button({
   size = BtnSize.l,
   text = 'Button',
   type = BtnType.normal,
+
   onClick,
   className, // className 추가
 }: ButtonProps) {
