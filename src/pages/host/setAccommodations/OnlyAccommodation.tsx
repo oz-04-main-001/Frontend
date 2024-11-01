@@ -8,7 +8,6 @@ import AccommodationUse from './components/AccommodationUse';
 import RefundPolicy from './components/RefundPolicy';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import { useNavigate } from 'react-router-dom';
-
 import axios from 'axios';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 
@@ -21,16 +20,15 @@ const OnlyAccommodation: React.FC = () => {
         accommodationUse: { amenities: [], rules: '' },
     });
 
-
-  const handleFormChange = (sectionName: string, data: any) => {
-    setFormData(prevData => ({
-      ...prevData,
-      [sectionName]: data,
-    }));
-  };
-  useEffect(() => {
-    console.log('입력값', formData);
-  }, [formData]);
+    const handleFormChange = (sectionName: string, data: any) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            [sectionName]: data
+        }));
+    };
+    useEffect(() => {
+        console.log('입력값', formData);
+    }, [formData]);
 
     const handleSubmit = async () => {
         const formDataToSend = new FormData();
@@ -57,7 +55,7 @@ const OnlyAccommodation: React.FC = () => {
                 ],
             }
         };
-
+        // 이부분 백엔드 custom_name이 get받아온 리스트에 있는 것들 보냈을때만 가능함 ㅜㅜ 수정 요청하기 ㅜㅜ
         const amenities = {
             new: formData.accommodationUse.amenities
                 .filter((amenity: { id: number | null }) => amenity.id === null)
@@ -134,9 +132,7 @@ const OnlyAccommodation: React.FC = () => {
                 </div>
             </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default OnlyAccommodation;

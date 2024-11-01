@@ -90,7 +90,7 @@ const EditMultiRoom: React.FC = () => {
                                 text="저장"
                                 type={BtnType.normal}
                                 onClick={() => {
-                                    navigate('/management');
+                                    navigate('/host/management');
                                 }}
                             />
                         </div>

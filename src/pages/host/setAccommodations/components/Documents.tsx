@@ -1,5 +1,5 @@
 // 숙소 사업자등록증 컴포넌트
-import React, { useState, cloneElement } from 'react';
+import { useState, cloneElement } from 'react';
 import { Input } from '../../../../assets/Input';
 import Button, { BtnSize, BtnType } from '../../../../assets/buttons/Button';
 import axios from 'axios';

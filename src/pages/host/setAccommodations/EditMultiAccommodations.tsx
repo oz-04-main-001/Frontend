@@ -14,7 +14,7 @@ const EditMultiAccommodations: React.FC = () => {
     const navigate = useNavigate();
     const [setSelectedRoom] = useState<string | null>(null);
     const [formData, setFormData] = useState({
-        images: [],
+        photos: [],
         accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
         accommodationUse: { amenities: [], rules: '' },
     });
@@ -41,7 +41,7 @@ const EditMultiAccommodations: React.FC = () => {
 
     const handleSubmit = () => {
         console.log( formData);
-        navigate('/MultiStaterRoom');
+        navigate('/hostonly/multi-staterroom');
     };
 
     return (
@@ -49,6 +49,7 @@ const EditMultiAccommodations: React.FC = () => {
             <Header
                 labels={[
                     { title: '게스트 메인', link: '/guest' },
+                    { title: '서비스 등록', link: '/register' },
                     { title: '로그아웃', link: '/logout' }
                 ]}
             />
@@ -57,7 +58,7 @@ const EditMultiAccommodations: React.FC = () => {
                 onSelectRoom={handleSelectRoom}
             />
 
-            <div className="flex-grow ml-[330px] px-20 mx-28 pt-[10vh]">
+            <div className="flex-grow ml-[330px] px-20 mx-48 pt-[10vh]">
                 <div className="flex items-center mb-4">
                     <img
                         src={ArrowIcon}

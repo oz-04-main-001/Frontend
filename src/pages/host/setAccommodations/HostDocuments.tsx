@@ -1,5 +1,4 @@
 //숙소 사업자등록사이트 
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../../assets/Header'; 
 import Documents from './components/Documents';
