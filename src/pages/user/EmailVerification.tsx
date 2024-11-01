@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import Popup from '../../components/Popup';
 import { Input } from '../../assets/Input';
 import axios from 'axios';
-import usePopupStore from '../../stores/usePopupStore';
 
 const EmailVerification: React.FC = () => {
   const navigate = useNavigate();
