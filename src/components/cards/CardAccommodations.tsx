@@ -2,21 +2,19 @@ import { useNavigate } from 'react-router-dom';
 import useErrorImage from '../../customHooks/useErrorImage';
 
 interface CardAccommodationsProp {
-  id: string;
-  location: string[];
-  lowestPrice: string;
+  id: string | number;
+  location: number[];
+  lowestPrice: string | number;
   accommodationsName: string;
-  representativeImage: string;
+  representativeImage: string | null;
   room: number[];
 }
 
 export default function CardAccommodations({
   id,
-  location,
   lowestPrice,
   accommodationsName,
   representativeImage = '/staynest.svg',
-  room,
 }: CardAccommodationsProp) {
   const handleErrorImage = useErrorImage();
   const navigate = useNavigate();

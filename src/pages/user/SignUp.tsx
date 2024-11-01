@@ -64,7 +64,7 @@ const SignUp: React.FC = () => {
     }
 
     const phoneNumber = `${phoneFirst}-${phoneMiddle}-${phoneLast}`;
-    
+
     const registerData = {
       email,
       first_name: firstName,
@@ -107,7 +107,9 @@ const SignUp: React.FC = () => {
           onChange={(e) => setPassword(e.target.value)}
           onBlur={() => setPasswordError(validatePassword(password))}
         />
-        {passwordError && <p className="mt-1 text-xs text-state-err">{passwordError}</p>}
+        {passwordError && (
+          <p className="mt-1 text-xs text-state-err">{passwordError}</p>
+        )}
         <Input
           type="password"
           id="confirmPassword"
@@ -123,7 +125,6 @@ const SignUp: React.FC = () => {
           }}
         />
         {confirmPasswordError && <p className="mt-1 text-xs text-state-err">{confirmPasswordError}</p>}
-        
         <div>
           <label className="block mb-1 text-sm font-medium text-gray-700">이름</label>
           <div className="flex justify-between">
@@ -210,6 +211,7 @@ const SignUp: React.FC = () => {
             onChange={(e) => setAgreement(e.target.checked)}
             className="mr-2"
           />
+
           <label htmlFor="agreement" className="text-sm text-gray-600">개인정보 이용 동의</label>
         </div>
 

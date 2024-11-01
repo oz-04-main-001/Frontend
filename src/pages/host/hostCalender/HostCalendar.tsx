@@ -15,25 +15,10 @@ interface Event {
 
 const localizer = momentLocalizer(moment);
 
-// 더미 데이터 생성 함수
-// const generateDummyData = (): Record<string, number> => {
-//   const startDate = new Date(2024, 9, 1);
-//   const endDate = new Date(2024, 10, 31);
-//   const reservationCounts: Record<string, number> = {};
-
-//   for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
-//     const dateStr = d.toISOString().split('T')[0]; // 날짜를 문자열로 변환
-//     reservationCounts[dateStr] = Math.floor(Math.random() * 111); // 예약 건수 생성
-//   }
-
-//   return reservationCounts;
-// };
-
-// 커스텀 이벤트 컴포넌트
 const CustomEvent = ({ event }: { event: Event }) => (
   <div className="flex justify-center items-center h-full">
     <div className="bg-primary-600 bg-opacity-30 text-black rounded-full w-10 h-10 flex items-center justify-center">
-      {event.title} {/* 이벤트 타이틀 표시 */}
+      {event.title} 
     </div>
   </div>
 );

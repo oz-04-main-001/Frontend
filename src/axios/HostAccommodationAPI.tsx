@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import client from './client';
-import useManagementFilterStore from '../stores/useManagementFilterStore';
-import useSelectedIdStore from '../stores/useSelectedIdStore';
 import useHostAccommoDeleteStore from '../stores/useHostAccommoDelete';
 
 interface Accommodation {
+  accommodation_type: any;
   id: 0;
   name: string;
   image: string;
@@ -13,10 +12,9 @@ interface Accommodation {
 
 export default function HostAccommodationAPI() {
   const [accommoData, setAccommoData] = useState<Accommodation[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null | unknown>(null);
-  const { isAccommoDeleted, setIsAccommoDeleted } = useHostAccommoDeleteStore();
-  const { selectedId } = useSelectedIdStore();
+  const [, setLoading] = useState<boolean>(true);
+  const [, setError] = useState<string | null | unknown>(null);
+  const { isAccommoDeleted} = useHostAccommoDeleteStore();
   const url = '/api/v1/host/accommodation/list/';
 
   useEffect(() => {

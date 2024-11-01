@@ -1,9 +1,20 @@
 // 숙소 사진 등록
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CloseIcon from '../../../../assets/icons/close.svg';
 
-const AccommodationsPhoto: React.FC = () => {
+interface AccommodationsPhotoProps {
+    onStateChange?: (photos: File[]) => void;
+}
+
+const AccommodationsPhoto: React.FC<AccommodationsPhotoProps> = ({ onStateChange }) => {
     const [photos, setPhotos] = useState<File[]>([]);
+
+
+    useEffect(() => {
+        if (onStateChange) {
+            onStateChange(photos);
+        }
+    }, [photos]);
 
     const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {

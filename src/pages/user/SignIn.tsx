@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Input } from '../../assets/Input';
 import Buttons, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { getUserLogin } from '../../axios/userApi';
-import useAuthStore from '../../stores/useAuthStore';  // Zustand 스토어 임포트
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -20,7 +19,9 @@ const SignIn = () => {
       navigate('/');
     } catch (error) {
       console.error('로그인 실패:', error);
-      setErrorMessage('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+      setErrorMessage(
+        '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.'
+      );
     }
   };
 
@@ -36,8 +37,8 @@ const SignIn = () => {
           id="email"
           placeholder="이메일"
           className="mb-4"
-          validate={(value) => (value ? null : '이메일을 입력하세요.')}
-          onChange={(e) => setEmail(e.target.value)}
+          validate={value => (value ? null : '이메일을 입력하세요.')}
+          onChange={e => setEmail(e.target.value)}
         />
         <label className="mt-4 text-sm text-left font-regular">비밀번호</label>
         <Input
@@ -45,8 +46,8 @@ const SignIn = () => {
           id="password"
           placeholder="비밀번호"
           className="mb-4"
-          validate={(value) => (value ? null : '비밀번호를 입력하세요.')}
-          onChange={(e) => setPassword(e.target.value)}
+          validate={value => (value ? null : '비밀번호를 입력하세요.')}
+          onChange={e => setPassword(e.target.value)}
         />
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       </div>
@@ -59,9 +60,15 @@ const SignIn = () => {
         />
       </div>
       <div className="mt-4">
-        <Link to="/user/join" className="mr-4 text-sm text-primary-300">회원가입</Link>
-        <Link to="#" className="text-sm text-primary-300">아이디 /</Link>
-        <Link to="#" className="text-sm text-primary-300">비밀번호 찾기</Link>
+        <Link to="/user/join" className="mr-4 text-sm text-primary-300">
+          회원가입
+        </Link>
+        <Link to="#" className="text-sm text-primary-300">
+          아이디 /
+        </Link>
+        <Link to="#" className="text-sm text-primary-300">
+          비밀번호 찾기
+        </Link>
       </div>
     </div>
   );

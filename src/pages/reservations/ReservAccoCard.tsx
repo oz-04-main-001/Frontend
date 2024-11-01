@@ -3,8 +3,8 @@ interface ReservAccoCardProps {
   accommodation?: string;
   guestsCount?: string | number;
   room?: string;
-  bedType?: string[];
-  bedCount?: number;
+  bedType?: null;
+  bedCount?: number | null;
   roomCount?: number;
 }
 
