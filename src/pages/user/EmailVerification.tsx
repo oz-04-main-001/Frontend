@@ -3,12 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Popup from '../../components/Popup';
 import { Input } from '../../assets/Input';
 import axios from 'axios';
+import usePopupStore from '../../stores/usePopupStore';
 
-interface EmailVerificationProps {
-  onClose: () => void;
-}
-
-const EmailVerification: React.FC<EmailVerificationProps> = ({ onClose }) => {
+const EmailVerification: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [otp, setOtp] = useState<string>('');
@@ -29,7 +26,6 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({ onClose }) => {
 
       if (response.status === 200 || response.status === 201) {
         alert('인증이 성공적으로 완료되었습니다.');
-        onClose();
         navigate('/user/login');
       } else {
         setErrorMessage('인증 실패: 서버에서 승인되지 않았습니다.');
@@ -49,9 +45,8 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({ onClose }) => {
       title="이메일 인증"
       subTitle="이메일과 인증번호를 입력하세요."
       buttonText={{ text1: '취소', text2: '인증 완료' }}
-      onClickLogic1={onClose}
+      onClickLogic1={() => usePopupStore.getState().closePopup()}
       onClickLogic2={verifyCode}
-      onClose={onClose}
     >
       <div className="flex flex-col space-y-4">
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}

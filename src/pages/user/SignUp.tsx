@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { Input } from '../../assets/Input';
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { getUserRegister } from '../../axios/userApi';
 import EmailVerification from './EmailVerification';
 
 const SignUp: React.FC = () => {
-  //const navigate = useNavigate();
-
-  const [selectedGender, setSelectedGender] = useState<
-    'male' | 'female' | null
-  >(null);
+  const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -28,39 +23,24 @@ const SignUp: React.FC = () => {
   const [showVerificationPopup, setShowVerificationPopup] = useState(false);
 
   const validatePassword = (value: string) => {
-    const hasUpperCase = /[A-Z]/.test(value); 
-    const hasNumber = /\d/.test(value); 
-    const hasSpecialChar = /[!@#$%^&*]/.test(value); 
-    const isLengthValid = value.length >= 8; 
-    const hasNoSequentialNumbers = !/(012|123|234|345|456|567|678|789)/.test(
-      value
-    );
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasNumber = /\d/.test(value);
+    const hasSpecialChar = /[!@#$%^&*]/.test(value);
+    const isLengthValid = value.length >= 8;
+    const hasNoSequentialNumbers = !/(012|123|234|345|456|567|678|789)/.test(value);
 
-    if (!isLengthValid) {
-      return '비밀번호는 최소 8자 이상이어야 합니다.';
-    }
-    if (!hasUpperCase) {
-      return '첫 글자는 대문자여야 합니다.';
-    }
-    if (!hasNumber) {
-      return '숫자를 1개 이상 포함해야 합니다.';
-    }
-    if (!hasSpecialChar) {
-      return '특수문자를 1개 이상 포함해야 합니다.';
-    }
-    if (!hasNoSequentialNumbers) {
-      return '연속된 숫자는 사용할 수 없습니다.';
-    }
+    if (!isLengthValid) return '비밀번호는 최소 8자 이상이어야 합니다.';
+    if (!hasUpperCase) return '첫 글자는 대문자여야 합니다.';
+    if (!hasNumber) return '숫자를 1개 이상 포함해야 합니다.';
+    if (!hasSpecialChar) return '특수문자를 1개 이상 포함해야 합니다.';
+    if (!hasNoSequentialNumbers) return '연속된 숫자는 사용할 수 없습니다.';
 
     return '';
   };
 
-  const handleSignUpClick = () => {
-    setShowVerificationPopup(true); 
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setShowVerificationPopup(false);
 
     const errorMessage = validatePassword(password);
     if (errorMessage) {
@@ -99,7 +79,7 @@ const SignUp: React.FC = () => {
     try {
       const response = await getUserRegister(registerData);
       console.log('회원가입 성공:', response);
-      setShowVerificationPopup(true);
+      setShowVerificationPopup(true); // OTP 발송 후 팝업 표시
     } catch (error: any) {
       console.error('회원가입 중 오류 발생:', error.response.data);
       setRegisterError(error.response?.data?.message || '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.');
@@ -144,9 +124,7 @@ const SignUp: React.FC = () => {
             }
           }}
         />
-        {confirmPasswordError && (
-          <p className="mt-1 text-xs text-state-err">{confirmPasswordError}</p>
-        )}
+        {confirmPasswordError && <p className="mt-1 text-xs text-state-err">{confirmPasswordError}</p>}
         <div>
           <label className="block mb-1 text-sm font-medium text-gray-700">이름</label>
           <div className="flex justify-between">
@@ -168,6 +146,7 @@ const SignUp: React.FC = () => {
             </div>
           </div>
         </div>
+        
         <Input
           type="date"
           id="birthdate"
@@ -176,31 +155,29 @@ const SignUp: React.FC = () => {
           value={birthdate}
           onChange={(e) => setBirthdate(e.target.value)}
         />
+
         <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              성별
-            </label>
-            <div className="flex space-x-4">
-              <Button
-                size={BtnSize.l}
-                text={selectedGender === 'male' ? "남자 ✔" : "남자"} // 선택 시 체크 표시 추가
-                type={BtnType.normal}
-                className={`w-1/2 ${selectedGender === 'male' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
-                onClick={() => setSelectedGender('male')}
-              />
-              <Button
-                size={BtnSize.l}
-                text={selectedGender === 'female' ? "여자 ✔" : "여자"} // 선택 시 체크 표시 추가
-                type={BtnType.normal}
-                className={`w-1/2 ${selectedGender === 'female' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
-                onClick={() => setSelectedGender('female')}
-              />
-            </div>
+          <label className="block mb-1 text-sm font-medium text-gray-700">성별</label>
+          <div className="flex space-x-4">
+            <Button
+              size={BtnSize.l}
+              text={selectedGender === 'male' ? "남자 ✔" : "남자"} // 선택 시 체크 표시 추가
+              type={BtnType.normal}
+              className={`w-1/2 ${selectedGender === 'male' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
+              onClick={() => setSelectedGender('male')}
+            />
+            <Button
+              size={BtnSize.l}
+              text={selectedGender === 'female' ? "여자 ✔" : "여자"} // 선택 시 체크 표시 추가
+              type={BtnType.normal}
+              className={`w-1/2 ${selectedGender === 'female' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
+              onClick={() => setSelectedGender('female')}
+            />
           </div>
+        </div>
+
         <div>
-          <label className="block mb-1 text-sm font-medium text-gray-700">
-            전화번호
-          </label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">전화번호</label>
           <div className="flex space-x-2">
             <Input
               type="text"
@@ -225,6 +202,7 @@ const SignUp: React.FC = () => {
             />
           </div>
         </div>
+
         <div className="flex items-center">
           <input
             type="checkbox"
@@ -234,20 +212,19 @@ const SignUp: React.FC = () => {
             className="mr-2"
           />
 
-          <label htmlFor="agreement" className="text-sm text-gray-600">
-            개인정보 이용 동의
-          </label>
+          <label htmlFor="agreement" className="text-sm text-gray-600">개인정보 이용 동의</label>
         </div>
+
         {registerError && <p className="mt-1 text-xs text-state-err">{registerError}</p>}
         <Button 
-          type="button"
+          type={BtnType.submit} 
           text="회원가입"
           size={BtnSize.l}
-          onClick={handleSignUpClick} // 버튼 클릭 시 팝업 열기
         />
       </form>
+
       {showVerificationPopup && (
-        <EmailVerification onClose={() => setShowVerificationPopup(false)} />
+        <EmailVerification />
       )}
     </div>
   );
