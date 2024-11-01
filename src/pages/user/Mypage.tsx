@@ -30,7 +30,7 @@ interface MypageInfo {
 const Mypage = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<MypageInfo>();
-  const { popup, openPopup, closePopup } = usePopupStore(); // openPopup 함수 추가
+  const { popup, openPopup } = usePopupStore();
   const [leave, setLeave] = useState(false);
 
   useEffect(() => {

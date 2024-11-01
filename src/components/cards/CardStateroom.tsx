@@ -27,7 +27,7 @@ export default function StateroomCard({
 }: StateRoomCardProp) {
   const navigate = useNavigate();
   const handleErrorImage = useErrorImage();
-  const { accommodationId, data } = useAccommodationsStore();
+  const { accommodationId } = useAccommodationsStore();
 
   return (
     <div className="flex gap-8 p-5 mb-8 rounded-md bg-gray-50">

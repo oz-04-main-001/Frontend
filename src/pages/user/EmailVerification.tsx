@@ -20,15 +20,15 @@ const EmailVerification = () => {
       return;
     }
 
-    console.log("전달할 데이터:", { otp, email });
+    console.log('전달할 데이터:', { otp, email });
 
     try {
       const response = await axios.post(
-        'http://localhost/api/v1/auth/register/verify/', 
+        'http://localhost/api/v1/auth/register/verify/',
         { otp, email },
         { withCredentials: true }
       );
-      console.log("서버 응답:", response);
+      console.log('서버 응답:', response);
 
       if (response.status === 200 || response.status === 201) {
         alert('인증이 성공적으로 완료되었습니다.');
@@ -42,7 +42,10 @@ const EmailVerification = () => {
         console.error('서버 응답 데이터:', error.response.data);
         if (error.response.status === 400) {
           const serverError = error.response.data;
-          setErrorMessage(serverError?.message || '잘못된 요청: 필수 입력값이 누락되었거나 형식이 맞지 않습니다.');
+          setErrorMessage(
+            serverError?.message ||
+              '잘못된 요청: 필수 입력값이 누락되었거나 형식이 맞지 않습니다.'
+          );
         } else {
           setErrorMessage('인증번호 확인 중 오류가 발생했습니다.');
         }
@@ -55,11 +58,11 @@ const EmailVerification = () => {
   return (
     <div>
       {/* 팝업을 열기 위한 버튼 */}
-      <Button 
+      <Button
         onClick={openPopup}
-        text="이메일 인증" 
-        size={BtnSize.l} 
-        type={BtnType.normal} 
+        text="이메일 인증"
+        size={BtnSize.l}
+        type={BtnType.normal}
       />
 
       {/* 인증 팝업 */}
@@ -68,32 +71,38 @@ const EmailVerification = () => {
           title="이메일 인증"
           subTitle="이메일과 인증번호를 입력하세요."
           buttonText={{ text1: '취소', text2: '인증 완료' }}
-          onClickLogic1={closePopup}
           onClickLogic2={verifyCode}
-          onClose={closePopup}
         >
           <div className="flex flex-col space-y-4">
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            
+
             <Input
               type="email"
               id="email"
               placeholder="이메일 입력"
               value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
               label="이메일"
-              validate={(value: string) => (!value ? '이메일을 입력하세요.' : null)}
+              validate={(value: string) =>
+                !value ? '이메일을 입력하세요.' : null
+              }
               className="w-full"
             />
-            
+
             <Input
               type="text"
               id="otp"
               placeholder="인증번호 입력"
               value={otp}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOtp(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setOtp(e.target.value)
+              }
               label="인증번호"
-              validate={(value: string) => (!value ? '인증번호를 입력하세요.' : null)}
+              validate={(value: string) =>
+                !value ? '인증번호를 입력하세요.' : null
+              }
               className="w-full"
             />
           </div>

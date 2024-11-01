@@ -1,5 +1,4 @@
-//객실이 여러개 있는 숙소 세팅
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import MultiRoomList from './components/MultiRoomList';
 import AccommodationsPhoto from './components/AccommodationsPhoto';
 import AccommodationInformation from './components/AccommodationInformation';
@@ -9,13 +8,21 @@ import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import Header from '../../../assets/Header';
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
-import axios from 'axios';
 
 const MultiAccommodations: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     photos: [],
-    accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
+    accommodationInfo: {
+      name: '',
+      address: '',
+      description: '',
+      sido: '',
+      sigungu: '',
+      roadname: '',
+      latitude: '',
+      longitude: '',
+    },
     accommodationUse: { amenities: [], rules: '' },
   });
   const [amenities, setAmenities] = useState<string[]>([]);
@@ -38,9 +45,9 @@ const MultiAccommodations: React.FC = () => {
   }, [formData]);
 
   const handleFormChange = (sectionName: string, data: any) => {
-    setFormData((prevData) => ({
+    setFormData(prevData => ({
       ...prevData,
-      [sectionName]: data
+      [sectionName]: data,
     }));
   };
 
@@ -69,7 +76,7 @@ const MultiAccommodations: React.FC = () => {
         road_name: formData.accommodationInfo.roadname,
         address: formData.accommodationInfo.address,
         location: {
-          type: "Point",
+          type: 'Point',
           coordinates: [
             parseFloat(formData.accommodationInfo.longitude),
             parseFloat(formData.accommodationInfo.latitude),
@@ -78,10 +85,11 @@ const MultiAccommodations: React.FC = () => {
       },
     };
 
-
     formDataToSend.append(
-      "accommodation_data",
-      new Blob([JSON.stringify(accommodationData)], { type: "application/json" })
+      'accommodation_data',
+      new Blob([JSON.stringify(accommodationData)], {
+        type: 'application/json',
+      })
     );
 
     formData.photos.forEach((photo, index) => {
@@ -90,7 +98,7 @@ const MultiAccommodations: React.FC = () => {
 
     for (let [key, value] of formDataToSend.entries()) {
       if (value instanceof Blob) {
-        value.text().then((text) => console.log(`${key}: ${text}`));
+        value.text().then(text => console.log(`${key}: ${text}`));
       } else {
         console.log(`${key}: ${value}`);
       }
@@ -119,7 +127,7 @@ const MultiAccommodations: React.FC = () => {
         labels={[
           { title: '게스트 메인', link: '/guest' },
           { title: '서비스 등록', link: '/register' },
-          { title: '로그아웃', link: '/logout' }
+          { title: '로그아웃', link: '/logout' },
         ]}
       />
 
@@ -141,20 +149,20 @@ const MultiAccommodations: React.FC = () => {
 
         <div className="space-y-10">
           <AccommodationsPhoto
-            onStateChange={(data) => handleFormChange('photos', data)}
+            onStateChange={data => handleFormChange('photos', data)}
           />
           <AccommodationInformation
-            onStateChange={(data) => handleFormChange('accommodationInfo', data)}
+            onStateChange={data => handleFormChange('accommodationInfo', data)}
           />
           <AccommodationUse
             initialAmenities={formData.accommodationUse.amenities}
-            onStateChange={(data) => handleFormChange('accommodationUse', data)}
+            onStateChange={data => handleFormChange('accommodationUse', data)}
           />
           <RefundPolicy />
         </div>
 
         <div className="flex justify-center w-full mt-12 mb-10 space-x-4">
-          <div className='w-[550px]'>
+          <div className="w-[550px]">
             <Button
               size={BtnSize.l}
               text="임시저장"
@@ -162,7 +170,7 @@ const MultiAccommodations: React.FC = () => {
               onClick={handleTemporarySave}
             />
           </div>
-          <div className='w-[550px]'>
+          <div className="w-[550px]">
             <Button
               size={BtnSize.l}
               text="다음"
