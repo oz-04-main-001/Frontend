@@ -1,5 +1,4 @@
 //독채인 숙소 수정하기
-import React from 'react';
 import Header from '../../../assets/Header';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
 import AccommodationsPhoto from './components/AccommodationsPhoto';
@@ -13,7 +12,7 @@ import { useEffect, useState } from 'react';
 const EditOnlyRoom: React.FC = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        photos: [],
+        images: [],
         accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
         accommodationUse: { amenities: [], rules: '' },
         roomInfo: { checkin: '', checkout: '', pricing: '', selectedBeds: [], capacity: 1, room: 1 }
@@ -39,7 +38,6 @@ const EditOnlyRoom: React.FC = () => {
             <Header
                 labels={[
                     { title: '게스트 메인', link: '/guest' },
-                    { title: '서비스 등록', link: '/register' },
                     { title: '로그아웃', link: '/logout' }
                 ]}
             />
@@ -58,7 +56,6 @@ const EditOnlyRoom: React.FC = () => {
                         onStateChange={(data) => handleFormChange('accommodationInfo', data)}
                     />
                     <AccommodationUse
-                        initialAmenities={formData.accommodationUse.amenities}
                         onStateChange={(data) => handleFormChange('accommodationUse', data)}
                     />
                     <h2 className="text-xl font-semibold text-gray-600">객실</h2>

@@ -66,22 +66,18 @@ function App() {
           <Route path="select-type" element={<SelectType />} />
           <Route path="structure-type" element={<StructureType />} />
         </Route>
-
-        <Route path="HostDocuments" element={<HostDocuments />} />
-        <Route path="OnlyAccommodation" element={<OnlyAccommodation />} />
-        <Route path="OnlyStaterRoom" element={<OnlyStaterRoom />} />
-        <Route path="MultiAccommodations" element={<MultiAccommodations />} />
-        <Route path="MultiStaterRoom" element={<MultiStaterRoom />} />
-        <Route path="EditOnlyRoom" element={<EditOnlyRoom />} />
-        <Route path="EditMultiRoom" element={<EditMultiRoom />} />
-        <Route
-          path="EditMultiAccommodations"
-          element={<EditMultiAccommodations />}
-        />
-        <Route
-          path="EditMultiAccommodations"
-          element={<EditMultiAccommodations />}
-        />
+        
+        {/*호스트 숙소,객실관련*/}
+        <Route path="/onlyhost">
+          <Route path="host-documents" element={<HostDocuments />} />
+          <Route path="only-accommodation" element={<OnlyAccommodation />} />
+          <Route path="only-staterroom" element={<OnlyStaterRoom />} />
+          <Route path="multi-accommodations" element={<MultiAccommodations />} />
+          <Route path="multi-staterroom" element={<MultiStaterRoom />} />
+          <Route path="edit-Onlyroom" element={<EditOnlyRoom />} />
+          <Route path="edit-multiroom" element={<EditMultiRoom />} />
+          <Route path="edit-multiaccommodations" element={<EditMultiAccommodations />} />
+        </Route>
 
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>

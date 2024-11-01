@@ -1,5 +1,5 @@
 //독채인 경우 객실 등록
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import Header from '../../../assets/Header';
 import OnlyRoomInformation from './components/OnlyRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';

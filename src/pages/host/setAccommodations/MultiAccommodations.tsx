@@ -1,5 +1,5 @@
 //객실이 여러개 있는 숙소 세팅
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import MultiRoomList from './components/MultiRoomList';
 import AccommodationsPhoto from './components/AccommodationsPhoto';
 import AccommodationInformation from './components/AccommodationInformation';
@@ -10,15 +10,16 @@ import Header from '../../../assets/Header';
 import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
 import axios from 'axios';
+import { useSelectionStore } from '../../../stores/useSelectionStore';
 
 const MultiAccommodations: React.FC = () => {
   const navigate = useNavigate();
+  const selectedBuilding = useSelectionStore((state) => state.selectedBuilding)|| '독채펜션'; 
   const [formData, setFormData] = useState({
-    photos: [],
+    images: [],
     accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
     accommodationUse: { amenities: [], rules: '' },
   });
-  const [amenities, setAmenities] = useState<string[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
 
   useEffect(() => {
@@ -63,6 +64,9 @@ const MultiAccommodations: React.FC = () => {
         rules: formData.accommodationUse.rules,
         is_active: true,
       },
+      accommodation_type: { 
+        type_name: selectedBuilding,
+      },
       gps_info: {
         city: formData.accommodationInfo.sido,
         states: formData.accommodationInfo.sigungu,
@@ -77,41 +81,38 @@ const MultiAccommodations: React.FC = () => {
         },
       },
     };
-
-
-    formDataToSend.append(
-      "accommodation_data",
-      new Blob([JSON.stringify(accommodationData)], { type: "application/json" })
-    );
-
-    formData.photos.forEach((photo, index) => {
-      formDataToSend.append(`images[${index}]`, photo);
-    });
-
-    for (let [key, value] of formDataToSend.entries()) {
-      if (value instanceof Blob) {
-        value.text().then((text) => console.log(`${key}: ${text}`));
-      } else {
-        console.log(`${key}: ${value}`);
-      }
-    }
-
-    // try {
-    //   const response = await axios.post(
-    //     'http://localhost/api/v1/accommodations/',
-    //     formDataToSend,
-    //     {
-    //       headers: {
-    //         'Content-Type': 'multipart/form-data',
-    //       },
-    //     }
-    //   );
-    //   console.log('숙소 등록 성공:', response.data);
-    //   navigate('/MultiStaterRoom');
-    // } catch (error) {
-    //   console.error('숙소 등록 중 오류:', error);
-    // }
+    const amenities = {
+      new: formData.accommodationUse.amenities
+          .filter((amenity: { id: number | null }) => amenity.id === null)
+          .map((amenity: { name: string }) => ({ name: amenity.name, is_custom: true })),
+      default: formData.accommodationUse.amenities
+          .filter((amenity: { id: number | null }) => amenity.id !== null)
+          .map((amenity: { id: number }) => ({ amenity_id: amenity.id }))
   };
+
+    formDataToSend.append("accommodation_data", JSON.stringify(accommodationData));
+    formDataToSend.append("amenities",JSON.stringify(amenities));
+    formData.images.forEach((image) => {
+      formDataToSend.append(`images`, image);
+    });
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(`${key}: ${value}`);
+}
+
+try {
+  const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/accommodations/`, formDataToSend, {
+      headers: {
+          'accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          'X-CSRFTOKEN': import.meta.env.VITE_CSRF_TOKEN,
+      },
+  });
+  console.log('숙소 등록 성공:', response.data);
+  navigate('/OnlyStaterRoom');
+} catch (error) {
+  console.error('숙소 등록 중 오류:', error);
+}
+};
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -128,7 +129,7 @@ const MultiAccommodations: React.FC = () => {
         onSelectRoom={handleSelectRoom}
       />
 
-      <div className="flex-grow ml-[330px] px-20 mx-48 pt-[10vh]">
+      <div className="flex-grow ml-[330px] px-20 mx-28 pt-[10vh]">
         <div className="flex items-center mb-4">
           <img
             src={ArrowIcon}
@@ -139,7 +140,7 @@ const MultiAccommodations: React.FC = () => {
           <h1 className="text-2xl font-bold">숙소 등록</h1>
         </div>
 
-        <div className="space-y-10">
+        <div className="">
           <AccommodationsPhoto
             onStateChange={(data) => handleFormChange('photos', data)}
           />
@@ -147,7 +148,6 @@ const MultiAccommodations: React.FC = () => {
             onStateChange={(data) => handleFormChange('accommodationInfo', data)}
           />
           <AccommodationUse
-            initialAmenities={formData.accommodationUse.amenities}
             onStateChange={(data) => handleFormChange('accommodationUse', data)}
           />
           <RefundPolicy />

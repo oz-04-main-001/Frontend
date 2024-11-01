@@ -1,5 +1,5 @@
 //독채인 경우 숙소 등록
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../../assets/Header';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
 import AccommodationsPhoto from './components/AccommodationsPhoto';
@@ -9,16 +9,16 @@ import RefundPolicy from './components/RefundPolicy';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { addBusinessDays } from 'date-fns';
+import { useSelectionStore } from '../../../stores/useSelectionStore';
 
 const OnlyAccommodation: React.FC = () => {
     const navigate = useNavigate();
+    const selectedBuilding = useSelectionStore((state) => state.selectedBuilding) || '독채펜션';
     const [formData, setFormData] = useState({
-        accommodationsPhoto: [],
+        images: [],
         accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
         accommodationUse: { amenities: [], rules: '' },
     });
-    const [amenities, setAmenities] = useState<string[]>([]);
 
     const handleFormChange = (sectionName: string, data: any) => {
         setFormData((prevData) => ({
@@ -32,6 +32,7 @@ const OnlyAccommodation: React.FC = () => {
 
     const handleSubmit = async () => {
         const formDataToSend = new FormData();
+
         const accommodation = {
             name: formData.accommodationInfo.name,
             description: formData.accommodationInfo.description,
@@ -39,8 +40,7 @@ const OnlyAccommodation: React.FC = () => {
             is_active: true,
         };
         const accommodation_type = { 
-            type_name: "호텔" ,
-            is_customized: false
+            type_name:  selectedBuilding,
         };
         const GPS_info = {
             city: formData.accommodationInfo.sido,
@@ -55,64 +55,50 @@ const OnlyAccommodation: React.FC = () => {
                 ],
             }
         };
+        // 이부분 백엔드 custom_name이 get받아온 리스트에 있는 것들 보냈을때만 가능함 ㅜㅜ 수정 요청하기 ㅜㅜ
         const amenities = {
-            new: [{ name: "소방시설", is_custom: true }],
-            default: [{ accommodation: 0, amenitiy_id: 0 }]
+            new: formData.accommodationUse.amenities
+                .filter((amenity: { id: number | null }) => amenity.id === null)
+                .map((amenity: { name: string }) => ({ name: amenity.name, is_custom: true })),
+            default: formData.accommodationUse.amenities
+                .filter((amenity: { id: number | null }) => amenity.id !== null)
+                .map((amenity: { id: number }) => ({ amenity_id: amenity.id }))
         };
-        formDataToSend.append("accommodation", new Blob([JSON.stringify(accommodation)], { type: "application/json" }));
-        formDataToSend.append("accommodation_type", new Blob([JSON.stringify(accommodation_type)], { type: "application/json" }));
-        formDataToSend.append("GPS_info", new Blob([JSON.stringify(GPS_info)], { type: "application/json" }));
-        formDataToSend.append("amenities", new Blob([JSON.stringify(amenities)], { type: "application/json" }));
 
-        formData.accommodationsPhoto.forEach((image, index) => {
-            formDataToSend.append(`images[${index}]`, image);
+        formDataToSend.append("accommodation", JSON.stringify(accommodation));
+        formDataToSend.append("accommodation_type", JSON.stringify(accommodation_type));
+        formDataToSend.append("GPS_info", JSON.stringify(GPS_info));
+        formDataToSend.append("amenities",JSON.stringify(amenities));
+
+        formData.images.forEach((image) => {
+            formDataToSend.append(`images`, image);
         });
 
         for (let [key, value] of formDataToSend.entries()) {
-            if (value instanceof Blob) {
-                value.text().then((text) => console.log(`${key}: ${text}`));
-            } else {
                 console.log(`${key}: ${value}`);
-            }
         }
-
-        // try {
-        //     const response = await axios.post('http://localhost/api/v1/accommodations/', formDataToSend, {
-        //         headers: {
-        //             'accept': 'application/json',
-        //             'Content-Type': 'multipart/form-data',
-        //             'X-CSRFTOKEN': import.meta.env.VITE_CSRF_TOKEN,
-        //         },
-        //     });
-        //     console.log('숙소 등록 성공:', response.data);
-        //     navigate('/OnlyStaterRoom');
-        // } catch (error) {
-        //     console.error('숙소 등록 중 오류:', error);
-        // }
+        
+        //axios 폴더에 적기
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/accommodations/`, formDataToSend, {
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'X-CSRFTOKEN': import.meta.env.VITE_CSRF_TOKEN,
+                },
+            });
+            console.log('숙소 등록 성공:', response.data);
+            navigate('/OnlyStaterRoom');
+        } catch (error) {
+            console.error('숙소 등록 중 오류:', error);
+        }
     };
-    // useEffect(() => {
-    //     const fetchAmenities = async () => {
-    //         try {
-    //             const response = await axios.get('http://localhost/api/v1/accommodations/amenity-choices/', {
-    //                 headers: {
-    //                     accept: 'application/json',
-    //                 },
-    //             });
-    //             setAmenities(response.data);
-    //         } catch (error) {
-    //             console.error('어메니티 리스트 에러', error);
-    //         }
-    //     };
-
-    //     fetchAmenities();
-    // }, []);
 
     return (
         <div className="min-h-screen p-4 bg-gray-50">
             <Header
                 labels={[
                     { title: '게스트 메인', link: '/guest' },
-                    { title: '서비스 등록', link: '/register' },
                     { title: '로그아웃', link: '/logout' },
                 ]}
             />
@@ -128,9 +114,9 @@ const OnlyAccommodation: React.FC = () => {
                 </div>
                 <div className="space-y-8">
                     <h2 className="text-xl font-semibold text-gray-600">숙소</h2>
-                    <AccommodationsPhoto onStateChange={(data) => handleFormChange('accommodationsPhoto', data)} />
+                    <AccommodationsPhoto onStateChange={(data) => handleFormChange('images', data)} />
                     <AccommodationInformation onStateChange={(data) => handleFormChange('accommodationInfo', data)} />
-                    <AccommodationUse initialAmenities={amenities} onStateChange={(data) => handleFormChange('accommodationUse', data)} />
+                    <AccommodationUse onStateChange={(data) => handleFormChange('accommodationUse', data)} />
                     <RefundPolicy />
                 </div>
 
