@@ -3,6 +3,7 @@ import { Input } from '../../assets/Input';
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { getUserRegister } from '../../axios/userApi';
 import EmailVerification from './EmailVerification';
+import usePopupStore from '../../stores/usePopupStore';
 
 const SignUp: React.FC = () => {
   const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null);
@@ -20,7 +21,11 @@ const SignUp: React.FC = () => {
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [registerError, setRegisterError] = useState('');
-  const [showVerificationPopup, setShowVerificationPopup] = useState(false);
+
+  // Zustand의 팝업 상태 가져오기
+  const openPopup = usePopupStore(state => state.openPopup);
+  const closePopup = usePopupStore(state => state.closePopup);
+  const popupVisible = usePopupStore(state => state.popup);
 
   const validatePassword = (value: string) => {
     const hasUpperCase = /[A-Z]/.test(value);
@@ -39,10 +44,8 @@ const SignUp: React.FC = () => {
     return '';
   };
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setShowVerificationPopup(false);
 
     const errorMessage = validatePassword(password);
     if (errorMessage) {
@@ -92,14 +95,13 @@ const SignUp: React.FC = () => {
     try {
       const response = await getUserRegister(registerData);
       console.log('회원가입 성공:', response);
-      setShowVerificationPopup(true); // OTP 발송 후 팝업 표시
+      openPopup(); // 회원가입 성공 시 팝업 열기
     } catch (error: any) {
       console.error('회원가입 중 오류 발생:', error.response.data);
       setRegisterError(
         error.response?.data?.message ||
           '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.'
       );
-      setShowVerificationPopup(false);
     }
   };
 
@@ -182,7 +184,6 @@ const SignUp: React.FC = () => {
         />
 
         <div>
-
           <label className="block mb-1 text-sm font-medium text-gray-700">성별</label>
           <div className="flex space-x-4">
             <Button
@@ -250,8 +251,8 @@ const SignUp: React.FC = () => {
         />
       </form>
 
-      {showVerificationPopup && (
-        <EmailVerification />
+      {popupVisible && (
+        <EmailVerification onClose={closePopup} />
       )}
     </div>
   );
