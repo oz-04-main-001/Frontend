@@ -55,7 +55,6 @@ const OnlyAccommodation: React.FC = () => {
                 ],
             }
         };
-        // 이부분 백엔드 custom_name이 get받아온 리스트에 있는 것들 보냈을때만 가능함 ㅜㅜ 수정 요청하기 ㅜㅜ
         const amenities = {
             new: formData.accommodationUse.amenities
                 .filter((amenity: { id: number | null }) => amenity.id === null)
@@ -88,7 +87,7 @@ const OnlyAccommodation: React.FC = () => {
                 },
             });
             console.log('숙소 등록 성공:', response.data);
-            navigate('/OnlyStaterRoom');
+            navigate('/onlyhost/only-staterroom');
         } catch (error) {
             console.error('숙소 등록 중 오류:', error);
         }

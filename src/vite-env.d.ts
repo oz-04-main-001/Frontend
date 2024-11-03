@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_DOCUMENT_API_URL: string;
   readonly VITE_REST_API_KEY: string;
   readonly VITE_CSRF_TOKEN: string;
+  readonly VITE_ROOM_CSRF_TOKEN: string;
 }
 
 interface ImportMeta {
