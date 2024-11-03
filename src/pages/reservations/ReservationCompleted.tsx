@@ -20,6 +20,7 @@ interface Bed {
 export interface OrderInfo {
   id: number | string;
   accommodation_info: {
+    id: number | string;
     name: string;
     representative_image: null | string;
     address: string;
@@ -60,6 +61,7 @@ export default function ReservationCompleted() {
         try {
           const loadCard = await getBookingStatus(orderId);
           setOrderInfo(loadCard);
+          console.log(loadCard);
         } catch (error) {
           console.error('Error fetching booking status:', error);
         }
