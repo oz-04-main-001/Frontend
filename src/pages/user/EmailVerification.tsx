@@ -4,7 +4,11 @@ import Popup from '../../components/Popup';
 import { Input } from '../../assets/Input';
 import axios from 'axios';
 
-const EmailVerification: React.FC = () => {
+interface EmailVerificationProps {
+  onClose: () => void;
+}
+
+const EmailVerification: React.FC<EmailVerificationProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [otp, setOtp] = useState<string>('');
@@ -47,8 +51,8 @@ const EmailVerification: React.FC = () => {
       title="이메일 인증"
       subTitle="이메일과 인증번호를 입력하세요."
       buttonText={{ text1: '취소', text2: '인증 완료' }}
-
-      onClickLogic2={verifyCode}
+      onClickLogic1={onClose}  // 취소 버튼 클릭 시 onClose 호출
+      onClickLogic2={verifyCode}  // 인증 완료 버튼 클릭 시 verifyCode 호출
     >
       <div className="flex flex-col space-y-4">
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
