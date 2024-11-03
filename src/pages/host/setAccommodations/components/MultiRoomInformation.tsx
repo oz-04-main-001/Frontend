@@ -1,5 +1,5 @@
 // 숙소 객실 정보 컴포넌트
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../../../../assets/Input';
 import InputChips from '../../../../assets/InputChips';
 import Counter from '../../../../assets/Counter';
@@ -99,8 +99,8 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
     };
 
     const handleFacilityClick = (facility: string) => {
-        setSelectedFacilities(prev =>
-            prev.includes(facility) ? prev.filter(f => f !== facility) : [...prev, facility]
+        setSelectedFacilities((prev) =>
+            prev.includes(facility) ? prev.filter((f) => f !== facility) : [...prev, facility]
         );
     };
 
