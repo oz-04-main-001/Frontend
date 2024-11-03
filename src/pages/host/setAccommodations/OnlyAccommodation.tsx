@@ -97,9 +97,8 @@ const OnlyAccommodation = () => {
     <div className="min-h-screen p-4 bg-gray-50">
       <Header
         labels={[
-          { title: '게스트 메인', link: '/guest' },
-          { title: '서비스 등록', link: '/register' },
-          { title: '로그아웃', link: '/logout' },
+          { title: '게스트 메인', link: '/' },
+          { title: '서비스 등록', link: '/host/select-type' },
         ]}
       />
       <div className="container mx-auto mt-[10vh] max-w-4xl">

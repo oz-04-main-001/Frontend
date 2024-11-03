@@ -37,8 +37,7 @@ const EditOnlyRoom: React.FC = () => {
         <div>
             <Header
                 labels={[
-                    { title: '게스트 메인', link: '/guest' },
-                    { title: '로그아웃', link: '/logout' }
+                    { title: '게스트 메인', link: '/' },
                 ]}
             />
             <div className="w-full mx-auto mt-[11vh]  bg-gray-50">
