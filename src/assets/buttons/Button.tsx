@@ -1,3 +1,12 @@
+export enum BtnType {
+  normal = 'normal',
+  disabled = 'disabled',
+  popup = 'popup',
+  line = 'line',
+  err = 'err',
+  submit = 'submit',
+}
+
 interface ButtonProps {
   size?: BtnSize;
   text?: string;
@@ -12,14 +21,6 @@ export enum BtnSize {
   l = 'l',
 }
 
-export enum BtnType {
-  normal = 'normal',
-  disabled = 'disabled',
-  popup = 'popup',
-  line = 'line',
-  err = 'err',
-  submit = 'submit', // submit 타입 추가
-}
 
 const btnSize = (size: BtnSize) => {
   switch (size) {
@@ -35,7 +36,8 @@ const btnSize = (size: BtnSize) => {
 export default function Button({
   size = BtnSize.l,
   text = 'Button',
-  type = BtnType.normal, // 기본값을 normal로 변경
+  type = BtnType.normal,
+
   onClick,
   className, // className 추가
 }: ButtonProps) {

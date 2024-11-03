@@ -1,10 +1,10 @@
-import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../../assets/Header';
 import Chips from '../../../assets/Chips';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
+import React from 'react';
 
 const StructureType: React.FC = () => {
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ const StructureType: React.FC = () => {
                 key={index}
                 onClick={() => handleBuildingClick(building)}
                 className={`cursor-pointer p-2 rounded ${
-                  selectedBuilding === building ? 'bg-[#A0D8F1] text-white' : 'bg-[#E0E0E0]'
+                  selectedBuilding === building ? 'border-gray-300 bg-[#f0f0f0]' : 'border-transparent'
                 }`}
               >
                 <Chips text={building} />
@@ -88,13 +88,7 @@ const StructureType: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex justify-between w-3/4 gap-4 mt-36">
-            <Button
-              size={BtnSize.l}
-              text="이전"
-              type={BtnType.disabled}
-              onClick={() => navigate(-1)}
-            />
+          <div className="flex justify-between w-2/5 gap-4 mt-36">
             <Button
               size={BtnSize.l}
               text="다음"

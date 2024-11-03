@@ -60,12 +60,16 @@ export default function HostAccommoList({
             <p className="flex flex-wrap text-xs">
               <span>{acco.address}</span>
             </p>
-            <div
-              onClick={() => {
-                navigate('');
-              }}
-            >
-              <Button text="수정" type={BtnType.line} />
+            <div>
+              <Button
+                text="수정"
+                type={BtnType.line}
+                onClick={() => {
+                  acco.accommodation_type.includes('독채') === true
+                    ? navigate(`/onlyhost/edit-Onlyroom/${acco.id}`)
+                    : navigate(`/onlyhost/edit-multiroom/${acco.id}`);
+                }}
+              />
             </div>
           </div>
         ))}

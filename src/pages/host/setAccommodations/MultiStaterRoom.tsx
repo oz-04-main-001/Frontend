@@ -10,7 +10,7 @@ import RoomPhoto from './components/RoomPhoto';
 
 const MultiStaterRoom: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  //const [setSelectedRoom] = useState<string | null>(null);
   const [roomInfo, setRoomInfo] = useState({
     checkin: '',
     checkout: '',
@@ -22,20 +22,20 @@ const MultiStaterRoom: React.FC = () => {
     capacity: 1,
     bedRows: 1,
   });
-  console.log(roomInfo)
+  console.log(roomInfo);
 
   const handleAddRoom = () => {
     console.log('신규 객실 추가하기 클릭됨');
   };
 
   const handleSelectRoom = (room: string) => {
-    setSelectedRoom(room);
+    // setSelectedRoom(room);
     console.log(`${room} 객실 선택됨`);
   };
 
   const handleRoomInfoChange = (data: any) => {
     setRoomInfo(data);
-    console.log("객실 정보 업데이트:", data);
+    console.log('객실 정보 업데이트:', data);
   };
 
   return (
@@ -43,15 +43,15 @@ const MultiStaterRoom: React.FC = () => {
       <Header
         labels={[
           { title: '게스트 메인', link: '/guest' },
-          { title: '로그아웃', link: '/logout' }
+          { title: '로그아웃', link: '/logout' },
         ]}
       />
 
       <div className="flex">
         <div className="w-[300px] bg-gray-100">
-          <MultiRoomList 
-            onAddRoom={handleAddRoom} 
-            onSelectRoom={handleSelectRoom} 
+          <MultiRoomList
+            onAddRoom={handleAddRoom}
+            onSelectRoom={handleSelectRoom}
           />
         </div>
 
@@ -74,11 +74,13 @@ const MultiStaterRoom: React.FC = () => {
 
           <div className="space-y-10">
             <RoomPhoto />
-            <MultiRoomInformation 
-              room={roomInfo.room} 
-              onRoomChange={(value) => setRoomInfo({ ...roomInfo, room: value })}
-              capacity={roomInfo.capacity} 
-              onCapacityChange={(value) => setRoomInfo({ ...roomInfo, capacity: value })}
+            <MultiRoomInformation
+              room={roomInfo.room}
+              onRoomChange={value => setRoomInfo({ ...roomInfo, room: value })}
+              capacity={roomInfo.capacity}
+              onCapacityChange={value =>
+                setRoomInfo({ ...roomInfo, capacity: value })
+              }
               onStateChange={handleRoomInfoChange}
             />
           </div>

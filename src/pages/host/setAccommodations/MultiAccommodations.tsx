@@ -16,7 +16,7 @@ const MultiAccommodations: React.FC = () => {
   const navigate = useNavigate();
   const selectedBuilding = useSelectionStore((state) => state.selectedBuilding) || '독채펜션';
   const [formData, setFormData] = useState({
-    images: [], // 이미지 파일을 저장하는 배열
+    images: [], 
     accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
     accommodationUse: { amenities: [], rules: '' },
   });

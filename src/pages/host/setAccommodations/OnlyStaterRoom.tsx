@@ -33,8 +33,8 @@ const OnlyStaterRoom: React.FC = () => {
     const formData = new FormData();
 
     const room = {
-      accommodation: 1, 
-      name: '객실 이름', 
+      accommodation: 1,
+      name: '객실 이름',
       capacity: roomData.capacity,
       price: parseInt(roomData.pricing) || 0,
       description: '객실 설명',
@@ -42,7 +42,7 @@ const OnlyStaterRoom: React.FC = () => {
       check_out_time: roomData.checkout,
       is_available: true,
     };
-    
+
     const inventory = {
       count_room: roomData.room,
     };
@@ -50,7 +50,7 @@ const OnlyStaterRoom: React.FC = () => {
     const options = {
       new: [
         {
-          name: 'Custom Option', 
+          name: 'Custom Option',
           category: 'extra',
           is_custom: true,
         },
@@ -70,10 +70,10 @@ const OnlyStaterRoom: React.FC = () => {
     formData.append('inventory', JSON.stringify(inventory));
     formData.append('options', JSON.stringify(options));
     formData.append('bed_options', JSON.stringify(bedOptions));
-   
+
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
-}
+    }
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/rooms/`, formData, {
@@ -132,3 +132,4 @@ const OnlyStaterRoom: React.FC = () => {
 };
 
 export default OnlyStaterRoom;
+

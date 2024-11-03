@@ -3,6 +3,7 @@ import client from './client';
 import useHostAccommoDeleteStore from '../stores/useHostAccommoDelete';
 
 interface Accommodation {
+  accommodation_type: any;
   id: 0;
   name: string;
   image: string;

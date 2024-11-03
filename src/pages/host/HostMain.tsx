@@ -27,7 +27,7 @@ interface responseDataType {
   booker_phone_number: string;
 }
 
-export default function HostMain() {
+export default function  HostMain() {
   const popup = usePopupStore(state => state.popup);
   const closePopup = usePopupStore(state => state.closePopup);
   const openPopup = usePopupStore(state => state.openPopup);
@@ -37,8 +37,8 @@ export default function HostMain() {
   const { isAccommoDeleted, setIsAccommoDeleted } = useHostAccommoDeleteStore();
   const { action, setAction } = useHostActionStore();
   const [bookingId, setBookingId] = useState<number | null>(null);
-  const [requestData, setRequestData] = useState<responseDataType | null>(null);
-  const [isPatched, setIsPatched] = useState<boolean>(false); // 예약 취소 버튼
+  const [, setRequestData] = useState<responseDataType | null>(null);
+  const [, setIsPatched] = useState<boolean>(false); // 예약 취소 버튼
   const [tap, setTap] = useState(0);
   const taps = ['이용 요청', '예약 확정'];
   const handleCancelClick = (id: number) => {
@@ -85,15 +85,10 @@ export default function HostMain() {
       console.error('ManagementRequestAPI Error:', error);
     } finally {
       setIsPatched(false);
-      setAction('none');
-      setBookingId(null);
+      setAction('none'); //
+      setBookingId(null); // 초기화
     }
   };
-  // useEffect(() => {
-  //   if (bookingId && action !== 'none') {
-  //     patchRequestData(bookingId);
-  //   }
-  // }, [action, setIsPatched]);
 
   useEffect(() => {
     if (action !== 'none' && bookingId) {

@@ -1,4 +1,3 @@
-//독채인 경우 숙소 등록
 import { useEffect, useState } from 'react';
 import Header from '../../../assets/Header';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';

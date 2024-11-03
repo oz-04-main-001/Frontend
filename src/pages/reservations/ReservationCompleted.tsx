@@ -17,7 +17,7 @@ interface Bed {
   total_beds: number;
   bed_type_num: null | string;
 }
-interface OrderInfo {
+export interface OrderInfo {
   id: number | string;
   accommodation_info: {
     name: string;
@@ -152,8 +152,7 @@ export default function ReservationCompleted() {
           </Layout>
         </>
       ) : null}
-
-      {popup && <CancelPopup />}
+      {popup && orderInfo && <CancelPopup orderInfo={orderInfo} />}
     </div>
   );
 }
