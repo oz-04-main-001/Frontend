@@ -90,7 +90,7 @@ function App() {
         </Route>
 
         {/* 게스트 예약관련 */}
-        <Route path="/reservatioan" element={<Reservations />}>
+        <Route path="/reservation" element={<Reservations />}>
           <Route
             path="stateroom/order/:accommodationId/:stateroomId"
             element={<Orders />}
