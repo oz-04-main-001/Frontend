@@ -7,9 +7,9 @@ interface SelectionState {
   setSelectedBuilding: (building: string | null) => void;
 }
 
-export const useSelectionStore = create<SelectionState>((set) => ({
+export const useSelectionStore = create<SelectionState>(set => ({
   selectedOption: null,
   selectedBuilding: null,
-  setSelectedOption: (option) => set({ selectedOption: option }),
-  setSelectedBuilding: (building) => set({ selectedBuilding: building }),
+  setSelectedOption: option => set({ selectedOption: option }),
+  setSelectedBuilding: building => set({ selectedBuilding: building }),
 }));
