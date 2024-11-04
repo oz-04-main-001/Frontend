@@ -50,7 +50,6 @@ const BookingListApi = () => {
     if (selectedDate !== null) {
       fetchData();
     }
-    console.log(selectedDate);
   }, [selectedDate, action]);
   return { data, error, loading };
 };

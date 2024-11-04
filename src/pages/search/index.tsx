@@ -5,13 +5,15 @@ import Search from '../../components/Search';
 import Layout2 from '../../layouts/Layout2';
 import Map from './Map';
 import {
+  KakaoRoom,
   SearchRoom,
   useSearchRoomStore,
 } from '../../stores/useSearchRoomStore';
 
 export default function Index() {
   const searchError = '검색 리스트를 불러오고 있습니다.';
-  const { accommodation_data } = useSearchRoomStore();
+  const { accommodation_data, kakao_place_data } = useSearchRoomStore();
+  console.log(kakao_place_data);
   return (
     <>
       <Header border={false} />
@@ -33,6 +35,21 @@ export default function Index() {
                       representativeImage={info.representative_image}
                       room={info.room}
                     />
+                  ))
+              : searchError}
+            {kakao_place_data
+              ? kakao_place_data.length === 0
+                ? '이 주변은 숙소가 없습니다.'
+                : kakao_place_data.map((info: KakaoRoom) => (
+                    <a href={info.place_url} target="_blank">
+                      <CardAccommodations
+                        key={info.road_address_name}
+                        location={info.location}
+                        accommodationsName={info.place_name}
+                        representativeImage={info.image_url}
+                        address={info.road_address_name}
+                      />
+                    </a>
                   ))
               : searchError}
           </div>

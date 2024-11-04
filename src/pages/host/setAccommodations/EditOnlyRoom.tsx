@@ -50,8 +50,7 @@ const EditOnlyRoom: React.FC = () => {
     console.log('저장된 데이터:', formData);
     navigate('/host/management');
   };
-
-<!--   const { accommodationId } = useParams();
+  const { accommodationId } = useParams();
 
   const fetchMultipleRequest = async () => {
     try {
@@ -84,7 +83,7 @@ const EditOnlyRoom: React.FC = () => {
 
   useEffect(() => {
     fetchMultipleRequest();
-  }, []); -->
+  }, []);
 
   return (
     <div>
