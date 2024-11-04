@@ -40,20 +40,13 @@ export default function Management({
   );
   const uniqueNameFilteredPending = [
     ...new Set(pendingBooking?.map(item => item.accommodation_name)),
-  ];
-  // const roomFilteredPending = pendingBooking?.map(item => {
-  //   return item.room_name;
-  // });
-  //
+
   const filteredConcirmed = confirmedBooking?.filter(confirm =>
     accommoData?.filter(acco => acco.name === confirm.accommodation_name)
   );
   const uniqueNameFilteredConcirmed = [
     ...new Set(filteredConcirmed?.map(item => item.accommodation_name)),
   ];
-  // const roomFilteredConcirmed = filteredConcirmed?.map(item => {
-  //   return item.room_name;
-  // });
 
   return (
     <>

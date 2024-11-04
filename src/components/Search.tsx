@@ -55,7 +55,6 @@ const Search = ({ border = true }: SearchProp) => {
               navigate('/user/login');
               break;
             default:
-              console.log('요청 에러');
               break;
           }
         } else {

@@ -37,10 +37,10 @@ const BookingListApi = () => {
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
           const errorMessage = error.response.data.errors;
-          console.error('Error message:', errorMessage);
+          // console.error('Error message:', errorMessage);
           setError(errorMessage);
         } else {
-          console.error('Unexpected error:', error);
+          // console.error('Unexpected error:', error);
           setError('Unexpected error occurred');
         }
       } finally {

@@ -52,6 +52,21 @@ const EditOnlyRoom: React.FC = () => {
   };
   const { accommodationId } = useParams();
 
+
+    return (
+        <div>
+            <Header
+                labels={[
+                    { title: '게스트 메인', link: '/' },
+                ]}
+            />
+            <div className="w-full mx-auto mt-[11vh]  bg-gray-50">
+                <div className="flex items-center ">
+                    <img src={ArrowIcon} alt="Arrow Icon" className="w-6 h-6 mr-4" onClick={() => navigate(-1)} />
+                    <h1 className="text-2xl font-bold">숙소 수정</h1>
+                </div>
+
+
   const fetchMultipleRequest = async () => {
     try {
       const [

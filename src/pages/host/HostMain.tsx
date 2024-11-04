@@ -82,7 +82,7 @@ export default function  HostMain() {
       setRequestData(response.data); // 응답 데이터 저장
       console.log('API 응답:', response.data); // 응답 확인용 로그
     } catch (error) {
-      console.error('ManagementRequestAPI Error:', error);
+      // console.error('ManagementRequestAPI Error:', error);
     } finally {
       setIsPatched(false);
       setAction('none'); //
@@ -105,9 +105,9 @@ export default function  HostMain() {
       setIsAccommoDeleted(true);
       const response = await client.delete(`/api/v1/accommodations/${id}/`);
       setAccommoData(response.data);
-      console.log('accommoData', accommoData);
+      // console.log('accommoData', accommoData);
     } catch (error) {
-      console.error('deleteArror', error);
+      // console.error('deleteArror', error);
     } finally {
       setSelectedId(null);
       setIsAccommoDeleted(false);

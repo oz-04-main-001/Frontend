@@ -29,12 +29,10 @@ client.interceptors.response.use(
     const userType = response.data.userType;
 
     if (accessToken) {
-      console.log('Access token received:', accessToken);
       localStorage.setItem('auth_token', accessToken);
 
       const { setUsertype } = useAuthStore.getState();
       if (userType) {
-        console.log('User type received:', userType);
         setUsertype(userType);
       }
     }
@@ -73,8 +71,6 @@ client.interceptors.response.use(
         if (refreshAuthToken) {
           localStorage.setItem('refresh_auth_token', refreshAuthToken);
         }
-
-        console.log('재발급 성공');
 
         // 원래 요청에 새로운 토큰 추가
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
