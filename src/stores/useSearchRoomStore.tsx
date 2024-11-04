@@ -8,9 +8,17 @@ export interface SearchRoom {
   representative_image: null;
   room: number[];
 }
+export interface KakaoRoom {
+  image_url: string;
+  location: number[];
+  place_name: string;
+  place_url: string;
+  road_address_name: string;
+}
+
 interface State {
   accommodation_data: SearchRoom[] | null;
-  kakao_place_data: null;
+  kakao_place_data: KakaoRoom[] | null;
 }
 
 interface Actions {

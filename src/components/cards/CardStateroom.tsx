@@ -83,7 +83,6 @@ export default function StateroomCard({
           <div className="c2">객실정보</div>
           <ul className="text-gray-300 c1">
             <li>기준 {capacity}인</li>
-            <li>더블 침대 1개, 방 1개</li>
           </ul>
         </div>
       </div>
