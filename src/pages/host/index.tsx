@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Header, { labels } from '../../assets/Header';
 import Layout from '../../layouts/Layout2';
+import useAuthStore from '../../stores/useAuthStore';
 
 export default function index() {
   const headerLabelArr: labels[] = [
