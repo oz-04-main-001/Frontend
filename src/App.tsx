@@ -75,7 +75,7 @@ function App() {
           <Route path="multi-staterroom" element={<MultiStaterRoom />} />
           {/* <Route path="edit-Onlyroom" element={<EditOnlyRoom />} /> */}
           <Route
-            path="edit-Onlyroom/:accomodationId"
+            path="edit-Onlyroom/:accommodationId"
             element={<EditOnlyRoom />}
           />
           {/* <Route path="edit-multiroom" element={<EditMultiRoom />} /> */}
