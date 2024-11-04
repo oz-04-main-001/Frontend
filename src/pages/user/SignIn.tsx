@@ -14,7 +14,7 @@ const SignIn = () => {
   const handleLogin = async () => {
     try {
       await getUserLogin({ email, password });
-      console.log('로그인 성공:', email);
+
       // 로그인 성공 후 메인 페이지로 이동
       navigate('/');
     } catch (error) {

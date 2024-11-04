@@ -94,10 +94,9 @@ const SignUp: React.FC = () => {
 
     try {
       const response = await getUserRegister(registerData);
-      console.log('회원가입 성공:', response);
+      if (response) {} // response 변수를 사용한 것으로 간주하게 함
       openPopup(); // 회원가입 성공 시 팝업 열기
     } catch (error: any) {
-      console.error('회원가입 중 오류 발생:', error.response.data);
       setRegisterError(
         error.response?.data?.message ||
           '회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.'
