@@ -4,14 +4,14 @@ import { Input } from '../../../../assets/Input';
 import Counter from '../../../../assets/Counter';
 import InputChips from '../../../../assets/InputChips';
 import Button, { BtnSize, BtnType } from '../../../../assets/buttons/Button';
+import axios from 'axios';
 
 interface OnlyRoomInformationProps {
     onStateChange: (data: any) => void;
 }
 
 const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange }) => {
-    const initialBeds = ['싱글', '슈퍼싱글', '더블', '퀸', '킹', '없음'];
-    const initialFacilities = ['주차가능', '조식운영', '와이파이', '객실금연', '레스토랑', '바', '연회장', '뷔페'];
+    const initialBeds = ['싱글', '슈퍼싱글', '더블', '퀸', '킹', '없음']
 
     const [bedRows, setBedRows] = useState<number>(1);
     const [selectedBeds, setSelectedBeds] = useState<string[]>(['']);
@@ -20,9 +20,20 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
     const [checkout, setCheckout] = useState<string>('');
     const [capacity, setCapacity] = useState(1);
     const [room, setRoom] = useState(1);
+    const [initialFacilities, setInitialFacilities] = useState<string[]>([]);
     const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
     const [customFacilities, setCustomFacilities] = useState<string[]>([]);
     const [newFacility, setNewFacility] = useState<string>('');
+
+    useEffect(() => {
+        axios.get('http://localhost/api/v1/rooms/option-choices/')
+            .then(response => {
+                setInitialFacilities(response.data);
+            })
+            .catch(error => {
+                console.error('GET 오류', error);
+            });
+    }, []);
 
     useEffect(() => {
         onStateChange({
@@ -174,7 +185,7 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
 
             <div className="mb-6">
                 <h3 className="mb-2 text-lg text-gray-400">편의시설</h3>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-4 gap-4">
                     {initialFacilities.map((facility, index) => (
                         <Button
                             key={index}

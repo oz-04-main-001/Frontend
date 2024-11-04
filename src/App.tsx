@@ -49,7 +49,9 @@ function App() {
           <Route path="join" element={<SignUp />} />
           <Route path="leaveId" element={<MembershipWithdrawal />} />
           <Route path="logout" element={<SignOut />} />
-          <Route path="verify-email" element={<EmailVerification />} />
+          <Route path="verify-email" element={<EmailVerification onClose={function (): void {
+            throw new Error('Function not implemented.');
+          } } />} />
           <Route path="signup-successful" element={<SignUpSuccessful />} />
         </Route>
         {/* 호스트관련 */}
@@ -70,7 +72,7 @@ function App() {
           <Route path="multi-staterroom" element={<MultiStaterRoom />} />
           {/* <Route path="edit-Onlyroom" element={<EditOnlyRoom />} /> */}
           <Route
-            path="edit-Onlyroom/:accomodationId"
+            path="edit-Onlyroom/:accommodationId"
             element={<EditOnlyRoom />}
           />
           {/* <Route path="edit-multiroom" element={<EditMultiRoom />} /> */}

@@ -25,7 +25,7 @@ export default function Management({
   const [selectedAccommodation, setSelectedAccommodation] = useState<
     string | null
   >(null);
-  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [selectedRoom] = useState<string | null>(null);
   const { selectedDate } = useSelectedDateStore();
 
   const { accommoData } = HostAccommodationAPI();
@@ -41,9 +41,9 @@ export default function Management({
   const uniqueNameFilteredPending = [
     ...new Set(pendingBooking?.map(item => item.accommodation_name)),
   ];
-  const roomFilteredPending = pendingBooking?.map(item => {
-    return item.room_name;
-  });
+  // const roomFilteredPending = pendingBooking?.map(item => {
+  //   return item.room_name;
+  // });
   //
   const filteredConcirmed = confirmedBooking?.filter(confirm =>
     accommoData?.filter(acco => acco.name === confirm.accommodation_name)
@@ -51,9 +51,9 @@ export default function Management({
   const uniqueNameFilteredConcirmed = [
     ...new Set(filteredConcirmed?.map(item => item.accommodation_name)),
   ];
-  const roomFilteredConcirmed = filteredConcirmed?.map(item => {
-    return item.room_name;
-  });
+  // const roomFilteredConcirmed = filteredConcirmed?.map(item => {
+  //   return item.room_name;
+  // });
 
   return (
     <>
@@ -80,7 +80,7 @@ export default function Management({
               setSelectedItem={setSelectedAccommodation}
               btnStyle="text-sm pt-1 text-left font-medium"
             />
-            <Dropdown
+            {/* <Dropdown
               width="100px"
               tap={tap}
               menuItems={
@@ -92,7 +92,7 @@ export default function Management({
               selectedItem={selectedRoom}
               setSelectedItem={setSelectedRoom}
               btnStyle="text-sm pt-1 text-left font-medium"
-            />
+            /> */}
           </div>
           <div className="h-full relative overflow-y-auto max-h-96">
             {tap === taps.indexOf('이용 요청') ? (
