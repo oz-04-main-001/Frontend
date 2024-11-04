@@ -10,24 +10,38 @@ interface AuthState {
   email: string | null;
   usertype: string | null;
   businessProfile: BusinessProfile | null;
-  accessToken: string | null; 
+  accessToken: string | null;
   setEmail: (email: string) => void;
   setUsertype: (usertype: string) => void;
   setBusinessProfile: (profile: BusinessProfile) => void;
-  setAccessToken: (token: string) => void; // 액세스 토큰 설정 메소드
-  clearAuth: () => void; // 액세스 토큰 및 사용자 유형 초기화
+  setAccessToken: (token: string) => void;
+  clearAuth: () => void;
 }
 
-const useAuthStore = create<AuthState>(set => ({
-  email: null,
-  usertype: null,
+const useAuthStore = create<AuthState>((set) => ({
+  email: localStorage.getItem('email') || null,
+  usertype: localStorage.getItem('usertype') || null,
   businessProfile: null,
-  accessToken: null, // 초기값 설정
-  setEmail: (email: string) => set({ email }),
-  setUsertype: (usertype: string) => set({ usertype }),
+  accessToken: localStorage.getItem('accessToken') || null,
+  setEmail: (email: string) => {
+    localStorage.setItem('email', email);
+    set({ email });
+  },
+  setUsertype: (usertype: string) => {
+    localStorage.setItem('usertype', usertype);
+    set({ usertype });
+  },
   setBusinessProfile: (profile: BusinessProfile) => set({ businessProfile: profile }),
-  setAccessToken: (token: string) => set({ accessToken: token }), 
-  clearAuth: () => set({ accessToken: null, usertype: null, email: null, businessProfile: null }), // 모든 상태 초기화
+  setAccessToken: (token: string) => {
+    localStorage.setItem('accessToken', token);
+    set({ accessToken: token });
+  },
+  clearAuth: () => {
+    localStorage.removeItem('email');
+    localStorage.removeItem('usertype');
+    localStorage.removeItem('accessToken');
+    set({ email: null, usertype: null, accessToken: null, businessProfile: null });
+  },
 }));
 
 export default useAuthStore;
