@@ -24,7 +24,7 @@ export default function HostAccommodationAPI() {
         const response = await client.get<Accommodation[]>(url);
         setAccommoData(response.data);
       } catch (error) {
-        console.error('Fetching Error:', error);
+        // console.error('Fetching Error:', error);
         setError(error);
       } finally {
         setLoading(false);

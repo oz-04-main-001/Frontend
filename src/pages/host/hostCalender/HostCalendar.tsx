@@ -50,7 +50,7 @@ const HostCalendar = () => {
     const dateStr = moment(event.start).format('YYYY-MM-DD');
     setSelectedDate(selectedDate === dateStr ? null : dateStr);
   };
-  console.log('selectedDate', selectedDate);
+  // console.log('selectedDate', selectedDate);
 
   return (
     <div className="-z-50">
