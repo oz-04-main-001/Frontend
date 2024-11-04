@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import Header from '../../../assets/Header';
 import OnlyRoomInformation from './components/OnlyRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
+
 import axios from 'axios';
 
 const OnlyStaterRoom: React.FC = () => {
@@ -20,7 +21,7 @@ const OnlyStaterRoom: React.FC = () => {
   });
 
   const handleRoomInfoChange = (data: any) => {
-    setRoomData((prevData) => ({
+    setRoomData(prevData => ({
       ...prevData,
       ...data,
     }));
@@ -55,7 +56,7 @@ const OnlyStaterRoom: React.FC = () => {
           is_custom: true,
         },
       ],
-      default: roomData.selectedFacilities.map((facility) => ({
+      default: roomData.selectedFacilities.map(facility => ({
         option_id: facility,
       })),
     };
@@ -64,7 +65,6 @@ const OnlyStaterRoom: React.FC = () => {
       bed_type: bed.type,
       quantity: bed.quantity,
     }));
-
 
     formData.append('room', JSON.stringify(room));
     formData.append('inventory', JSON.stringify(inventory));
@@ -76,13 +76,17 @@ const OnlyStaterRoom: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/rooms/`, formData, {
-        headers: {
-          'accept': 'application/json',
-          'Content-Type': 'multipart/form-data',
-          'X-CSRFTOKEN': import.meta.env.VITE_ROOM_CSRF_TOKEN
-        },
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/v1/rooms/`,
+        formData,
+        {
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+            'X-CSRFTOKEN': import.meta.env.VITE_ROOM_CSRF_TOKEN,
+          },
+        }
+      );
       console.log('객실 등록 성공', response.data);
       navigate('/host/management');
     } catch (error) {
@@ -132,4 +136,3 @@ const OnlyStaterRoom: React.FC = () => {
 };
 
 export default OnlyStaterRoom;
-

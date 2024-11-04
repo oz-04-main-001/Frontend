@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface InputProps {
   type: string;
-  id: string;
+  id: string | number;
   placeholder: string;
   label?: string;
   width?: string;
@@ -10,7 +10,7 @@ interface InputProps {
   className?: string;
   validate?: (value: string) => string | null;
   errorMessage?: string;
-  value?: string; 
+  value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
@@ -25,9 +25,9 @@ export function Input({
   className = '',
   validate,
   errorMessage = '이 필드는 필수입니다.',
-  value = '', 
+  value = '',
   onChange,
-  onBlur, 
+  onBlur,
 }: InputProps) {
   const [internalValue, setInternalValue] = useState(value);
   const [error, setError] = useState('');
@@ -36,10 +36,10 @@ export function Input({
     const newValue = e.target.value;
     setInternalValue(newValue);
     if (onChange) {
-      onChange(e); 
+      onChange(e);
     }
     if (error) {
-      setError(''); 
+      setError('');
     }
   };
 
@@ -53,7 +53,7 @@ export function Input({
       setError(errorMessage);
     }
     if (onBlur) {
-      onBlur(e); 
+      onBlur(e);
     }
   };
 
@@ -62,14 +62,18 @@ export function Input({
 
   return (
     <div className="mb-4">
-      {label && <label htmlFor={id} className="block mb-2 text-sm font-medium">{label}</label>}
+      {label && (
+        <label htmlFor={id} className="block mb-2 text-sm font-medium">
+          {label}
+        </label>
+      )}
       <input
         type={type}
         id={id}
         placeholder={placeholder}
-        value={internalValue} 
+        value={internalValue}
         onChange={handleChange}
-        onBlur={handleBlur} 
+        onBlur={handleBlur}
         className={`
           w-full
           ${width || defaultWidth}
