@@ -51,7 +51,7 @@ const EditOnlyRoom: React.FC = () => {
     navigate('/host/management');
   };
 
-  const { accommodationId } = useParams();
+<!--   const { accommodationId } = useParams();
 
   const fetchMultipleRequest = async () => {
     try {
@@ -84,7 +84,7 @@ const EditOnlyRoom: React.FC = () => {
 
   useEffect(() => {
     fetchMultipleRequest();
-  }, []);
+  }, []); -->
 
   return (
     <div>
