@@ -92,31 +92,39 @@ const OnlyAccommodation: React.FC = () => {
         }
     };
 
-    return (
-        <div className="min-h-screen p-4 bg-gray-50">
-            <Header
-                labels={[
-                    { title: '게스트 메인', link: '/guest' },
-                    { title: '로그아웃', link: '/logout' },
-                ]}
-            />
-            <div className="container mx-auto mt-[10vh] max-w-4xl">
-                <div className="flex items-center mb-8">
-                    <img
-                        src={ArrowIcon}
-                        alt="Arrow Icon"
-                        className="w-6 h-6 mr-4 cursor-pointer"
-                        onClick={() => navigate(-1)}
-                    />
-                    <h1 className="text-3xl font-bold">숙소 등록</h1>
-                </div>
-                <div className="space-y-8">
-                    <h2 className="text-xl font-semibold text-gray-600">숙소</h2>
-                    <AccommodationsPhoto onStateChange={(data) => handleFormChange('images', data)} />
-                    <AccommodationInformation onStateChange={(data) => handleFormChange('accommodationInfo', data)} />
-                    <AccommodationUse onStateChange={(data) => handleFormChange('accommodationUse', data)} />
-                    <RefundPolicy />
-                </div>
+  return (
+    <div className="min-h-screen p-4 bg-gray-50">
+      <Header
+        labels={[
+          { title: '게스트 메인', link: '/' },
+          { title: '서비스 등록', link: '/host/select-type' },
+        ]}
+      />
+      <div className="container mx-auto mt-[10vh] max-w-4xl">
+        <div className="flex items-center mb-8">
+          <img
+            src={ArrowIcon}
+            alt="Arrow Icon"
+            className="w-6 h-6 mr-4 cursor-pointer"
+            onClick={() => navigate(-1)}
+          />
+          <h1 className="text-3xl font-bold">숙소 등록</h1>
+        </div>
+        <div className="space-y-8">
+          <h2 className="text-xl font-semibold text-gray-600">숙소</h2>
+          <AccommodationsPhoto
+            onStateChange={data =>
+              handleFormChange('accommodationsPhoto', data)
+            }
+          />
+          <AccommodationInformation
+            onStateChange={data => handleFormChange('accommodationInfo', data)}
+          />
+          <AccommodationUse
+            onStateChange={data => handleFormChange('accommodationUse', data)}
+          />
+          <RefundPolicy />
+        </div>
 
                 <div className="flex justify-center mt-12 mb-10">
                     <div className="w-full max-w-[410px]">
