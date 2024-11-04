@@ -42,8 +42,8 @@ const MultiStaterRoom: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <Header
         labels={[
-          { title: '게스트 메인', link: '/guest' },
-          { title: '로그아웃', link: '/logout' },
+          { title: '게스트 메인', link: '/' },
+          { title: '로그아웃', link: '/host/select-type' },
         ]}
       />
 
