@@ -157,7 +157,7 @@ export default function HostDocument() {
     try {
       const response = await postHostCreate(formData);
       console.log('Form data submitted successfully:', response);
-      await navigate('/Host/SelectType');
+      await navigate('/host/select-type');
     } catch (err) {
       const axiosError = err as AxiosError;
       if (axiosError.response) {
