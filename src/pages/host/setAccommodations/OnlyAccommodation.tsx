@@ -1,3 +1,4 @@
+//독채인 숙소 등록
 import { useEffect, useState } from 'react';
 import Header from '../../../assets/Header';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
@@ -22,14 +23,21 @@ const OnlyAccommodation: React.FC = () => {
     const handleFormChange = (sectionName: string, data: any) => {
         setFormData((prevData) => ({
             ...prevData,
-            [sectionName]: data
+            [sectionName]: data,
         }));
     };
+
     useEffect(() => {
         console.log('입력값', formData);
     }, [formData]);
 
     const handleSubmit = async () => {
+        const token = localStorage.getItem('auth_token');
+        if (!token) {
+            console.warn('토큰이 없습니다. 로그인 후 다시 시도하세요.');
+            return;
+        }
+
         const formDataToSend = new FormData();
 
         const accommodation = {
@@ -38,9 +46,11 @@ const OnlyAccommodation: React.FC = () => {
             rules: formData.accommodationUse.rules,
             is_active: true,
         };
+
         const accommodation_type = { 
-            type_name:  selectedBuilding,
+            type_name: selectedBuilding,
         };
+
         const GPS_info = {
             city: formData.accommodationInfo.sido,
             states: formData.accommodationInfo.sigungu,
@@ -54,77 +64,78 @@ const OnlyAccommodation: React.FC = () => {
                 ],
             }
         };
+
         const amenities = {
             new: formData.accommodationUse.amenities
                 .filter((amenity: { id: number | null }) => amenity.id === null)
                 .map((amenity: { name: string }) => ({ name: amenity.name, is_custom: true })),
             default: formData.accommodationUse.amenities
                 .filter((amenity: { id: number | null }) => amenity.id !== null)
-                .map((amenity: { id: number }) => ({ amenity_id: amenity.id }))
+                .map((amenity: { id: number }) => ({ amenity_id: amenity.id })),
         };
 
         formDataToSend.append("accommodation", JSON.stringify(accommodation));
         formDataToSend.append("accommodation_type", JSON.stringify(accommodation_type));
         formDataToSend.append("GPS_info", JSON.stringify(GPS_info));
-        formDataToSend.append("amenities",JSON.stringify(amenities));
+        formDataToSend.append("amenities", JSON.stringify(amenities));
 
         formData.images.forEach((image) => {
-            formDataToSend.append(`images`, image);
+            formDataToSend.append("images", image);
         });
-
         for (let [key, value] of formDataToSend.entries()) {
-                console.log(`${key}: ${value}`);
-        }
+            console.log(`${key}: ${value}`);
+    }
         
-        //axios 폴더에 적기
+
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/accommodations/`, formDataToSend, {
-                headers: {
-                    'accept': 'application/json',
-                    'Content-Type': 'multipart/form-data',
-                    'X-CSRFTOKEN': import.meta.env.VITE_CSRF_TOKEN,
-                },
-            });
-            console.log('숙소 등록 성공:', response.data);
-            navigate('/onlyhost/only-staterroom');
+            const response = await axios.post(
+                `${import.meta.env.VITE_SERVER_URL}/api/v1/accommodations/`, 
+                formDataToSend, 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'accept': 'application/json',
+                        'Content-Type': 'multipart/form-data',
+                        'X-CSRFTOKEN': import.meta.env.VITE_CSRF_TOKEN,
+                    },
+                }
+            );
+
+            const accommodation_id = response.data.accommodation.id;
+            console.log('숙소 등록 성공:', accommodation_id);
+
+            navigate('/onlyhost/only-staterroom', { state: { accommodation_id } });
+            
         } catch (error) {
             console.error('숙소 등록 중 오류:', error);
         }
     };
 
-  return (
-    <div className="min-h-screen p-4 bg-gray-50">
-      <Header
-        labels={[
-          { title: '게스트 메인', link: '/' },
-          { title: '서비스 등록', link: '/host/select-type' },
-        ]}
-      />
-      <div className="container mx-auto mt-[10vh] max-w-4xl">
-        <div className="flex items-center mb-8">
-          <img
-            src={ArrowIcon}
-            alt="Arrow Icon"
-            className="w-6 h-6 mr-4 cursor-pointer"
-            onClick={() => navigate(-1)}
-          />
-          <h1 className="text-3xl font-bold">숙소 등록</h1>
-        </div>
-        <div className="space-y-8">
-          <h2 className="text-xl font-semibold text-gray-600">숙소</h2>
-          <AccommodationsPhoto
-            onStateChange={data =>
-              handleFormChange('accommodationsPhoto', data)
-            }
-          />
-          <AccommodationInformation
-            onStateChange={data => handleFormChange('accommodationInfo', data)}
-          />
-          <AccommodationUse
-            onStateChange={data => handleFormChange('accommodationUse', data)}
-          />
-          <RefundPolicy />
-        </div>
+    return (
+        <div className="min-h-screen p-4 bg-gray-50">
+            <Header
+                labels={[
+                    { title: '게스트 메인', link: '/guest' },
+                    { title: '로그아웃', link: '/logout' },
+                ]}
+            />
+            <div className="container mx-auto mt-[10vh] max-w-4xl">
+                <div className="flex items-center mb-8">
+                    <img
+                        src={ArrowIcon}
+                        alt="Arrow Icon"
+                        className="w-6 h-6 mr-4 cursor-pointer"
+                        onClick={() => navigate(-1)}
+                    />
+                    <h1 className="text-3xl font-bold">숙소 등록</h1>
+                </div>
+                <div className="space-y-8">
+                    <h2 className="text-xl font-semibold text-gray-600">숙소</h2>
+                    <AccommodationsPhoto onStateChange={(data) => handleFormChange('images', data)} />
+                    <AccommodationInformation onStateChange={(data) => handleFormChange('accommodationInfo', data)} />
+                    <AccommodationUse onStateChange={(data) => handleFormChange('accommodationUse', data)} />
+                    <RefundPolicy />
+                </div>
 
                 <div className="flex justify-center mt-12 mb-10">
                     <div className="w-full max-w-[410px]">

@@ -19,13 +19,14 @@ const AccommodationUse: React.FC<AccommodationUseProps> = ({ onStateChange }) =>
     const [rules, setRules] = useState<string>('');
     const [value, setValue] = useState<string>('');
 
-    
     useEffect(() => {
         const fetchAmenities = async () => {
+            const token = localStorage.getItem('auth_token');
             try {
                 const response = await axios.get('http://localhost/api/v1/accommodations/amenity-choices/', {
                     headers: {
                         accept: 'application/json',
+                        Authorization: `Bearer ${token}` , 
                     },
                 });
                 setAmenities(response.data.map((name: string, index: number) => ({ id: index, name })));
@@ -103,7 +104,7 @@ const AccommodationUse: React.FC<AccommodationUseProps> = ({ onStateChange }) =>
                             className={`cursor-pointer p-2 rounded text-xs ${
                                 selectedAmenities.find((a) => a.name === amenity.name)
                                     ? 'bg-gray-50 text-white font-bold' 
-                                    : ' text-gray-400'    
+                                    : 'text-gray-400'    
                             }`}
                         >
                             <InputChips
@@ -113,7 +114,6 @@ const AccommodationUse: React.FC<AccommodationUseProps> = ({ onStateChange }) =>
                                 setValue={setValue}
                                 className="text-xs"
                             />
-
                         </div>
                     ))}
                     <InputChips

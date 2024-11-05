@@ -1,14 +1,25 @@
 //객실 사진 등록
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CloseIcon from '../../../../assets/icons/close.svg';
 
-const RoomPhoto: React.FC = () => {
+interface RoomPhotoProps {
+    onStateChange: (photos: File[]) => void;
+}
+
+const RoomPhoto: React.FC<RoomPhotoProps> = ({ onStateChange }) => {
     const [photos, setPhotos] = useState<File[]>([]);
+
+    useEffect(() => {
+        onStateChange(photos); 
+    }, [photos]);
 
     const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            if (photos.length < 10) {
-                setPhotos([...photos, ...Array.from(e.target.files)].slice(0, 10));
+            const newPhotos = Array.from(e.target.files);
+            if (photos.length + newPhotos.length <= 10) {
+                setPhotos((prevPhotos) => [...prevPhotos, ...newPhotos]);
+            } else {
+                alert('사진은 최대 10장까지 등록할 수 있습니다.');
             }
         }
     };
@@ -19,7 +30,6 @@ const RoomPhoto: React.FC = () => {
 
     return (
         <div className="p-8 mx-auto bg-white rounded-lg">
-
             <h2 className="mb-2 text-lg text-gray-500">객실 사진</h2>
             <p className="mb-6 text-sm text-gray-800">객실 사진은 1장 ~ 10장까지 등록 가능합니다.</p>
 

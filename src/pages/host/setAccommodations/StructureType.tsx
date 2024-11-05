@@ -47,9 +47,9 @@ const StructureType: React.FC = () => {
 
   const handleNextClick = () => {
     if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {
-      navigate('/only-starter-room', { state: { selectedBuilding } });
+      navigate('/onlyhost/only-starterroom', { state: { selectedBuilding } });
     } else if (selectedOption === '하나의 숙소에 객실이 여러개 있어요.') {
-      navigate('/multi-accommodations', { state: { selectedBuilding } });
+      navigate('/onlyhost/multi-accommodations', { state: { selectedBuilding } });
     }
   };
 

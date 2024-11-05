@@ -1,41 +1,117 @@
 //객실이 여러개 있는 숙소의 객실 세팅
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MultiRoomList from './components/MultiRoomList';
 import MultiRoomInformation from './components/MultiRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import Header from '../../../assets/Header';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
+import axios from 'axios';
 import RoomPhoto from './components/RoomPhoto';
 
 const MultiStaterRoom: React.FC = () => {
   const navigate = useNavigate();
-  //const [setSelectedRoom] = useState<string | null>(null);
+  const location = useLocation();
+  const accommodation_id = location.state?.accommodation_id || 107;
   const [roomInfo, setRoomInfo] = useState({
     checkin: '',
     checkout: '',
     pricing: '',
     roomName: '',
     description: '',
-    selectedBeds: [''],
+    selectedBeds: [{ type: 'single', quantity: 1 }],
     room: 1,
     capacity: 1,
-    bedRows: 1,
+    images: [] as File[],
+    selectedFacilityIds: [] as number[],
+    selectedCustomFacilities: [] as string[],
   });
-  console.log(roomInfo);
 
-  const handleAddRoom = () => {
-    console.log('신규 객실 추가하기 클릭됨');
+  useEffect(() => {
+    console.log('현재 입력된 객실 정보:', roomInfo);
+  }, [roomInfo]);
+
+  const handleRoomSubmit = async () => {
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+      console.warn('토큰이 없습니다. 로그인 후 다시 시도하세요.');
+      return;
+    }
+
+    const formDataToSend = new FormData();
+
+    const roomData = {
+      price: parseInt(roomInfo.pricing),
+      name: roomInfo.roomName,
+      room_quantity: { quantity: roomInfo.room, name: 'room_quantity' },
+      check_in_time: roomInfo.checkin,
+      check_out_time: roomInfo.checkout,
+      accommodation: accommodation_id,
+      is_available: true,
+      capacity: roomInfo.capacity,
+      description: roomInfo.description,
+    };
+    formDataToSend.append('room', JSON.stringify(roomData));
+
+    if (roomInfo.images && roomInfo.images.length > 0) {
+      roomInfo.images.forEach((image) => {
+        formDataToSend.append('images', image);
+      });
+    }
+
+    formDataToSend.append('room_type', JSON.stringify({ is_customized: false, type_name: '스탠다드' }));
+    formDataToSend.append('inventory', JSON.stringify({ count_room: roomInfo.room }));
+
+    const options = {
+      new: [{
+        name: "string",
+        category: 'extra',
+        is_custom: true,
+      }],
+
+      default: [{
+        option_id: 0,
+      }],
+    };
+    formDataToSend.append('options', JSON.stringify(options));
+
+    const bedOptions = roomInfo.selectedBeds.map(bed => ({
+      bed_type: bed.type,
+      quantity: bed.quantity,
+    }));
+    formDataToSend.append('bed_options', JSON.stringify(bedOptions));
+
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/rooms/`, formDataToSend, {
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          'X-CSRFTOKEN': import.meta.env.VITE_ROOM_CSRF_TOKEN,
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      console.log('객실 등록 성공:', response.data);
+      navigate('/host/management');
+    } catch (error) {
+      console.error('객실 등록 중 오류 발생:', error);
+    }
   };
 
   const handleSelectRoom = (room: string) => {
-    // setSelectedRoom(room);
     console.log(`${room} 객실 선택됨`);
   };
 
   const handleRoomInfoChange = (data: any) => {
-    setRoomInfo(data);
-    console.log('객실 정보 업데이트:', data);
+    setRoomInfo(prev => ({ ...prev, ...data }));
+  };
+
+  const handleImageChange = (photos: File[]) => {
+    setRoomInfo(prev => ({ ...prev, images: photos }));
   };
 
   return (
@@ -50,7 +126,7 @@ const MultiStaterRoom: React.FC = () => {
       <div className="flex">
         <div className="w-[300px] bg-gray-100">
           <MultiRoomList
-            onAddRoom={handleAddRoom}
+            onAddRoom={handleRoomSubmit}
             onSelectRoom={handleSelectRoom}
           />
         </div>
@@ -73,14 +149,12 @@ const MultiStaterRoom: React.FC = () => {
           </div>
 
           <div className="space-y-10">
-            <RoomPhoto />
+            <RoomPhoto onStateChange={handleImageChange} />
             <MultiRoomInformation
               room={roomInfo.room}
               onRoomChange={value => setRoomInfo({ ...roomInfo, room: value })}
               capacity={roomInfo.capacity}
-              onCapacityChange={value =>
-                setRoomInfo({ ...roomInfo, capacity: value })
-              }
+              onCapacityChange={value => setRoomInfo({ ...roomInfo, capacity: value })}
               onStateChange={handleRoomInfoChange}
             />
           </div>
@@ -91,9 +165,7 @@ const MultiStaterRoom: React.FC = () => {
                 size={BtnSize.l}
                 text="다음"
                 type={BtnType.normal}
-                onClick={() => {
-                  navigate('/host/management');
-                }}
+                onClick={handleRoomSubmit}
               />
             </div>
           </div>

@@ -11,10 +11,10 @@ interface OnlyRoomInformationProps {
 }
 
 const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange }) => {
-    const initialBeds = ['싱글', '슈퍼싱글', '더블', '퀸', '킹', '없음']
+    const initialBeds = ['싱글', '슈퍼싱글', '더블', '퀸', '킹', '없음'];
 
     const [bedRows, setBedRows] = useState<number>(1);
-    const [selectedBeds, setSelectedBeds] = useState<string[]>(['']);
+    const [selectedBeds, setSelectedBeds] = useState<{ index: number, type: string }[]>([{ index: 0, type: '' }]);
     const [pricing, setPricing] = useState<string>('');
     const [checkin, setCheckin] = useState<string>('');
     const [checkout, setCheckout] = useState<string>('');
@@ -26,13 +26,19 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
     const [newFacility, setNewFacility] = useState<string>('');
 
     useEffect(() => {
-        axios.get('http://localhost/api/v1/rooms/option-choices/')
-            .then(response => {
-                setInitialFacilities(response.data);
-            })
-            .catch(error => {
-                console.error('GET 오류', error);
-            });
+        const token = localStorage.getItem('auth_token');
+        axios.get('http://localhost/api/v1/rooms/option-choices/', {
+            headers: {
+                'accept': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        .then(response => {
+            setInitialFacilities(response.data);
+        })
+        .catch(error => {
+            console.error('GET 오류', error);
+        });
     }, []);
 
     useEffect(() => {
@@ -40,30 +46,29 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
             checkin,
             checkout,
             pricing,
-            selectedBeds,
+            bedOptions: selectedBeds, 
             capacity,
             room,
-            bedRows,
             selectedFacilities,
         });
-    }, [checkin, checkout, pricing, selectedBeds, capacity, room, bedRows, selectedFacilities]);
+    }, [checkin, checkout, pricing, selectedBeds, capacity, room, selectedFacilities]);
 
     const handleIncrementRow = () => {
         setBedRows(bedRows + 1);
-        setSelectedBeds([...selectedBeds, '']);
+        setSelectedBeds([...selectedBeds, { index: bedRows, type: '' }]);
     };
 
     const handleDecrementRow = (rowIndex: number) => {
         if (bedRows > 1) {
             const updatedBeds = selectedBeds.filter((_, index) => index !== rowIndex);
             setBedRows(bedRows - 1);
-            setSelectedBeds(updatedBeds);
+            setSelectedBeds(updatedBeds.map((bed, i) => ({ ...bed, index: i }))); 
         }
     };
 
     const handleBedSelection = (rowIndex: number, bedType: string) => {
         const updatedBeds = [...selectedBeds];
-        updatedBeds[rowIndex] = bedType;
+        updatedBeds[rowIndex] = { ...updatedBeds[rowIndex], type: bedType };
         setSelectedBeds(updatedBeds);
     };
 
@@ -152,7 +157,7 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
                 <h3 className="mb-2 text-lg text-gray-400">침대</h3>
                 <div className="space-y-4">
                     {Array.from({ length: bedRows }).map((_, rowIndex) => (
-                        <div key={rowIndex} className="flex items-center justify-between space-x-4">
+                        <div key={selectedBeds[rowIndex].index} className="flex items-center justify-between space-x-4">
                             <button
                                 className="flex items-center justify-center w-[32px] h-[32px] text-gray-600 bg-white border-2 border-gray-300 rounded-lg shadow-md"
                                 onClick={() => handleDecrementRow(rowIndex)}
@@ -166,7 +171,7 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
                                         key={bedIndex}
                                         size={BtnSize.m}
                                         text={bed}
-                                        type={selectedBeds[rowIndex] === bed ? BtnType.normal : BtnType.line}
+                                        type={selectedBeds[rowIndex]?.type === bed ? BtnType.normal : BtnType.line}
                                         className="w-[160px] h-[40px]"
                                         onClick={() => handleBedSelection(rowIndex, bed)}
                                     />
