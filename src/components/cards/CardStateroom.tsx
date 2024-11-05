@@ -3,6 +3,7 @@ import Button from '../../assets/buttons/Button';
 import { BtnSize, BtnType } from '../../assets/buttons/Button';
 import { useAccommodationsStore } from '../../stores/useAccommodationsStore';
 import useErrorImage from '../../customHooks/useErrorImage';
+import useAuthStore from '../../stores/useAuthStore';
 
 interface StateRoomCardProp {
   id: number;
@@ -28,6 +29,7 @@ export default function StateroomCard({
   const navigate = useNavigate();
   const handleErrorImage = useErrorImage();
   const { accommodationId } = useAccommodationsStore();
+  const { usertype } = useAuthStore();
 
   return (
     <div className="flex gap-8 p-5 mb-8 rounded-md bg-gray-50">
@@ -69,16 +71,30 @@ export default function StateroomCard({
             </div>
             <div className="flex justify-end w-full text-right">
               <div>
-                <Button
-                  onClick={() => {
-                    navigate(
-                      `/reservation/stateroom/order/${accommodationId}/${id}`
-                    );
-                  }}
-                  size={BtnSize.m}
-                  text={btn ? '객실 예약' : '예약불가능'}
-                  type={btn ? BtnType.normal : BtnType.disabled}
-                />
+                {usertype ? (
+                  <Button
+                    onClick={() => {
+                      navigate(
+                        `/reservation/stateroom/order/${accommodationId}/${id}`
+                      );
+                    }}
+                    size={BtnSize.m}
+                    text={btn ? '객실 예약' : '예약불가능'}
+                    type={btn ? BtnType.normal : BtnType.disabled}
+                  />
+                ) : (
+                  <div
+                    onClick={() => {
+                      navigate(`/user/login`);
+                    }}
+                  >
+                    <Button
+                      size={BtnSize.m}
+                      text="로그인해주세요."
+                      type={BtnType.disabled}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

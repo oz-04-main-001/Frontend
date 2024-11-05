@@ -79,8 +79,6 @@ export default function ReservationCompleted() {
       })()
     : 0;
 
-  console.log(orderInfo?.status);
-
   return (
     <div>
       <Layout>

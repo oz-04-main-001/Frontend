@@ -13,28 +13,59 @@ import useTimeFormet from '../../customHooks/useTimeFormet';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import useDateDashFormet from '../../customHooks/useDateDashFormet';
 import usePriceFormet from '../../customHooks/usePriceFormet';
+import useAuthStore from '../../stores/useAuthStore';
+import { useEffect } from 'react';
+import { getStateRoomLoad } from '../../axios/roomApi';
 
 export default function Orders() {
   const navigate = useNavigate();
   const { accommodationId, stateroomId } = useParams();
   const { search } = useSearchStore();
-  const { stateRoom } = useStateroomStore();
+  const { stateRoom, actions } = useStateroomStore();
   const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
   const checkInDate = useDateDashFormet(search.date.checkIn);
   const checkOutDate = useDateDashFormet(search.date.checkOut);
   const guestsCount = search.personnel.adult;
+  const { name, phNumber } = useAuthStore();
 
+  useEffect(() => {
+    const fetchGetLoad = async () => {
+      try {
+        const loadCard = await getStateRoomLoad(
+          Number(accommodationId),
+          Number(stateroomId)
+        );
+        actions.setStateRoomInfo(loadCard);
+        navigate(
+          `/reservation/stateroom/order/${accommodationId}/${stateroomId}`
+        );
+      } catch (err) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response) {
+          const statusCode = axiosError.response.status;
+          switch (statusCode) {
+            case 401:
+              navigate('/user/login');
+              break;
+            default:
+              console.log('요청 에러');
+              break;
+          }
+        }
+      }
+    };
+    fetchGetLoad();
+  }, []);
   const fetchGetLoad = async () => {
     if (accommodationId && stateroomId) {
       try {
-        const order = await postBooking(
+        await postBooking(
           accommodationId,
           stateroomId,
           checkInDate,
           checkOutDate,
           guestsCount
         );
-        console.log('예약이 성공적으로 완료되었습니다!', order);
         await navigate(`/mypage`);
       } catch (err) {
         const axiosError = err as AxiosError;
@@ -95,7 +126,7 @@ export default function Orders() {
       </Layout>
       <Divider />
       <Layout>
-        <InfoTemp title="예약자 정보" text="한기선/01023445566" />
+        <InfoTemp title="예약자 정보" text={`${name}/${phNumber}`} />
       </Layout>
       <Divider />
       <Layout>
