@@ -63,12 +63,6 @@ const SignIn = () => {
         <Link to="/user/join" className="mr-4 text-sm text-primary-300">
           회원가입
         </Link>
-        <Link to="#" className="text-sm text-primary-300">
-          아이디 /
-        </Link>
-        <Link to="#" className="text-sm text-primary-300">
-          비밀번호 찾기
-        </Link>
       </div>
     </div>
   );
