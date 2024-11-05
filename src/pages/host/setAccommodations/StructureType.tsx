@@ -29,15 +29,17 @@ const StructureType: React.FC = () => {
     }
   }, [location.state, setSelectedOption]);
 
-  const buildings = [
-    '펜션',
-    '아파트',
-    '빌라',
-    '단독주택',
-    '호텔',
-    '아파트2',
-    '빌라2',
-  ];
+  const buildings =[
+    "호텔",
+    "리조트",
+    "펜션",
+    "게스트하우스",
+    "호스텔",
+    "모텔",
+    "캠핑장",
+    "빌라",
+    "주택"
+  ]
 
   const handleBuildingClick = (building: string) => {
     if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {

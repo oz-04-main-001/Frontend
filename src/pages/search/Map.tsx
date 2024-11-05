@@ -42,33 +42,6 @@ export default function Map() {
 
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const fetchGetLoad = async (point: string) => {
-    try {
-      const loadCard = await getMapLoad(
-        point,
-        checkInDate,
-        checkOutDate,
-        search.personnel.adult
-      );
-      roomActions.setSearchData(loadCard);
-    } catch (err) {
-      const axiosError = err as AxiosError;
-      if (axiosError.response) {
-        const statusCode = axiosError.response.status;
-        switch (statusCode) {
-          case 401:
-            redirect('/user/login');
-            break;
-          default:
-            console.log('요청 에러');
-            break;
-        }
-      } else {
-        console.error('Network or other error:', axiosError);
-      }
-    }
-  };
-
   useEffect(() => {
     if (!accommodation_data) return;
     const mapRef = mapContainer.current;
@@ -124,7 +97,32 @@ export default function Map() {
       }
     };
   }, [accommodation_data]);
-
+  const fetchGetLoad = async (point: string) => {
+    try {
+      const loadCard = await getMapLoad(
+        point,
+        checkInDate,
+        checkOutDate,
+        search.personnel.adult
+      );
+      roomActions.setSearchData(loadCard);
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      if (axiosError.response) {
+        const statusCode = axiosError.response.status;
+        switch (statusCode) {
+          case 401:
+            redirect('/user/login');
+            break;
+          default:
+            console.log('요청 에러');
+            break;
+        }
+      } else {
+        console.error('Network or other error:', axiosError);
+      }
+    }
+  };
   return (
     <div
       id="map"

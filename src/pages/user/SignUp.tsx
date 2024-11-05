@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Input } from '../../assets/Input';
 import Button, { BtnSize, BtnType } from '../../assets/buttons/Button';
-import { getUserRegister } from '../../axios/userApi';
+import { getUserRegister } from '../../axios/userApi.ts';
 import EmailVerification from './EmailVerification';
 import usePopupStore from '../../stores/usePopupStore';
 
 const SignUp: React.FC = () => {
-  const [selectedGender, setSelectedGender] = useState<'male' | 'female' | null>(null);
+  const [selectedGender, setSelectedGender] = useState<
+    'male' | 'female' | null
+  >(null);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -33,7 +35,9 @@ const SignUp: React.FC = () => {
     const hasSpecialChar = /[!@#$%^&*]/.test(value);
     const isLengthValid = value.length >= 8;
 
-    const hasNoSequentialNumbers = !/(012|123|234|345|456|567|678|789)/.test(value);
+    const hasNoSequentialNumbers = !/(012|123|234|345|456|567|678|789)/.test(
+      value
+    );
 
     if (!isLengthValid) return '비밀번호는 최소 8자 이상이어야 합니다.';
     if (!hasUpperCase) return '첫 글자는 대문자여야 합니다.';
@@ -94,8 +98,9 @@ const SignUp: React.FC = () => {
 
     try {
       const response = await getUserRegister(registerData);
-      if (response) {} 
-      openPopup(); 
+      if (response) {
+      }
+      openPopup();
     } catch (error: any) {
       setRegisterError(
         error.response?.data?.message ||
@@ -148,7 +153,9 @@ const SignUp: React.FC = () => {
             }
           }}
         />
-        {confirmPasswordError && <p className="mt-1 text-xs text-state-err">{confirmPasswordError}</p>}
+        {confirmPasswordError && (
+          <p className="mt-1 text-xs text-state-err">{confirmPasswordError}</p>
+        )}
         <div>
           <label className="block mb-1 text-sm font-medium text-gray-700">
             이름
@@ -172,7 +179,7 @@ const SignUp: React.FC = () => {
             </div>
           </div>
         </div>
-        
+
         <Input
           type="date"
           id="birthdate"
@@ -183,19 +190,20 @@ const SignUp: React.FC = () => {
         />
 
         <div>
-          <label className="block mb-1 text-sm font-medium text-gray-700">성별</label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">
+            성별
+          </label>
           <div className="flex space-x-4">
             <Button
               size={BtnSize.l}
-              text={selectedGender === 'male' ? "남자 ✔" : "남자"} 
+              text={selectedGender === 'male' ? '남자 ✔' : '남자'}
               type={BtnType.normal}
               className={`w-1/2 ${selectedGender === 'male' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
               onClick={() => setSelectedGender('male')}
             />
             <Button
               size={BtnSize.l}
-              text={selectedGender === 'female' ? '여자 ✔' : '여자'} 
-
+              text={selectedGender === 'female' ? '여자 ✔' : '여자'}
               type={BtnType.normal}
               className={`w-1/2 ${selectedGender === 'female' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
               onClick={() => setSelectedGender('female')}
@@ -204,7 +212,9 @@ const SignUp: React.FC = () => {
         </div>
 
         <div>
-          <label className="block mb-1 text-sm font-medium text-gray-700">전화번호</label>
+          <label className="block mb-1 text-sm font-medium text-gray-700">
+            전화번호
+          </label>
           <div className="flex space-x-2">
             <Input
               type="text"
@@ -239,20 +249,18 @@ const SignUp: React.FC = () => {
             className="w-4 h-4 rounded-sm outline-none"
           />
 
-          <label htmlFor="agreement" className="text-sm text-gray-600">개인정보 이용 동의</label>
+          <label htmlFor="agreement" className="text-sm text-gray-600">
+            개인정보 이용 동의
+          </label>
         </div>
 
-        {registerError && <p className="mt-1 text-xs text-state-err">{registerError}</p>}
-        <Button 
-          type={BtnType.submit} 
-          text="회원가입"
-          size={BtnSize.l}
-        />
+        {registerError && (
+          <p className="mt-1 text-xs text-state-err">{registerError}</p>
+        )}
+        <Button type={BtnType.submit} text="회원가입" size={BtnSize.l} />
       </form>
 
-      {popupVisible && (
-        <EmailVerification onClose={closePopup} />
-      )}
+      {popupVisible && <EmailVerification onClose={closePopup} />}
     </div>
   );
 };

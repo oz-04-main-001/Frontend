@@ -20,23 +20,25 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
     const [checkout, setCheckout] = useState<string>('');
     const [capacity, setCapacity] = useState(1);
     const [room, setRoom] = useState(1);
-    const [initialFacilities, setInitialFacilities] = useState<string[]>([]);
-    const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
+    const [initialFacilities, setInitialFacilities] = useState<{ id: number, name: string }[]>([]);
+    const [selectedFacilityIds, setSelectedFacilityIds] = useState<number[]>([]);
     const [customFacilities, setCustomFacilities] = useState<string[]>([]);
     const [newFacility, setNewFacility] = useState<string>('');
 
     useEffect(() => {
+        const token = localStorage.getItem('auth_token');
         axios.get('http://localhost/api/v1/rooms/option-choices/', {
             headers: {
                 'accept': 'application/json',
+                'Authorization': `Bearer ${token}`,
             }
         })
         .then(response => {
-            console.log("받아온 데이터:", response.data); 
-            response.data.forEach((facility: { id: number; name: string }) => {
-                console.log("Facility ID:", facility.id, "Name:", facility.name);
-            });
-            setInitialFacilities(response.data.map((facility: { id: number; name: string }) => facility.name)); 
+            const facilitiesWithIds = response.data.map((facility: string, index: number) => ({
+                id: index,
+                name: facility
+            }));
+            setInitialFacilities(facilitiesWithIds);
         })
         .catch(error => {
             console.error('GET 오류', error);
@@ -51,9 +53,10 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
             bedOptions: selectedBeds, 
             capacity,
             room,
-            selectedFacilities,
+            selectedFacilityIds,        // 기본 편의시설은 ID만 전송
+            customFacilities             // 커스텀 편의시설은 이름만 전송
         });
-    }, [checkin, checkout, pricing, selectedBeds, capacity, room, selectedFacilities]);
+    }, [checkin, checkout, pricing, selectedBeds, capacity, room, selectedFacilityIds, customFacilities]);
 
     const handleIncrementRow = () => {
         setBedRows(bedRows + 1);
@@ -74,16 +77,16 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
         setSelectedBeds(updatedBeds);
     };
 
-    const handleFacilityClick = (facility: string) => {
-        setSelectedFacilities(prev =>
-            prev.includes(facility) ? prev.filter(f => f !== facility) : [...prev, facility]
+    const handleFacilityClick = (facilityId: number) => {
+        setSelectedFacilityIds(prev =>
+            prev.includes(facilityId) ? prev.filter(id => id !== facilityId) : [...prev, facilityId]
         );
     };
 
     const addFacility = () => {
         if (
             newFacility.trim() !== '' &&
-            !initialFacilities.includes(newFacility) &&
+            !initialFacilities.some(facility => facility.name === newFacility) &&
             !customFacilities.includes(newFacility)
         ) {
             setCustomFacilities([...customFacilities, newFacility]);
@@ -193,13 +196,13 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
             <div className="mb-6">
                 <h3 className="mb-2 text-lg text-gray-400">편의시설</h3>
                 <div className="grid grid-cols-4 gap-4">
-                    {initialFacilities.map((facility, index) => (
+                    {initialFacilities.map((facility) => (
                         <Button
-                            key={index}
+                            key={facility.id}
                             size={BtnSize.m}
-                            text={facility}
-                            type={selectedFacilities.includes(facility) ? BtnType.normal : BtnType.line}
-                            onClick={() => handleFacilityClick(facility)}
+                            text={facility.name}
+                            type={selectedFacilityIds.includes(facility.id) ? BtnType.normal : BtnType.line}
+                            onClick={() => handleFacilityClick(facility.id)}
                             className="w-full"
                         />
                     ))}
@@ -208,8 +211,10 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
                             key={`custom-facility-${index}`}
                             size={BtnSize.m}
                             text={facility}
-                            type={selectedFacilities.includes(facility) ? BtnType.normal : BtnType.line}
-                            onClick={() => handleFacilityClick(facility)}
+                            type={customFacilities.includes(facility) ? BtnType.normal : BtnType.line}
+                            onClick={() => setCustomFacilities(prev =>
+                                prev.includes(facility) ? prev.filter(f => f !== facility) : [...prev, facility]
+                            )}
                             className="w-full"
                         />
                     ))}

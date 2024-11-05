@@ -10,17 +10,17 @@ import axios from 'axios';
 const OnlyStaterRoom: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const accommodation_id = location.state?.accommodation_id || 106; 
+  const accommodation_id = location.state?.accommodation_id || 106;
 
   const [roomData, setRoomData] = useState({
     checkin: '',
     checkout: '',
     pricing: '',
     bedOptions: [] as { type: string }[],
-    bedCount: 0,
     capacity: 1,
     room: 1,
-    selectedFacilities: [] as { id: number | null; name: string }[],
+    selectedFacilityIds: [] as number[], 
+    customFacilities: [] as string[],  
   });
 
   const handleRoomInfoChange = (data: any) => {
@@ -35,10 +35,10 @@ const OnlyStaterRoom: React.FC = () => {
   }, [roomData]);
 
   const handleRoomSubmit = async () => {
-    const token = localStorage.getItem('auth_token'); 
+    const token = localStorage.getItem('auth_token');
     if (!token) {
       console.warn('토큰이 없습니다. 로그인 후 다시 시도하세요.');
-      return; 
+      return;
     }
 
     const formData = new FormData();
@@ -57,27 +57,25 @@ const OnlyStaterRoom: React.FC = () => {
         name: 'room_quantity'
       }
     };
-    
+
     const inventory = {
       count_room: 1,
     };
 
     const options = {
-      new:[{
-          name:"string",
-          category: 'extra',
-          is_custom: true,
-        }],
-      
-      default: [{
-          option_id: 0,
-        }],
+      new: roomData.customFacilities.map(name => ({
+        name: name,
+        category: 'extra',
+        is_custom: true,
+      })),
+      default: roomData.selectedFacilityIds.map(id => ({
+        option_id: id,
+      })),
     };
 
     console.log('Room Data:', room);
     console.log('Inventory Data:', inventory);
     console.log('Options Data:', options);
-
 
     formData.append('room', JSON.stringify(room));
     formData.append('inventory', JSON.stringify(inventory));
@@ -86,14 +84,14 @@ const OnlyStaterRoom: React.FC = () => {
     roomData.bedOptions.forEach((bed, index) => {
       const bedOption = {
         bed_type: bed.type,
-        quantity: index + 1, 
+        quantity: index + 1,
       };
       formData.append('bed_options', JSON.stringify(bedOption));
     });
 
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
-}
+    }
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/rooms/`, formData, {
@@ -101,11 +99,11 @@ const OnlyStaterRoom: React.FC = () => {
           'accept': 'application/json',
           'Content-Type': 'multipart/form-data',
           'X-CSRFTOKEN': import.meta.env.VITE_ROOM_CSRF_TOKEN,
-          'Authorization': `Bearer ${token}`, 
+          'Authorization': `Bearer ${token}`,
         },
       });
       console.log('객실 등록 성공', response.data);
-      navigate('/host/management');
+      navigate('/host');
     } catch (error) {
       console.error('객실 등록 중 오류 발생', error);
     }
@@ -153,4 +151,3 @@ const OnlyStaterRoom: React.FC = () => {
 };
 
 export default OnlyStaterRoom;
-

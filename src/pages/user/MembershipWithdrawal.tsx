@@ -1,7 +1,7 @@
 import Popup from '../..//components/Popup';
 import Button, { BtnSize, BtnType } from '../..//assets/buttons/Button'; // BtnSize와 BtnType을 import
 import { Input } from '../..//assets/Input';
-import { postUserDelete } from '../../axios/userApi';
+import { postUserDelete } from '../../axios/userApi.ts';
 
 const MembershipWithdrawal = () => {
   const handleRequestVerification = () => {
