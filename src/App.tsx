@@ -45,16 +45,9 @@ function App() {
           <Route path="join" element={<SignUp />} />
           <Route path="leaveId" element={<MembershipWithdrawal />} />
           <Route path="logout" element={<SignOut />} />
-          <Route
-            path="verify-email"
-            element={
-              <EmailVerification
-                onClose={function (): void {
-                  throw new Error('Function not implemented.');
-                }}
-              />
-            }
-          />
+          <Route path="verify-email" element={<EmailVerification onClose={function (): void {
+            throw new Error('Function not implemented.');
+          } } />} />
         </Route>
         {/* 호스트관련 */}
         <Route path="/host" element={<Host />}>
