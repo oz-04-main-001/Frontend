@@ -7,7 +7,14 @@ export const getUserLogin = async (LoginData: {
 }) => {
   try {
     const response = await client.post('/api/v1/auth/login/', LoginData);
-    const { access_token, user_type } = response.data;
+    const {
+      access_token,
+      user_type,
+      phone_number,
+      name,
+      email,
+      businessProfile,
+    } = response.data;
 
     if (!access_token || !user_type) {
       throw new Error(
@@ -15,21 +22,21 @@ export const getUserLogin = async (LoginData: {
       );
     }
 
-    if (access_token) {
-      localStorage.setItem('auth_token', access_token); // auth_token 키 사용
-    }
+    // Store values in localStorage for persistence across page reloads
+    localStorage.setItem('auth_token', access_token);
+    localStorage.setItem('name', name);
+    localStorage.setItem('phNumber', phone_number);
+    localStorage.setItem('email', email);
+    localStorage.setItem('usertype', user_type);
+    localStorage.setItem('businessProfile', JSON.stringify(businessProfile));
 
-    const { phone_number, name, email, businessProfile } = response.data;
-    const setEmail = useAuthStore.getState().setEmail;
-    const setUsertype = useAuthStore.getState().setUsertype;
-    const setBusinessProfile = useAuthStore.getState().setBusinessProfile;
-    const setName = useAuthStore.getState().setName;
-    const setPhnumber = useAuthStore.getState().setPhnumber;
-    setName(name);
-    setPhnumber(phone_number);
-    setEmail(email);
-    setUsertype(user_type); // user_type을 저장
-    setBusinessProfile(businessProfile);
+    // Update Zustand store state
+    const setAuthState = useAuthStore.getState();
+    setAuthState.setName(name);
+    setAuthState.setPhnumber(phone_number);
+    setAuthState.setEmail(email);
+    setAuthState.setUsertype(user_type);
+    setAuthState.setBusinessProfile(businessProfile);
 
     return response.data;
   } catch (error) {

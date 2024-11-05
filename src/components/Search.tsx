@@ -129,7 +129,7 @@ const Search = ({ border = true }: SearchProp) => {
 
   return (
     <div
-      className={`s1 rounded-full h-24 p-4 max-w-[750px] mx-auto flex justify-center items-center ${border ? 'border border-gray-300 ' : ''}  bg-white`}
+      className={`absolute top-8 left-1/2 transform -translate-x-1/2 z-50 s1 rounded-full h-24 p-4 max-w-[750px] mx-auto flex justify-center items-center ${border ? 'border border-gray-300 ' : ''} `}
     >
       <Dropdown
         menuItems={destinations}

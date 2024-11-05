@@ -33,11 +33,10 @@ export default function HostDocument() {
     formState: { errors },
   } = useForm<HostDocumentFormData>({
     defaultValues: {
-      business_number: ['317', '03', '46787'],
-      business_email: ['kiseon', 'gmail.com'],
-      business_phonenumber: ['010', '4810', '2606'],
-      business_address: '서울 강남구 강남대로 328강남역 쉐르빌',
-      business_document: null as unknown as BzImg,
+      business_number: ['', '', ''],
+      business_email: ['', 'gmail.com'],
+      business_phonenumber: ['010', '', ''],
+      business_address: '',
     },
   });
   const bzNumber = watch('business_number');
@@ -76,8 +75,6 @@ export default function HostDocument() {
         }
       );
 
-      console.log('API response:', response.data.data[0]);
-
       if (response.data.status_code === 'OK') {
         if (
           response.data.data[0].tax_type ===
@@ -112,34 +109,34 @@ export default function HostDocument() {
   };
   const formData = new FormData();
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const maxSizeInMB = 3;
-      const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
-      if (file.size > maxSizeInBytes) {
-        setError('business_document', {
-          type: 'manual',
-          message: `파일 크기는 최대 ${maxSizeInMB}MB이어야 합니다.`,
-        });
-        return;
-      }
+  // const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     const maxSizeInMB = 3;
+  //     const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+  //     if (file.size > maxSizeInBytes) {
+  //       setError('business_document', {
+  //         type: 'manual',
+  //         message: `파일 크기는 최대 ${maxSizeInMB}MB이어야 합니다.`,
+  //       });
+  //       return;
+  //     }
 
-      const reader = new FileReader();
-      reader.readAsArrayBuffer(file);
+  //     const reader = new FileReader();
+  //     reader.readAsArrayBuffer(file);
 
-      reader.onload = () => {
-        const arrayBuffer = reader.result as ArrayBuffer;
-        const blob = new Blob([arrayBuffer], { type: file.type });
-        setValue('business_document', { blob, fileName: file.name });
-        console.log('business_document', blob, file.name);
-      };
+  //     reader.onload = () => {
+  //       const arrayBuffer = reader.result as ArrayBuffer;
+  //       const blob = new Blob([arrayBuffer], { type: file.type });
+  //       setValue('business_document', { blob, fileName: file.name });
+  //       console.log('business_document', blob, file.name);
+  //     };
 
-      reader.onerror = error => {
-        console.error('File read error:', error);
-      };
-    }
-  };
+  //     reader.onerror = error => {
+  //       console.error('File read error:', error);
+  //     };
+  //   }
+  // };
 
   const onSubmit = async (data: HostDocumentFormData) => {
     formData.delete('business_number');
@@ -154,11 +151,6 @@ export default function HostDocument() {
       data.business_phonenumber.join('-')
     );
     formData.append('business_address', data.business_address);
-    formData.append(
-      'business_document',
-      data?.business_document.blob,
-      data?.business_document.fileName
-    );
 
     console.log('FormData content:', formData);
 
@@ -213,7 +205,7 @@ export default function HostDocument() {
                     {...register(`business_number.${index}`, {
                       required: '필수 입력 항목입니다',
                     })}
-                    placeholder={`Part ${index + 1}`}
+                    placeholder="사업자 번호"
                     className={`p-2 border rounded-md w-full ${
                       errors.business_number?.[index]
                         ? 'border-red-500 focus:ring-red-500'
@@ -245,7 +237,6 @@ export default function HostDocument() {
               </p>
             )}
           </label>
-
           {/* 사업자 이메일 */}
           <label htmlFor="business_email">
             <h6 className="mt-4">사업자 이메일</h6>
@@ -274,7 +265,6 @@ export default function HostDocument() {
               <p className="mt-1 text-sm text-red-500">이메일을 입력해주세요</p>
             )}
           </label>
-
           {/* 사업자 전화번호 */}
           <label htmlFor="phoneNumbers">
             <h6 className="mt-4">사업자 전화번호</h6>
@@ -286,7 +276,7 @@ export default function HostDocument() {
                     {...register(`business_phonenumber.${index}`, {
                       required: '필수 입력 항목입니다',
                     })}
-                    placeholder={`Part ${index + 1}`}
+                    placeholder="0000"
                     className={`p-2 border rounded-md w-full ${
                       errors.business_phonenumber?.[index]
                         ? 'border-red-500 focus:ring-red-500'
@@ -305,7 +295,6 @@ export default function HostDocument() {
               </p>
             )}
           </label>
-
           {/* 등록주소 */}
           <label htmlFor="bzAddress">
             <h6 className="mt-4">등록주소</h6>
@@ -337,8 +326,7 @@ export default function HostDocument() {
               </p>
             )}
           </label>
-
-          {/* 증빙서류 */}
+          {/* 증빙서류
           <label htmlFor="bzImg">
             <h6 className="mt-4">증빙서류</h6>
             <div className="flex gap-2">
@@ -359,8 +347,7 @@ export default function HostDocument() {
                 {errors.business_document.message}
               </p>
             )}
-          </label>
-
+          </label> */}
           <Button
             size={BtnSize.l}
             text="등록"
