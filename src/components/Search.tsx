@@ -182,9 +182,7 @@ const Search = ({ border = true }: SearchProp) => {
             );
           }}
         >
-          {search.personnel.adult > 1
-            ? `게스트 ${search.personnel.adult}`
-            : '혼자'}
+          게스트 {search.personnel.adult}명
         </button>
         {activeDropdown === 'traveler' && (
           <div className="absolute p-2 text-gray-700 bg-white rounded-md -bottom-35 min-w-40 ring-1 ring-black ring-opacity-5 btn1">
