@@ -116,6 +116,7 @@ const OnlyAccommodation: React.FC = () => {
             <Header
                 labels={[
                     { title: '게스트 메인', link: '/guest' },
+                    { title: '새 숙소 등록하기', link: '/host/select-type' },
                     { title: '로그아웃', link: '/logout' },
                 ]}
             />

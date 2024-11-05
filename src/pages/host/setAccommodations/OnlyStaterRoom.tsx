@@ -5,7 +5,6 @@ import OnlyRoomInformation from './components/OnlyRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
-
 import axios from 'axios';
 
 const OnlyStaterRoom: React.FC = () => {
@@ -25,7 +24,7 @@ const OnlyStaterRoom: React.FC = () => {
   });
 
   const handleRoomInfoChange = (data: any) => {
-    setRoomData(prevData => ({
+    setRoomData((prevData) => ({
       ...prevData,
       ...data,
     }));
@@ -58,14 +57,14 @@ const OnlyStaterRoom: React.FC = () => {
         name: 'room_quantity'
       }
     };
-
+    
     const inventory = {
       count_room: 1,
     };
 
     const options = {
       new:[{
-          name:roomData.selectedFacilities,
+          name:"string",
           category: 'extra',
           is_custom: true,
         }],
@@ -78,6 +77,7 @@ const OnlyStaterRoom: React.FC = () => {
     console.log('Room Data:', room);
     console.log('Inventory Data:', inventory);
     console.log('Options Data:', options);
+
 
     formData.append('room', JSON.stringify(room));
     formData.append('inventory', JSON.stringify(inventory));
@@ -93,7 +93,7 @@ const OnlyStaterRoom: React.FC = () => {
 
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
-    }
+}
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/rooms/`, formData, {
@@ -116,7 +116,7 @@ const OnlyStaterRoom: React.FC = () => {
       <Header
         labels={[
           { title: '게스트 메인', link: '/guest' },
-          { title: '서비스 등록', link: '/register' },
+          { title: '새 숙소 등록하기', link: '/host/select-type' },
           { title: '로그아웃', link: '/logout' },
         ]}
       />
@@ -153,3 +153,4 @@ const OnlyStaterRoom: React.FC = () => {
 };
 
 export default OnlyStaterRoom;
+

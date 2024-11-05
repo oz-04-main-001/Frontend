@@ -1,21 +1,23 @@
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../../assets/Header';
 import Chips from '../../../assets/Chips';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
-import React from 'react';
 
 const StructureType: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
+  // 전역 상태에서 selectedOption 및 selectedBuilding 가져오기
   const selectedOption = useSelectionStore((state) => state.selectedOption) || location.state?.selectedOption || '선택된 유형 없음';
   const selectedBuilding = useSelectionStore((state) => state.selectedBuilding);
   
   const setSelectedBuilding = useSelectionStore((state) => state.setSelectedBuilding);
   const setSelectedOption = useSelectionStore((state) => state.setSelectedOption);
 
+  // 처음 컴포넌트가 로드될 때 location의 selectedOption 상태를 전역 상태에 설정
   React.useEffect(() => {
     if (location.state?.selectedOption) {
       setSelectedOption(location.state.selectedOption);
@@ -35,7 +37,7 @@ const StructureType: React.FC = () => {
   const handleBuildingClick = (building: string) => {
     if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {
       // 독체 관련 옵션을 선택한 경우
-      const independentBuilding = `독체${building}`;
+      const independentBuilding = `독채${building}`;
       setSelectedBuilding(independentBuilding);
     } else {
       // 일반 건물 타입을 선택한 경우
@@ -45,7 +47,7 @@ const StructureType: React.FC = () => {
 
   const handleNextClick = () => {
     if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {
-      navigate('/onlyhost/only-starterroom', { state: { selectedBuilding } });
+      navigate('/onlyhost/only-accommodation', { state: { selectedBuilding } });
     } else if (selectedOption === '하나의 숙소에 객실이 여러개 있어요.') {
       navigate('/onlyhost/multi-accommodations', { state: { selectedBuilding } });
     }
@@ -78,7 +80,7 @@ const StructureType: React.FC = () => {
                 key={index}
                 onClick={() => handleBuildingClick(building)}
                 className={`cursor-pointer p-2 rounded ${
-                  selectedBuilding === building ? 'border-gray-300 bg-[#f0f0f0]' : 'border-transparent'
+                  selectedBuilding === building ? 'bg-[#A0D8F1] text-white' : 'bg-[#E0E0E0]'
                 }`}
               >
                 <Chips text={building} />
@@ -86,7 +88,13 @@ const StructureType: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex justify-between w-2/5 gap-4 mt-36">
+          <div className="flex justify-between w-3/4 gap-4 mt-36">
+            <Button
+              size={BtnSize.l}
+              text="이전"
+              type={BtnType.disabled}
+              onClick={() => navigate(-1)}
+            />
             <Button
               size={BtnSize.l}
               text="다음"

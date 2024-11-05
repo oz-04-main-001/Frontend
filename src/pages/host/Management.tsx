@@ -39,8 +39,12 @@ export default function Management({
     reservation => reservation.status === 'confirmed'
   );
   const uniqueNameFilteredPending = [
+<<<<<<< HEAD
+    ...new Set(pendingBooking?.map(item => item.accommodation_name)),]
+=======
     ...new Set(pendingBooking?.map(item => item.accommodation_name)),
   ];
+>>>>>>> 7c7ca64fef65a23cd57f51007e1a5c9e1d03b1ce
 
   const filteredConcirmed = confirmedBooking?.filter(confirm =>
     accommoData?.filter(acco => acco.name === confirm.accommodation_name)
@@ -54,7 +58,7 @@ export default function Management({
       <div className="sticky col-span-5 p-5 bg-gray-100 rounded-md top-7 ">
         <div className="relative mb-3">
           <h6 className="text-center">예약관리</h6>
-          <p className="absolute right-1 text-gray-800 top-1 text-sm">
+          <p className="absolute text-sm text-gray-800 right-1 top-1">
             {selectedDate}
           </p>
         </div>
@@ -88,7 +92,7 @@ export default function Management({
               btnStyle="text-sm pt-1 text-left font-medium"
             /> */}
           </div>
-          <div className="h-full relative overflow-y-auto max-h-96">
+          <div className="relative h-full overflow-y-auto max-h-96">
             {tap === taps.indexOf('이용 요청') ? (
               <CardOrder
                 onClose1={handleCancelClick}
