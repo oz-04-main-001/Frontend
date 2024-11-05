@@ -47,8 +47,6 @@ export default function Map() {
       return;
     }
     if (!accommodation_data) return;
-    const markerSize = new window.kakao.maps.Size(16, 16);
-
     if (mapContainer.current && window.kakao && accommodation_data) {
       const options = {
         center: new window.kakao.maps.LatLng(
