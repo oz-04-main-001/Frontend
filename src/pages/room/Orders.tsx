@@ -65,7 +65,7 @@ export default function Orders() {
             <h6 className="text-gray-500">{}</h6>
             <h3 className="mt-2">{stateRoom.room.name}</h3>
             <p className="text-gray-400 b2">
-              기준 {stateRoom.room.capacity}인, 싱글침대 1개, 방 1개
+              기준 {stateRoom.room.capacity}인,
             </p>
           </div>
           <div className="flex mt-8">

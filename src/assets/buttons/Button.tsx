@@ -21,7 +21,6 @@ export enum BtnSize {
   l = 'l',
 }
 
-
 const btnSize = (size: BtnSize) => {
   switch (size) {
     case BtnSize.m:
@@ -46,7 +45,7 @@ export default function Button({
       case BtnType.normal:
         return 'bg-primary-600 text-white h-full';
       case BtnType.disabled:
-        return 'bg-gray-200 text-gray-400';
+        return 'bg-gray-200 text-gray-400 pointer-events-none';
       case BtnType.line:
         return 'bg-gray-100 text-gray-400 border-2 border-gray-100 border-solid';
       case BtnType.popup:
