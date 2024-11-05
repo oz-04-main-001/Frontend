@@ -9,10 +9,18 @@ import {
   SearchRoom,
   useSearchRoomStore,
 } from '../../stores/useSearchRoomStore';
+import { useEffect, useState } from 'react';
 
 export default function Index() {
   const searchError = '검색 리스트를 불러오고 있습니다.';
   const { accommodation_data, kakao_place_data } = useSearchRoomStore();
+  const [mapLoaded, setMapLoaded] = useState(false);
+  useEffect(() => {
+    if (accommodation_data && accommodation_data.length > 0) {
+      setMapLoaded(true);
+    }
+  }, [accommodation_data]);
+
   return (
     <>
       <Header border={false} />
@@ -53,7 +61,7 @@ export default function Index() {
               : searchError}
           </div>
           <div className="sticky h-screen overflow-hidden bg-gray-200 border-2 border-solid rounded-md border-gray-50 top-14">
-            <Map />
+            {mapLoaded && <Map />}
           </div>
         </div>
       </Layout2>
