@@ -149,12 +149,34 @@ className="flex-grow min-w-[80px] max-w-[110px]"
 flex-grow = flex 컨테이너 내에서 flex 아이템이 사용 가능한 공간을 얼마나 차지할지를 결정합니다.
 각각의 인풋창 크기를 지정해서 크기를 지정해 오류 부분을 해결했습니다.
 
+김예진 :amenities를 id와 name을 기반으로 필터링과 매핑을 하려 했지만 , TypeSctipt가 amenity객체에 id와 name속성이 없다고 오류를 표시,
+해결 방법 :  amenities 배열의 타입을 명확히 지정하고, 각 amenity 객체가 Amenity 타입을 따르도록 했습니다. 
+오류코드 : const amenities = {
+  new: formData.accommodationUse.amenities
+    .filter((amenity) => amenity.id === null)
+    .map((amenity) => ({ name: amenity.name, is_custom: true })),
+  default: formData.accommodationUse.amenities
+    .filter((amenity) => amenity.id !== null)
+    .map((amenity) => ({ amenity_id: amenity.id }))
+};
+해결코드 : const amenities = {
+  new: formData.accommodationUse.amenities
+    .filter((amenity: Amenity) => amenity.id === null) // Amenity 타입을 명시적으로 사용
+    .map((amenity: Amenity) => ({ name: amenity.name, is_custom: true })),
+  default: formData.accommodationUse.amenities
+    .filter((amenity: Amenity) => amenity.id !== null)
+    .map((amenity: Amenity) => ({ amenity_id: amenity.id }))
+};
+
+
 ## 8. 프로젝트 후기
 
 ### 한기선 (부팀장)
 
 ### 김예진
-
+팀을 이뤄서 프로젝트를 한게 이번이 처음이었는데 프로젝트 작업 플로우에 대해 알게되었고, 협업이라는게 쉽지 않은 일이라는 것을 깨달았습니다. 
+백엔드와의 협업 과정에서 API 데이터 조율과 데이터 구조에 대한 소통이 중요함을 느꼈고, 그 전에 프로젝트의 전반적인 부분을 모두 이해하는게 얼마나 중요한 것인지 알게되었습니다. 
+프로젝트를 진행하면서 제대로 알고있지 못했던 깃허브와 사용해본 적 없는 코드에 대해 배우고, 저의 역량에 대해 깨닫는 순간이었습니다. 
 ### 이상민
 
 프로젝트를 함에 있어서 저의 능력이 어느정도 까지 알고 있고 저의 역량에 어떠한 부분이 부족한지 알게 되었고
