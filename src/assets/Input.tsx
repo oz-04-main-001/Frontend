@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface InputProps {
   type: string;
-  id: string | number;
+  id: string;
   placeholder: string;
   label?: string;
   width?: string;
