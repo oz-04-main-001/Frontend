@@ -53,7 +53,7 @@ const HostCalendar = () => {
   // console.log('selectedDate', selectedDate);
 
   return (
-    <div className="-z-50">
+    <div>
       <Calendar
         localizer={localizer}
         events={events}

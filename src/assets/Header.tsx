@@ -73,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 flex items-center justify-between w-full p-2 px-16 ${border ? 'border-b border-gray-100' : ''}`}
+      className={`z-50 fixed top-0 left-0 flex items-center justify-between w-full p-2 px-16 ${border ? 'border-b border-gray-100' : ''}`}
       style={{ backgroundColor: color }}
     >
       <Link to="/">
