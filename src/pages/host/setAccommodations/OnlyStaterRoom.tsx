@@ -5,6 +5,7 @@ import OnlyRoomInformation from './components/OnlyRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
+
 import axios from 'axios';
 
 const OnlyStaterRoom: React.FC = () => {
@@ -24,7 +25,7 @@ const OnlyStaterRoom: React.FC = () => {
   });
 
   const handleRoomInfoChange = (data: any) => {
-    setRoomData((prevData) => ({
+    setRoomData(prevData => ({
       ...prevData,
       ...data,
     }));
@@ -77,7 +78,6 @@ const OnlyStaterRoom: React.FC = () => {
     console.log('Room Data:', room);
     console.log('Inventory Data:', inventory);
     console.log('Options Data:', options);
-
 
     formData.append('room', JSON.stringify(room));
     formData.append('inventory', JSON.stringify(inventory));
@@ -153,4 +153,3 @@ const OnlyStaterRoom: React.FC = () => {
 };
 
 export default OnlyStaterRoom;
-
