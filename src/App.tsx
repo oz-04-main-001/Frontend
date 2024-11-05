@@ -45,9 +45,16 @@ function App() {
           <Route path="join" element={<SignUp />} />
           <Route path="leaveId" element={<MembershipWithdrawal />} />
           <Route path="logout" element={<SignOut />} />
-          <Route path="verify-email" element={<EmailVerification onClose={function (): void {
-            throw new Error('Function not implemented.');
-          } } />} />
+          <Route
+            path="verify-email"
+            element={
+              <EmailVerification
+                onClose={function (): void {
+                  throw new Error('Function not implemented.');
+                }}
+              />
+            }
+          />
         </Route>
         {/* 호스트관련 */}
         <Route path="/host" element={<Host />}>
@@ -56,7 +63,7 @@ function App() {
           <Route path="structure-type" element={<StructureType />} />
         </Route>
         {/*호스트 숙소,객실관련*/}
-        <Route path="/onlyhost"> 
+        <Route path="/onlyhost">
           <Route path="host-documents" element={<HostDocument />} />
           <Route path="only-accommodation" element={<OnlyAccommodation />} />
           <Route path="only-staterroom" element={<OnlyStaterRoom />} />
@@ -65,7 +72,7 @@ function App() {
             element={<MultiAccommodations />}
           />
           <Route path="multi-staterroom" element={<MultiStaterRoom />} />
-
+        </Route>
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
           <Route
