@@ -40,6 +40,9 @@ const Header: React.FC<HeaderProps> = ({
       case 'host':
         return (
           <>
+            <span className="text-gray-600">
+              <Link to="/mypage">마이페이지</Link>
+            </span>
             <span
               className="text-gray-600 cursor-pointer"
               onClick={handleLogoutClick}

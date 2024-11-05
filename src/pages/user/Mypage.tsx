@@ -13,7 +13,7 @@ interface UserInfo {
   email: string;
   name: string;
   phone_number: string;
-  user_type: 'guest' | 'host';
+  user_type: 'guest' | 'host' | 'admin';
 }
 interface Booking {
   accommodation_img: string | null;
@@ -41,6 +41,19 @@ const Mypage = () => {
     fetchGetLoad();
   }, []);
 
+  const hostPageBtn = () => {
+    switch (userInfo?.login_user.user_type) {
+      case 'guest':
+        return `${userInfo?.login_user.name}님 호스트가 되어보세요.`;
+      case 'host':
+        return `${userInfo?.login_user.name}님 숙소를 관리해보세요.`;
+      case 'admin':
+        return `${userInfo?.login_user.name}님 슈퍼 계정이시네요. 저희 사이트를 경험해보세요..`;
+      default:
+        return `${userInfo?.login_user.name}님 호스트가 되어보세요.`;
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -48,21 +61,21 @@ const Mypage = () => {
         <h1 className="text-3xl font-bold">
           안녕하세요, {userInfo?.login_user.name}
         </h1>
-        <p className="text-gray-600">이메일: {userInfo?.login_user.email}/</p>
+        <p className="text-gray-600">이메일: {userInfo?.login_user.email}</p>
         <p className="text-gray-600">
           전화번호: {userInfo?.login_user.phone_number}
         </p>
         <div
           className="mt-6 text-gray-400 cursor-pointer c1"
           onClick={() => {
-            if (userInfo?.login_user.user_type === 'guest') {
+            if (userInfo?.login_user.user_type === 'guest' || 'admin') {
               navigate('/onlyhost/host-documents');
             } else {
               navigate('/host');
             }
           }}
         >
-          {userInfo?.login_user.name}님 호스트가 되어보세요.
+          {hostPageBtn()}
         </div>
       </div>
       <Divider />
