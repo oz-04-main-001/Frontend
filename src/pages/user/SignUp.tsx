@@ -112,7 +112,7 @@ const SignUp: React.FC = () => {
   return (
     <div className="container mx-auto px-6 py-12 max-w-[500px] bg-gray-50 rounded-md shadow-lg">
       <div className="flex items-center justify-center mb-8">
-        <img src="/public/staynest.svg" alt="로고" width="60" height="60" />
+        <img src="/staynest.svg" alt="로고" width="60" height="60" />
       </div>
       <h1 className="mb-6 text-2xl font-bold">&lt; 회원가입</h1>
 
