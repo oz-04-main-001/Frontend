@@ -15,12 +15,12 @@ import { useSelectionStore } from '../../../stores/useSelectionStore';
 const MultiAccommodations: React.FC = () => {
   const navigate = useNavigate();
   const selectedBuilding = useSelectionStore((state) => state.selectedBuilding) || '독채펜션';
+
   const [formData, setFormData] = useState({
     images: [], 
     accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
     accommodationUse: { amenities: [], rules: '' },
   });
-  const [, setSelectedRoom] = useState<string | null>(null);
 
   useEffect(() => {
     const savedData = localStorage.getItem('multiAccommodationData');
@@ -37,13 +37,9 @@ const MultiAccommodations: React.FC = () => {
   const handleFormChange = (sectionName: string, data: any) => {
     setFormData((prevData) => ({
       ...prevData,
-      [sectionName]: data
+      [sectionName]: data,
     }));
   };
-
-  useEffect(() => {
-    console.log('입력값', formData);
-  }, [formData]);
 
   const handleAddRoom = () => {
     console.log('신규 객실 추가됨');
@@ -51,7 +47,6 @@ const MultiAccommodations: React.FC = () => {
 
   const handleSelectRoom = (room: string) => {
     console.log(`${room} 선택됨`);
-    setSelectedRoom(room);
   };
 
   const handleSubmit = async () => {
@@ -106,10 +101,6 @@ const MultiAccommodations: React.FC = () => {
       formDataToSend.append(`images`, image);
     });
 
-    for (let [key, value] of formDataToSend.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/accommodations/`, formDataToSend, {
         headers: {
@@ -120,7 +111,13 @@ const MultiAccommodations: React.FC = () => {
         },
       });
       console.log('숙소 등록 성공:', response.data);
-      navigate('/onlyhost/multi-staterroom');
+      navigate('/onlyhost/multi-staterroom', {
+        state: { 
+          accommodation_id: response.data.id, 
+          name: formData.accommodationInfo.name,
+          address: formData.accommodationInfo.address,
+        } 
+      });
     } catch (error) {
       console.error('숙소 등록 중 오류:', error);
     }
@@ -152,7 +149,7 @@ const MultiAccommodations: React.FC = () => {
           <h1 className="text-2xl font-bold">숙소 등록</h1>
         </div>
 
-        <div className="">
+        <div>
           <AccommodationsPhoto
             onStateChange={(data) => handleFormChange('images', data)}
           />

@@ -13,6 +13,11 @@ const MultiStaterRoom: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const accommodation_id = location.state?.accommodation_id || 107;
+  const accommodationInfo = {
+    name: location.state?.name || '숙소 이름 없음',
+    address: location.state?.address || '주소 정보 없음',
+  };
+  
   const [roomInfo, setRoomInfo] = useState({
     checkin: '',
     checkout: '',
@@ -96,7 +101,7 @@ const MultiStaterRoom: React.FC = () => {
         },
       });
       console.log('객실 등록 성공:', response.data);
-      navigate('/host/management');
+      navigate('/host');
     } catch (error) {
       console.error('객실 등록 중 오류 발생:', error);
     }
@@ -144,9 +149,8 @@ const MultiStaterRoom: React.FC = () => {
           </div>
 
           <div className="mb-4">
-            <h6 className="text-gray-500">서울특별시 서초구 서래동 123-45</h6>
-            <h3 className="font-semibold">가나다 숙소</h3>
-            <p className="text-gray-700">입실 16:00 / 퇴실 11:00</p>
+            <h6 className="text-gray-500">{accommodationInfo.address}</h6>
+            <h3 className="font-semibold">{accommodationInfo.name}</h3>
           </div>
 
           <div className="space-y-10">
