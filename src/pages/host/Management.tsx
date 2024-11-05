@@ -41,21 +41,12 @@ export default function Management({
   const uniqueNameFilteredPending = [
     ...new Set(pendingBooking?.map(item => item.accommodation_name)),
   ];
-<<<<<<< HEAD
-
-=======
- 
->>>>>>> 342ebf0 (CHOR: consolelog 주석 처리)
   const filteredConcirmed = confirmedBooking?.filter(confirm =>
     accommoData?.filter(acco => acco.name === confirm.accommodation_name)
   );
   const uniqueNameFilteredConcirmed = [
     ...new Set(filteredConcirmed?.map(item => item.accommodation_name)),
   ];
-<<<<<<< HEAD
-=======
-  
->>>>>>> 342ebf0 (CHOR: consolelog 주석 처리)
 
   return (
     <>
