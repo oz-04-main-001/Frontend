@@ -35,6 +35,7 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   const renderUserLinks = () => {
+
     switch (usertype) {
       case 'guest':
       case 'host':
@@ -67,13 +68,27 @@ const Header: React.FC<HeaderProps> = ({
         );
       default:
         return (
-          <span className="text-gray-600">
-            <Link to="/user/login">로그인</Link>
-          </span>
-        );
-    }
-  };
 
+          <span className="text-gray-600">
+            <Link to="/mypage">마이페이지</Link>
+          </span>
+          <span
+            className="text-gray-600 cursor-pointer"
+            onClick={handleLogoutClick}
+          >
+            로그아웃
+          </span>
+        </>
+      );
+    }
+  
+    return (
+      <span className="text-gray-600">
+        <Link to="/user/login">로그인</Link>
+      </span>
+    );
+  };
+  
   return (
     <header
       className={`z-50 fixed top-0 left-0 flex items-center justify-between w-full p-2 px-16 ${border ? 'border-b border-gray-100' : ''}`}
