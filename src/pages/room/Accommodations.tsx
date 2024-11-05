@@ -97,8 +97,24 @@ export default function Accommodations() {
                 checkIn={useTimeFormet(room.check_in_time || '')}
                 checkOut={useTimeFormet(room.check_out_time || '')}
                 price={room.price ?? 0}
-                stayType={true}
                 capacity={room.capacity ?? 0}
+                btn={true}
+              />
+            );
+          })}
+        {Array.isArray(data.unavailable_rooms) &&
+          data.unavailable_rooms.map((room, idx) => {
+            return (
+              <CardStateroom
+                key={idx}
+                id={room.id}
+                image={room.representative_image}
+                title={room.name || '객실 이름이 없습니다.'}
+                checkIn={useTimeFormet(room.check_in_time || '')}
+                checkOut={useTimeFormet(room.check_out_time || '')}
+                price={room.price ?? 0}
+                capacity={room.capacity ?? 0}
+                btn={false}
               />
             );
           })}
@@ -123,44 +139,6 @@ export default function Accommodations() {
             '이용 안내가 없습니다.'
           }
         />
-        <div className="mb-12">
-          <h6 className="mb-4 text-gray-500">환불정책</h6>
-          <ul className="mb-4 text-gray-500">
-            <li>
-              체크인 7일전,{' '}
-              {Math.floor(
-                Number(data.accommodation.refund_policy[0].seven_days_before)
-              )}
-              % 환불
-            </li>
-            <li>
-              체크인 5일전,{' '}
-              {Math.floor(
-                Number(data.accommodation.refund_policy[0].five_days_before)
-              )}
-              % 환불
-            </li>
-            <li>
-              체크인 3일전,{' '}
-              {Math.floor(
-                Number(data.accommodation.refund_policy[0].three_days_before)
-              )}
-              % 환불
-            </li>
-            <li>
-              체크인 1일전,{' '}
-              {Math.floor(
-                Number(data.accommodation.refund_policy[0].one_day_before)
-              )}
-              % 환불
-            </li>
-            <li>
-              체크인 당일,{' '}
-              {Math.floor(Number(data.accommodation.refund_policy[0].same_day))}
-              % 환불
-            </li>
-          </ul>
-        </div>
       </Layout>
     </>
   );

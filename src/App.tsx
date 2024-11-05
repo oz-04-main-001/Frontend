@@ -66,7 +66,6 @@ function App() {
           />
           <Route path="multi-staterroom" element={<MultiStaterRoom />} />
         </Route>
-        {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
           <Route
             path="stateroom/order/:accommodationId/:stateroomId"
