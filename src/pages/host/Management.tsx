@@ -48,7 +48,6 @@ export default function Management({
   const uniqueNameFilteredConcirmed = [
     ...new Set(filteredConcirmed?.map(item => item.accommodation_name)),
   ];
-
   return (
     <>
       <div className="sticky col-span-5 p-5 bg-gray-100 rounded-md top-7 ">
