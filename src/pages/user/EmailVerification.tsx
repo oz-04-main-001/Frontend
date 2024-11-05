@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Popup from '../../components/Popup';
 import { Input } from '../../assets/Input';
 import axios from 'axios';
+const serverURL = import.meta.env.VITE_SERVER_URL;
 
 interface EmailVerificationProps {
   onClose: () => void;
@@ -22,7 +23,7 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({ onClose }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost/api/v1/auth/register/verify/',
+        `${serverURL}/api/v1/auth/register/verify/`,
         { otp, email },
         { withCredentials: true }
       );
@@ -51,8 +52,8 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({ onClose }) => {
       title="이메일 인증"
       subTitle="이메일과 인증번호를 입력하세요."
       buttonText={{ text1: '취소', text2: '인증 완료' }}
-      onClickLogic1={onClose}  
-      onClickLogic2={verifyCode}  
+      onClickLogic1={onClose}
+      onClickLogic2={verifyCode}
     >
       <div className="flex flex-col space-y-4">
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
