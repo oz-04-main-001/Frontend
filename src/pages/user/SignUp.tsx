@@ -94,8 +94,8 @@ const SignUp: React.FC = () => {
 
     try {
       const response = await getUserRegister(registerData);
-      if (response) {} // response 변수를 사용한 것으로 간주하게 함
-      openPopup(); // 회원가입 성공 시 팝업 열기
+      if (response) {} 
+      openPopup(); 
     } catch (error: any) {
       setRegisterError(
         error.response?.data?.message ||
@@ -187,14 +187,14 @@ const SignUp: React.FC = () => {
           <div className="flex space-x-4">
             <Button
               size={BtnSize.l}
-              text={selectedGender === 'male' ? "남자 ✔" : "남자"} // 선택 시 체크 표시 추가
+              text={selectedGender === 'male' ? "남자 ✔" : "남자"} 
               type={BtnType.normal}
               className={`w-1/2 ${selectedGender === 'male' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
               onClick={() => setSelectedGender('male')}
             />
             <Button
               size={BtnSize.l}
-              text={selectedGender === 'female' ? '여자 ✔' : '여자'} // 선택 시 체크 표시 추가
+              text={selectedGender === 'female' ? '여자 ✔' : '여자'} 
 
               type={BtnType.normal}
               className={`w-1/2 ${selectedGender === 'female' ? 'bg-[#0378D6]' : 'bg-primary-300'}`}
@@ -236,7 +236,7 @@ const SignUp: React.FC = () => {
             id="agreement"
             checked={agreement}
             onChange={e => setAgreement(e.target.checked)}
-            className="mr-2"
+            className="w-4 h-4 rounded-sm outline-none"
           />
 
           <label htmlFor="agreement" className="text-sm text-gray-600">개인정보 이용 동의</label>

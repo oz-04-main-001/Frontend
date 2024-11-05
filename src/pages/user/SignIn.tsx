@@ -10,12 +10,10 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // 로그인 핸들러
   const handleLogin = async () => {
     try {
       await getUserLogin({ email, password });
 
-      // 로그인 성공 후 메인 페이지로 이동
       navigate('/');
     } catch (error) {
       console.error('로그인 실패:', error);

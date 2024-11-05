@@ -10,14 +10,12 @@ const StructureType: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // 전역 상태에서 selectedOption 및 selectedBuilding 가져오기
   const selectedOption = useSelectionStore((state) => state.selectedOption) || location.state?.selectedOption || '선택된 유형 없음';
   const selectedBuilding = useSelectionStore((state) => state.selectedBuilding);
   
   const setSelectedBuilding = useSelectionStore((state) => state.setSelectedBuilding);
   const setSelectedOption = useSelectionStore((state) => state.setSelectedOption);
 
-  // 처음 컴포넌트가 로드될 때 location의 selectedOption 상태를 전역 상태에 설정
   React.useEffect(() => {
     if (location.state?.selectedOption) {
       setSelectedOption(location.state.selectedOption);
