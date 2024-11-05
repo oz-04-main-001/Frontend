@@ -18,16 +18,12 @@ import SignUp from './pages/user/SignUp';
 import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
 import HostDocument from './pages/host/setAccommodations/HostDocument';
-import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
-import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
-import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation';
 import Popup from './components/Popup';
 import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
 import HostMain from './pages/host/HostMain';
 import SignOut from './pages/user/SignOut';
 import EmailVerification from './pages/user/EmailVerification';
-import SignUpSuccessful from './pages/user/SignUpSuccessful';
 
 function App() {
   return (
@@ -52,7 +48,6 @@ function App() {
           <Route path="verify-email" element={<EmailVerification onClose={function (): void {
             throw new Error('Function not implemented.');
           } } />} />
-          <Route path="signup-successful" element={<SignUpSuccessful />} />
         </Route>
         {/* 호스트관련 */}
         <Route path="/host" element={<Host />}>
@@ -61,7 +56,7 @@ function App() {
           <Route path="structure-type" element={<StructureType />} />
         </Route>
         {/*호스트 숙소,객실관련*/}
-        <Route path="/onlyhost">
+        <Route path="/onlyhost"> 
           <Route path="host-documents" element={<HostDocument />} />
           <Route path="only-accommodation" element={<OnlyAccommodation />} />
           <Route path="only-staterroom" element={<OnlyStaterRoom />} />
@@ -70,21 +65,6 @@ function App() {
             element={<MultiAccommodations />}
           />
           <Route path="multi-staterroom" element={<MultiStaterRoom />} />
-          {/* <Route path="edit-Onlyroom" element={<EditOnlyRoom />} /> */}
-          <Route
-            path="edit-Onlyroom/:accommodationId"
-            element={<EditOnlyRoom />}
-          />
-          {/* <Route path="edit-multiroom" element={<EditMultiRoom />} /> */}
-          <Route
-            path="edit-multiroom/:accomodationId"
-            element={<EditMultiRoom />}
-          />
-          <Route
-            path="edit-multiaccommodations"
-            element={<EditMultiAccommodations />}
-          />
-        </Route>
 
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
