@@ -21,12 +21,10 @@ export default function Map() {
   const { search } = useSearchStore();
   const { actions: roomActions } = useSearchRoomStore();
 
-  const checkInDate = search.date.checkIn
-    ? useDateDashFormet(search.date.checkIn)
-    : '';
-  const checkOutDate = search.date.checkOut
-    ? useDateDashFormet(search.date.checkOut)
-    : '';
+  const checkInDate = useDateDashFormet(search.date.checkIn);
+  const checkOutDate = useDateDashFormet(search.date.checkOut);
+
+  console.log(checkInDate, checkOutDate);
   const [initialCenter, setInitialCenter] = useState([
     accommodation_data && accommodation_data.length > 0
       ? accommodation_data[0].location[0]
@@ -38,6 +36,7 @@ export default function Map() {
 
   const mapContainer = useRef<HTMLDivElement>(null);
   const kakaoMapRef = useRef<any>(null);
+
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Dynamic script loading for Kakao Maps API
