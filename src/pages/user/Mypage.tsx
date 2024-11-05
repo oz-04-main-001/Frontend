@@ -48,7 +48,7 @@ const Mypage = () => {
         <h1 className="text-3xl font-bold">
           안녕하세요, {userInfo?.login_user.name}
         </h1>
-        <p className="text-gray-600">이메일: {userInfo?.login_user.email}</p>
+        <p className="text-gray-600">이메일: {userInfo?.login_user.email}/</p>
         <p className="text-gray-600">
           전화번호: {userInfo?.login_user.phone_number}
         </p>
@@ -56,7 +56,7 @@ const Mypage = () => {
           className="mt-6 text-gray-400 cursor-pointer c1"
           onClick={() => {
             if (userInfo?.login_user.user_type === 'guest') {
-              navigate('/HostDocuments');
+              navigate('/onlyhost/host-documents');
             } else {
               navigate('/host');
             }

@@ -10,7 +10,9 @@
     box-sizing: border-box;
     color: #15161a;
   }
-
+  input {
+    @apply w-full p-2 font-sans text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-state-safe font-regular;
+  }
   .d1 {
     @apply font-bold text-7xl;
   }

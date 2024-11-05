@@ -24,7 +24,7 @@ const HostTotalManagementAmountAPI = ({ currentMonth }: HostTotalProps) => {
       );
       setAmountData(response.data); // API 응답 데이터를 amountData에 저장
     } catch (error) {
-      console.error('Fetching Error:', error);
+      // console.error('Fetching Error:', error);
     }
   };
 

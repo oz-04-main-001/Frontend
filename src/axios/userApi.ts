@@ -9,7 +9,6 @@ export const getUserLogin = async (LoginData: {
     const response = await client.post('/api/v1/auth/login/', LoginData);
 
     // 서버에서 받은 응답에서 access_token 및 user_type 추출
-    console.log('서버 응답:', response.data); // 서버 응답을 확인하여 guest 타입의 데이터 확인
     const { access_token, user_type } = response.data;
 
     if (!access_token || !user_type) {
@@ -18,11 +17,7 @@ export const getUserLogin = async (LoginData: {
 
     // access_token을 auth_token 키로 로컬 스토리지에 저장
     if (access_token) {
-      console.log('Access token received:', access_token);
       localStorage.setItem('auth_token', access_token); // auth_token 키 사용
-
-      // 저장 후 확인
-      console.log('Stored access token:', localStorage.getItem('auth_token'));
     }
 
     // 이메일, usertype, 비즈니스 프로필 추출

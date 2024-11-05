@@ -38,6 +38,16 @@ const Header: React.FC<HeaderProps> = ({
     switch (usertype) {
       case 'guest':
       case 'host':
+        return (
+          <>
+            <span
+              className="text-gray-600 cursor-pointer"
+              onClick={handleLogoutClick}
+            >
+              로그아웃
+            </span>
+          </>
+        );
       case 'admin':
         return (
           <>

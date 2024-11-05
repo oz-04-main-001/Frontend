@@ -1,4 +1,4 @@
-// 독채 숙소 등록
+//독채인 숙소 등록
 import { useEffect, useState } from 'react';
 import Header from '../../../assets/Header';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
