@@ -14,6 +14,7 @@ interface AccommodationInformationProps {
 
 const AccommodationInformation: React.FC<AccommodationInformationProps> = ({
   onStateChange,
+  
 }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
