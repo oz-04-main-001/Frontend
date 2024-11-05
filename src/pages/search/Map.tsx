@@ -38,6 +38,9 @@ export default function Map() {
 
   const mapContainer = useRef<HTMLDivElement>(null);
   const kakaoMapRef = useRef<any>(null);
+
+  const markerImage = '/marker.png';
+
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Dynamic script loading for Kakao Maps API
