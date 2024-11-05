@@ -37,7 +37,6 @@ export default function Map() {
 
   const mapContainer = useRef<HTMLDivElement>(null);
   const kakaoMapRef = useRef<any>(null);
-  const markerSize = new window.kakao.maps.Size(16, 16);
   const markerImage = '/marker.png';
 
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
