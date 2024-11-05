@@ -9,13 +9,12 @@ import {
   SearchRoom,
   useSearchRoomStore,
 } from '../../stores/useSearchRoomStore';
-import { useSearchStore } from '../../stores/useSearchStore';
+
 
 export default function Index() {
   const searchError = '검색 리스트를 불러오고 있습니다.';
   const { accommodation_data, kakao_place_data } = useSearchRoomStore();
-  const { search } = useSearchStore();
-  console.log(search);
+
   return (
     <>
       <Header border={false} />
