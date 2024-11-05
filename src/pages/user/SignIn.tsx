@@ -2,15 +2,18 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Input } from '../../assets/Input';
 import Buttons, { BtnSize, BtnType } from '../../assets/buttons/Button';
-import { getUserLogin } from '../../axios/userApi';
+import { getUserLogin } from '../../axios/userApi.ts';
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    setLoading(true);
+    setErrorMessage(''); // Clear previous errors
     try {
       await getUserLogin({ email, password });
 
@@ -19,6 +22,8 @@ const SignIn = () => {
       setErrorMessage(
         '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.'
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,9 +56,10 @@ const SignIn = () => {
       <div className="w-1/4 shrink-0">
         <Buttons
           size={BtnSize.l}
-          text="로그인"
+          text={loading ? '로그인 중...' : '로그인'}
           type={BtnType.normal}
           onClick={handleLogin}
+          disabled={loading}
         />
       </div>
       <div className="mt-4">

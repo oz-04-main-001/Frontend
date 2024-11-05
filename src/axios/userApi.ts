@@ -7,27 +7,26 @@ export const getUserLogin = async (LoginData: {
 }) => {
   try {
     const response = await client.post('/api/v1/auth/login/', LoginData);
-
-    // 서버에서 받은 응답에서 access_token 및 user_type 추출
     const { access_token, user_type } = response.data;
 
     if (!access_token || !user_type) {
-      throw new Error("서버 응답에서 access_token 또는 user_type이 누락되었습니다.");
+      throw new Error(
+        '서버 응답에서 access_token 또는 user_type이 누락되었습니다.'
+      );
     }
 
-    // access_token을 auth_token 키로 로컬 스토리지에 저장
     if (access_token) {
       localStorage.setItem('auth_token', access_token); // auth_token 키 사용
     }
 
-    // 이메일, usertype, 비즈니스 프로필 추출
-    const { email, businessProfile } = response.data;
-
-    // Zustand 스토어에 이메일, usertype 및 비즈니스 프로필 저장
+    const { phone_number, name, email, businessProfile } = response.data;
     const setEmail = useAuthStore.getState().setEmail;
     const setUsertype = useAuthStore.getState().setUsertype;
     const setBusinessProfile = useAuthStore.getState().setBusinessProfile;
-
+    const setName = useAuthStore.getState().setName;
+    const setPhnumber = useAuthStore.getState().setPhnumber;
+    setName(name);
+    setPhnumber(phone_number);
     setEmail(email);
     setUsertype(user_type); // user_type을 저장
     setBusinessProfile(businessProfile);
@@ -39,15 +38,15 @@ export const getUserLogin = async (LoginData: {
   }
 };
 
-export const getUserRegister = async (userData: { 
-  email: string; 
-  first_name: string; 
-  last_name: string; 
+export const getUserRegister = async (userData: {
+  email: string;
+  first_name: string;
+  last_name: string;
   password: string;
-  password2: string; 
-  birth_date: string; 
-  gender: string; 
-  phone_number: string 
+  password2: string;
+  birth_date: string;
+  gender: string;
+  phone_number: string;
 }) => {
   return await client
     .post('/api/v1/auth/register/request/', userData, {
