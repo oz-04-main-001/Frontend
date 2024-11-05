@@ -4,6 +4,7 @@ import { Input } from '../../../../assets/Input';
 import InputChips from '../../../../assets/InputChips';
 import Counter from '../../../../assets/Counter';
 import Button, { BtnSize, BtnType } from '../../../../assets/buttons/Button';
+import axios from 'axios';
 
 interface MultiRoomInformationProps {
     room: number;
@@ -18,12 +19,13 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
     onRoomChange,
     capacity,
     onCapacityChange,
-    onStateChange
+    onStateChange,
 }) => {
     const initialRoomTypes = ['스탠다드', '스위트', '더블', '펜트하우스', '슈페리어'];
-    const initialFacilities = ['주차가능', '조식운영', '와이파이', '객실금연', '레스토랑', '바', '연회장', '뷔페'];
     const bedOptions = ['싱글', '슈퍼싱글', '더블', '퀸', '킹', '없음'];
 
+    const [initialFacilities, setInitialFacilities] = useState<string[]>([]);
+    const [customFacilities, setCustomFacilities] = useState<string[]>([]);
     const [selectedRoomType, setSelectedRoomType] = useState<string | null>(null);
     const [customRoomTypes, setCustomRoomTypes] = useState<string[]>([]);
     const [newRoomType, setNewRoomType] = useState<string>('');
@@ -32,7 +34,7 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
     const [bedRows, setBedRows] = useState<number>(1);
     const [roomName, setRoomName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
-    const [selectedBeds, setSelectedBeds] = useState<string[]>(['']);
+    const [selectedBeds, setSelectedBeds] = useState<{ type: string; quantity: number }[]>([{ type: '', quantity: 1 }]);
     const [pricing, setPricing] = useState<string>('');
     const [checkin, setCheckin] = useState<string>('');
     const [checkout, setCheckout] = useState<string>('');
@@ -40,62 +42,55 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
     const [capacityCount, setCapacityCount] = useState<number>(capacity);
 
     useEffect(() => {
+        const token = localStorage.getItem('auth_token');
+        axios
+            .get('http://localhost/api/v1/rooms/option-choices/', {
+                headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                setInitialFacilities(response.data);
+            })
+            .catch((error) => {
+                console.error('GET 오류', error);
+            });
+    }, []);
+
+    useEffect(() => {
         onStateChange({
             selectedRoomType,
             customRoomTypes,
             selectedFacilities,
-            bedRows,
             roomName,
             description,
             selectedBeds,
             pricing,
             checkin,
             checkout,
-            roomCount,
-            capacityCount,
+            room: roomCount,
+            capacity: capacityCount,
         });
-    }, [selectedRoomType, customRoomTypes, selectedFacilities, bedRows, roomName, description, selectedBeds, pricing, checkin, checkout, roomCount, capacityCount]);
+    }, [selectedRoomType, customRoomTypes, selectedFacilities, roomName, description, selectedBeds, pricing, checkin, checkout, roomCount, capacityCount]);
 
     const addRoomType = () => {
-        if (
-            newRoomType.trim() !== '' &&
-            !initialRoomTypes.includes(newRoomType) &&
-            !customRoomTypes.includes(newRoomType)
-        ) {
+        if (newRoomType.trim() && !initialRoomTypes.includes(newRoomType) && !customRoomTypes.includes(newRoomType)) {
             setCustomRoomTypes([...customRoomTypes, newRoomType]);
             setNewRoomType('');
         }
     };
 
     const addFacility = () => {
-        if (
-            newFacility.trim() !== '' &&
-            !initialFacilities.includes(newFacility) &&
-            !selectedFacilities.includes(newFacility)
-        ) {
+        if (newFacility.trim() && !initialFacilities.includes(newFacility) && !customFacilities.includes(newFacility)) {
+            setCustomFacilities([...customFacilities, newFacility]);
             setSelectedFacilities([...selectedFacilities, newFacility]);
             setNewFacility('');
         }
     };
 
-    const handleRoomTypeKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            addRoomType();
-        }
-    };
-
-    const handleFacilityKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            addFacility();
-        }
-    };
-
     const handleRoomTypeClick = (type: string) => {
-        if (selectedRoomType === type) {
-            setSelectedRoomType(null); 
-        } else {
-            setSelectedRoomType(type); 
-        }
+        setSelectedRoomType(selectedRoomType === type ? null : type);
     };
 
     const handleFacilityClick = (facility: string) => {
@@ -106,7 +101,7 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
 
     const handleIncrementRow = () => {
         setBedRows(bedRows + 1);
-        setSelectedBeds([...selectedBeds, '']);
+        setSelectedBeds([...selectedBeds, { type: '', quantity: 1 }]);
     };
 
     const handleDecrementRow = (rowIndex: number) => {
@@ -119,7 +114,7 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
 
     const handleBedSelection = (rowIndex: number, bedType: string) => {
         const updatedBeds = [...selectedBeds];
-        updatedBeds[rowIndex] = bedType;
+        updatedBeds[rowIndex] = { type: bedType, quantity: 1 };
         setSelectedBeds(updatedBeds);
     };
 
@@ -136,7 +131,6 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
     return (
         <div className="p-8 bg-white border-none rounded-lg">
             <h2 className="mb-6 text-lg text-gray-500">객실</h2>
-
             <div className="mb-8">
                 <h3 className="mb-4 text-lg text-gray-400">객실 유형</h3>
                 <div className="grid grid-cols-3 gap-4">
@@ -164,13 +158,12 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
                         value={newRoomType}
                         setValue={setNewRoomType}
                         placeholder="객실 유형 입력 후 Enter"
-                        editable={true}
-                        onKeyPress={handleRoomTypeKeyPress}
+                        editable
+                        onKeyPress={(e) => e.key === 'Enter' && addRoomType()}
                         className="w-full"
                     />
                 </div>
             </div>
-
             <div className="mb-6">
                 <h3 className="mb-2 text-lg text-gray-400">이름</h3>
                 <Input
@@ -184,7 +177,6 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
                 />
                 <p className="text-sm text-gray-500">{roomName.length} / 50</p>
             </div>
-
             <div className="mb-6">
                 <h3 className="mb-2 text-lg text-gray-400">설명</h3>
                 <Input
@@ -199,7 +191,6 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
                 />
                 <p className="text-sm text-gray-500">{description.length} / 1000</p>
             </div>
-
             <div className="mb-6">
                 <h3 className="mb-2 text-base text-gray-400">체크인</h3>
                 <Input
@@ -212,7 +203,6 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
                     onChange={(e) => setCheckin(e.target.value)}
                 />
             </div>
-
             <div className="mb-6">
                 <h3 className="mb-2 text-base text-gray-400">체크아웃</h3>
                 <Input
@@ -225,9 +215,8 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
                     onChange={(e) => setCheckout(e.target.value)}
                 />
             </div>
-
             <div className="mb-6">
-                <h3 className="mb-2 text-lg text-gray-400">객실 편의시설</h3>
+                <h3 className="mb-2 text-lg text-gray-400">편의시설</h3>
                 <div className="grid grid-cols-3 gap-4">
                     {initialFacilities.map((facility, index) => (
                         <Button
@@ -239,38 +228,34 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
                             className="w-full"
                         />
                     ))}
-                    {selectedFacilities.map((facility, index) => (
-                        !initialFacilities.includes(facility) && (
-                            <Button
-                                key={`custom-facility-${index}`}
-                                size={BtnSize.m}
-                                text={facility}
-                                type={BtnType.normal}
-                                className="w-full"
-                            />
-                        )
+                    {customFacilities.map((facility, index) => (
+                        <Button
+                            key={`custom-facility-${index}`}
+                            size={BtnSize.m}
+                            text={facility}
+                            type={selectedFacilities.includes(facility) ? BtnType.normal : BtnType.line}
+                            onClick={() => handleFacilityClick(facility)}
+                            className="w-full"
+                        />
                     ))}
                     <InputChips
                         value={newFacility}
                         setValue={setNewFacility}
                         placeholder="편의시설 입력 후 Enter"
-                        editable={true}
-                        onKeyPress={handleFacilityKeyPress}
+                        editable
+                        onKeyPress={(e) => e.key === 'Enter' && addFacility()}
                         className="w-full"
                     />
                 </div>
             </div>
-
             <div className="mb-6">
                 <h3 className="mb-2 text-lg text-gray-400">방 개수</h3>
                 <Counter size={16} value={roomCount} onChange={handleRoomCountChange} />
             </div>
-
             <div className="mb-6">
                 <h3 className="mb-2 text-lg text-gray-400">기준인원</h3>
                 <Counter size={16} value={capacityCount} onChange={handleCapacityCountChange} />
             </div>
-
             <div className="mb-6">
                 <h3 className="mb-2 text-lg text-gray-400">침대</h3>
                 <div className="space-y-4">
@@ -289,7 +274,7 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
                                         key={bedIndex}
                                         size={BtnSize.m}
                                         text={bed}
-                                        type={selectedBeds[rowIndex] === bed ? BtnType.normal : BtnType.line}
+                                        type={selectedBeds[rowIndex]?.type === bed ? BtnType.normal : BtnType.line}
                                         className="w-[160px] h-[40px]"
                                         onClick={() => handleBedSelection(rowIndex, bed)}
                                     />
@@ -305,7 +290,6 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
                     ))}
                 </div>
             </div>
-
             <div className="mb-6">
                 <h3 className="mb-2 text-lg text-gray-400">요금책정</h3>
                 <div className="flex items-center">
@@ -315,7 +299,7 @@ const MultiRoomInformation: React.FC<MultiRoomInformationProps> = ({
                             id="pricing"
                             placeholder="1박 금액을 작성해주세요."
                             height="h-[60px]"
-                            width='w-full'
+                            width="w-full"
                             className="text-right"
                             value={pricing}
                             onChange={(e) => setPricing(e.target.value)}

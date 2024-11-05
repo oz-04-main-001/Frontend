@@ -11,7 +11,7 @@ interface MultiRoomListProps {
 }
 
 const MultiRoomList: React.FC<MultiRoomListProps> = ({ onAddRoom, onSelectRoom }) => {
-    const [rooms, setRooms] = useState<string[]>(['스탠다드', '디럭스']); 
+    const [rooms, setRooms] = useState<string[]>([""]); 
     const [selectedRoom, setSelectedRoom] = useState<string | null>(null); 
     const [editingRoom, setEditingRoom] = useState<string | null>(null); 
     const [newRoomName, setNewRoomName] = useState<string>(''); 
@@ -43,7 +43,7 @@ const MultiRoomList: React.FC<MultiRoomListProps> = ({ onAddRoom, onSelectRoom }
 
 
     const handleSettingsClick = () => {
-        navigate('/MultiAccommodations'); 
+        navigate('/onlyhost/multi-staterroom'); 
     };
 
     return (

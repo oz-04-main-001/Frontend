@@ -3,20 +3,24 @@ import { useEffect, useState } from 'react';
 import Header from '../../../assets/Header';
 import OnlyRoomInformation from './components/OnlyRoomInformation';
 import Button, { BtnSize, BtnType } from '../../../assets/buttons/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ArrowIcon from '../../../assets/icons/arrow3.svg';
 import axios from 'axios';
 
 const OnlyStaterRoom: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const accommodation_id = location.state?.accommodation_id || 106; 
+
   const [roomData, setRoomData] = useState({
     checkin: '',
     checkout: '',
     pricing: '',
-    selectedBeds: [],
+    bedOptions: [] as { type: string }[],
+    bedCount: 0,
     capacity: 1,
     room: 1,
-    selectedFacilities: [],
+    selectedFacilities: [] as { id: number | null; name: string }[],
   });
 
   const handleRoomInfoChange = (data: any) => {
@@ -25,51 +29,67 @@ const OnlyStaterRoom: React.FC = () => {
       ...data,
     }));
   };
+
   useEffect(() => {
     console.log('입력값', roomData);
   }, [roomData]);
 
-  const handleSubmit = async () => {
+  const handleRoomSubmit = async () => {
+    const token = localStorage.getItem('auth_token'); 
+    if (!token) {
+      console.warn('토큰이 없습니다. 로그인 후 다시 시도하세요.');
+      return; 
+    }
+
     const formData = new FormData();
 
     const room = {
-      accommodation: 1,
+      accommodation: accommodation_id,
       name: '객실 이름',
       capacity: roomData.capacity,
       price: parseInt(roomData.pricing) || 0,
-      description: '객실 설명',
+      description: '독채인 숙소 객실 설명란입니다',
       check_in_time: roomData.checkin,
       check_out_time: roomData.checkout,
       is_available: true,
+      room_quantity: {
+        quantity: roomData.room,
+        name: 'room_quantity'
+      }
     };
 
     const inventory = {
-      count_room: roomData.room,
+      count_room: 1,
     };
 
     const options = {
-      new: [
-        {
-          name: 'Custom Option',
+      new:[{
+          name:roomData.selectedFacilities,
           category: 'extra',
           is_custom: true,
-        },
-      ],
-      default: roomData.selectedFacilities.map((facility) => ({
-        option_id: facility,
-      })),
+        }],
+      
+      default: [{
+          option_id: 0,
+        }],
     };
 
-    const bedOptions = roomData.selectedBeds.map((bed: any) => ({
-      bed_type: bed.type,
-      quantity: bed.quantity,
-    }));
+    console.log('Room Data:', room);
+    console.log('Inventory Data:', inventory);
+    console.log('Options Data:', options);
 
 
     formData.append('room', JSON.stringify(room));
     formData.append('inventory', JSON.stringify(inventory));
     formData.append('options', JSON.stringify(options));
-    formData.append('bed_options', JSON.stringify(bedOptions));
+
+    roomData.bedOptions.forEach((bed, index) => {
+      const bedOption = {
+        bed_type: bed.type,
+        quantity: index + 1, 
+      };
+      formData.append('bed_options', JSON.stringify(bedOption));
+    });
 
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
@@ -80,7 +100,8 @@ const OnlyStaterRoom: React.FC = () => {
         headers: {
           'accept': 'application/json',
           'Content-Type': 'multipart/form-data',
-          'X-CSRFTOKEN': import.meta.env.VITE_ROOM_CSRF_TOKEN
+          'X-CSRFTOKEN': import.meta.env.VITE_ROOM_CSRF_TOKEN,
+          'Authorization': `Bearer ${token}`, 
         },
       });
       console.log('객실 등록 성공', response.data);
@@ -123,7 +144,7 @@ const OnlyStaterRoom: React.FC = () => {
             size={BtnSize.l}
             text="다음"
             type={BtnType.normal}
-            onClick={handleSubmit}
+            onClick={handleRoomSubmit}
           />
         </div>
       </div>

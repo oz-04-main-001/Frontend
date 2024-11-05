@@ -16,7 +16,7 @@ const MultiAccommodations: React.FC = () => {
   const navigate = useNavigate();
   const selectedBuilding = useSelectionStore((state) => state.selectedBuilding) || '독채펜션';
   const [formData, setFormData] = useState({
-    images: [], 
+    images: [],
     accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
     accommodationUse: { amenities: [], rules: '' },
   });
@@ -56,6 +56,12 @@ const MultiAccommodations: React.FC = () => {
 
   const handleSubmit = async () => {
     const formDataToSend = new FormData();
+    const token = localStorage.getItem('auth_token'); 
+
+    if (!token) {
+      console.warn('토큰이 없습니다. 로그인 후 다시 시도하세요.');
+      return;
+    }
 
     const accommodation = {
       name: formData.accommodationInfo.name,
@@ -63,9 +69,11 @@ const MultiAccommodations: React.FC = () => {
       rules: formData.accommodationUse.rules,
       is_active: true,
     };
+
     const accommodation_type = {
       type_name: selectedBuilding,
     };
+
     const GPS_info = {
       city: formData.accommodationInfo.sido,
       states: formData.accommodationInfo.sigungu,
@@ -79,6 +87,7 @@ const MultiAccommodations: React.FC = () => {
         ],
       }
     };
+
     const amenities = {
       new: formData.accommodationUse.amenities
         .filter((amenity: { id: number | null }) => amenity.id === null)
@@ -106,6 +115,7 @@ const MultiAccommodations: React.FC = () => {
         headers: {
           'accept': 'application/json',
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`, 
           'X-CSRFTOKEN': import.meta.env.VITE_CSRF_TOKEN,
         },
       });
