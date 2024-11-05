@@ -55,7 +55,6 @@ function App() {
               />
             }
           />
-          {/* <Route path="signup-successful" element={<SignUpSuccessful />} /> */}
         </Route>
         {/* 호스트관련 */}
         <Route path="/host" element={<Host />}>
@@ -74,7 +73,6 @@ function App() {
           />
           <Route path="multi-staterroom" element={<MultiStaterRoom />} />
         </Route>
-
         {/* 게스트 예약관련 */}
         <Route path="/reservation" element={<Reservations />}>
           <Route
