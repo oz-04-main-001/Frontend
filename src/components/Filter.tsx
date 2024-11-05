@@ -42,7 +42,7 @@ const Filter = () => {
     setIsDragging(false);
   };
   return (
-    <div className="px-12 py-6 mb-6 border-b-2 border-gray-100 ">
+    <div className="px-12 py-6 mt-32 mb-6 border-b-2 border-gray-100 ">
       <ul
         ref={scrollContainerRef}
         className="flex overflow-x-auto flex-nowrap no-scrollbar"

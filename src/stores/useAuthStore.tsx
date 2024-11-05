@@ -24,8 +24,8 @@ interface AuthState {
 
 const useAuthStore = create<AuthState>(set => ({
   email: localStorage.getItem('email') || null,
-  name: null,
-  phNumber: null,
+  name: localStorage.getItem('name') || null,
+  phNumber: localStorage.getItem('phNumber') || null,
   usertype: localStorage.getItem('usertype') || null,
   businessProfile: null,
   accessToken: localStorage.getItem('accessToken') || null,
