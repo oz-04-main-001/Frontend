@@ -6,7 +6,6 @@ import Layout from '../../layouts/Layout1';
 import { DetailType } from '../../components/DetailInfo';
 import Button from '../../assets/buttons/Button';
 import { BtnSize, BtnType } from '../../assets/buttons/Button';
-import { useEffect } from 'react';
 import { getStateRoomLoad } from '../../axios/roomApi';
 import { AxiosError } from 'axios';
 import { useStateroomStore } from '../../stores/useStateroomStore';
@@ -22,31 +21,32 @@ export default function Stateroom() {
   const { accommodationId, stateroomId } = useParams();
   const { search } = useSearchStore();
   const { stateRoom, actions } = useStateroomStore();
-  useEffect(() => {
-    const fetchGetLoad = async () => {
-      try {
-        const loadCard = await getStateRoomLoad(
-          Number(accommodationId),
-          Number(stateroomId)
-        );
-        actions.setStateRoomInfo(loadCard);
-      } catch (err) {
-        const axiosError = err as AxiosError;
-        if (axiosError.response) {
-          const statusCode = axiosError.response.status;
-          switch (statusCode) {
-            case 401:
-              navigate('/user/login');
-              break;
-            default:
-              console.log('요청 에러');
-              break;
-          }
+  const fetchGetLoad = async () => {
+    try {
+      const loadCard = await getStateRoomLoad(
+        Number(accommodationId),
+        Number(stateroomId)
+      );
+      actions.setStateRoomInfo(loadCard);
+      navigate(
+        `/reservation/stateroom/order/${accommodationId}/${stateroomId}`
+      );
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      if (axiosError.response) {
+        const statusCode = axiosError.response.status;
+        switch (statusCode) {
+          case 401:
+            navigate('/user/login');
+            break;
+          default:
+            console.log('요청 에러');
+            break;
         }
       }
-    };
-    fetchGetLoad();
-  }, []);
+    }
+  };
+
   const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
   const priceFormet = usePriceFormet(
     stateRoom.room.price,
@@ -118,11 +118,7 @@ export default function Stateroom() {
             size={BtnSize.l}
             text="예약하기"
             type={BtnType.normal}
-            onClick={() => {
-              navigate(
-                `/reservation/stateroom/order/${accommodationId}/${stateroomId}`
-              );
-            }}
+            onClick={() => fetchGetLoad}
           />
         </div>
       </div>

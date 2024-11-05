@@ -9,13 +9,18 @@ import { useSelectionStore } from '../../../stores/useSelectionStore';
 const StructureType: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // 전역 상태에서 selectedOption 및 selectedBuilding 가져오기
-  const selectedOption = useSelectionStore((state) => state.selectedOption) || location.state?.selectedOption || '선택된 유형 없음';
-  const selectedBuilding = useSelectionStore((state) => state.selectedBuilding);
-  
-  const setSelectedBuilding = useSelectionStore((state) => state.setSelectedBuilding);
-  const setSelectedOption = useSelectionStore((state) => state.setSelectedOption);
+  const selectedOption =
+    useSelectionStore(state => state.selectedOption) ||
+    location.state?.selectedOption ||
+    '선택된 유형 없음';
+  const selectedBuilding = useSelectionStore(state => state.selectedBuilding);
+
+  const setSelectedBuilding = useSelectionStore(
+    state => state.setSelectedBuilding
+  );
+  const setSelectedOption = useSelectionStore(state => state.setSelectedOption);
 
   // 처음 컴포넌트가 로드될 때 location의 selectedOption 상태를 전역 상태에 설정
   React.useEffect(() => {
@@ -49,16 +54,20 @@ const StructureType: React.FC = () => {
     if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {
       navigate('/onlyhost/only-accommodation', { state: { selectedBuilding } });
     } else if (selectedOption === '하나의 숙소에 객실이 여러개 있어요.') {
-      navigate('/onlyhost/multi-accommodations', { state: { selectedBuilding } });
+      navigate('/onlyhost/multi-accommodations', {
+        state: { selectedBuilding },
+      });
     }
   };
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header labels={[
-        { title: '게스트 메인', link: '/' },
-        { title: '서비스 등록', link: '/host/select-type' },
-      ]} />
+      <Header
+        labels={[
+          { title: '게스트 메인', link: '/' },
+          { title: '서비스 등록', link: '/host/select-type' },
+        ]}
+      />
       <div className="flex flex-col items-start justify-start w-5/6 mx-auto mt-[12vh]">
         <div className="flex items-center mb-6">
           <img
@@ -80,7 +89,9 @@ const StructureType: React.FC = () => {
                 key={index}
                 onClick={() => handleBuildingClick(building)}
                 className={`cursor-pointer p-2 rounded ${
-                  selectedBuilding === building ? 'bg-[#A0D8F1] text-white' : 'bg-[#E0E0E0]'
+                  selectedBuilding === building
+                    ? 'bg-[#A0D8F1] text-white'
+                    : 'bg-[#E0E0E0]'
                 }`}
               >
                 <Chips text={building} />

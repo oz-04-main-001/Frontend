@@ -11,8 +11,8 @@ interface StateRoomCardProp {
   checkIn: string;
   checkOut: string;
   price: number | string;
-  stayType: boolean;
   capacity: number;
+  btn: boolean;
 }
 
 export default function StateroomCard({
@@ -22,8 +22,8 @@ export default function StateroomCard({
   checkIn,
   checkOut,
   price,
-  stayType,
   capacity,
+  btn,
 }: StateRoomCardProp) {
   const navigate = useNavigate();
   const handleErrorImage = useErrorImage();
@@ -42,15 +42,19 @@ export default function StateroomCard({
       <div className="grow">
         <h4>{title}</h4>
         <div className="text-right">
-          <button
-            type="button"
-            className="text-right b1 text-primary-600 "
-            onClick={() => {
-              navigate(`/accommodations/stateroom/${accommodationId}/${id}`);
-            }}
-          >
-            상세보기
-          </button>
+          {btn ? (
+            <button
+              type="button"
+              className="text-right b1 text-primary-600 "
+              onClick={() => {
+                navigate(`/accommodations/stateroom/${accommodationId}/${id}`);
+              }}
+            >
+              상세보기
+            </button>
+          ) : (
+            ''
+          )}
         </div>
 
         <div className="p-3 bg-white rounded-md mt-7">
@@ -72,8 +76,8 @@ export default function StateroomCard({
                     );
                   }}
                   size={BtnSize.m}
-                  text="객실예약"
-                  type={stayType ? BtnType.normal : BtnType.disabled}
+                  text={btn ? '객실 예약' : '예약불가능'}
+                  type={btn ? BtnType.normal : BtnType.disabled}
                 />
               </div>
             </div>
