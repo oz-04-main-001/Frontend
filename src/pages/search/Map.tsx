@@ -43,9 +43,12 @@ export default function Map() {
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    if (!window.kakao) {
+      console.error('Kakao Maps SDK failed to load');
+      return;
+    }
     if (!accommodation_data) return;
-    const mapRef = mapContainer.current;
-    if (mapRef && window.kakao) {
+    if (mapContainer.current && window.kakao && accommodation_data) {
       const options = {
         center: new window.kakao.maps.LatLng(
           initialCenter[0],
@@ -53,35 +56,38 @@ export default function Map() {
         ),
         level: 8,
       };
+      if (mapContainer.current) {
+        const map = new window.kakao.maps.Map(mapContainer.current, options);
 
-      const map = new window.kakao.maps.Map(mapRef, options);
-      map.setZoomable(false);
-      kakaoMapRef.current = map;
+        kakaoMapRef.current = map;
+        kakaoMapRef.current = map;
+        map.setZoomable(false);
 
-      window.kakao.maps.event.addListener(map, 'idle', () => {
-        if (debounceTimerRef.current) {
-          clearTimeout(debounceTimerRef.current);
-        }
+        window.kakao.maps.event.addListener(map, 'idle', () => {
+          if (debounceTimerRef.current) {
+            clearTimeout(debounceTimerRef.current);
+          }
 
-        debounceTimerRef.current = setTimeout(() => {
-          const centerLatLng = map.getCenter();
-          const point = `${centerLatLng.La},${centerLatLng.Ma}`;
-          setInitialCenter([centerLatLng.getLat(), centerLatLng.getLng()]);
-          fetchGetLoad(point);
-        }, 500);
-      });
-
-      accommodation_data?.forEach((el: SearchRoom) => {
-        new window.kakao.maps.Marker({
-          map,
-          position: new window.kakao.maps.LatLng(
-            el.location[0],
-            el.location[1]
-          ),
-          title: el.name,
-          image: new window.kakao.maps.MarkerImage(markerImage, markerSize),
+          debounceTimerRef.current = setTimeout(() => {
+            const centerLatLng = map.getCenter();
+            const point = `${centerLatLng.La},${centerLatLng.Ma}`;
+            setInitialCenter([centerLatLng.getLat(), centerLatLng.getLng()]);
+            fetchGetLoad(point);
+          }, 500);
         });
-      });
+
+        accommodation_data?.forEach((el: SearchRoom) => {
+          new window.kakao.maps.Marker({
+            map,
+            position: new window.kakao.maps.LatLng(
+              el.location[0],
+              el.location[1]
+            ),
+            title: el.name,
+            image: new window.kakao.maps.MarkerImage(markerImage, markerSize),
+          });
+        });
+      }
     }
 
     return () => {
