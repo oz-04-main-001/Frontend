@@ -27,7 +27,7 @@ export default function Orders() {
   const checkOutDate = useDateDashFormet(search.date.checkOut);
   const guestsCount = search.personnel.adult;
   const { name, phNumber } = useAuthStore();
-
+  console.log(name, phNumber);
   useEffect(() => {
     const fetchGetLoad = async () => {
       try {
