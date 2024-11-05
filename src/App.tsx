@@ -18,9 +18,6 @@ import SignUp from './pages/user/SignUp';
 import Mypage from './pages/user/Mypage';
 import Reservations from './pages/reservations';
 import HostDocument from './pages/host/setAccommodations/HostDocument';
-import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
-import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
-import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation';
 import Popup from './components/Popup';
 import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
@@ -71,19 +68,19 @@ function App() {
           />
           <Route path="multi-staterroom" element={<MultiStaterRoom />} />
           {/* <Route path="edit-Onlyroom" element={<EditOnlyRoom />} /> */}
-          <Route
+          {/* <Route
             path="edit-Onlyroom/:accommodationId"
             element={<EditOnlyRoom />}
-          />
+          /> */}
           {/* <Route path="edit-multiroom" element={<EditMultiRoom />} /> */}
-          <Route
+          {/* <Route
             path="edit-multiroom/:accomodationId"
             element={<EditMultiRoom />}
           />
           <Route
             path="edit-multiaccommodations"
             element={<EditMultiAccommodations />}
-          />
+          /> */}
         </Route>
 
         {/* 게스트 예약관련 */}
