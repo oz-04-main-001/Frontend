@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   const renderUserLinks = () => {
-    if (usertype === 'guest' || usertype === 'host') {
+    if (usertype === 'guest' || usertype === 'host' || usertype === 'admin') {
       return (
         <>
           <span className="text-gray-600">
@@ -50,14 +50,13 @@ const Header: React.FC<HeaderProps> = ({
         </>
       );
     }
-
     return (
       <span className="text-gray-600">
         <Link to="/user/login">로그인</Link>
       </span>
     );
   };
-
+  
   return (
     <header
       className={`z-50 fixed top-0 left-0 flex items-center justify-between w-full p-2 px-16 ${border ? 'border-b border-gray-100' : ''}`}
