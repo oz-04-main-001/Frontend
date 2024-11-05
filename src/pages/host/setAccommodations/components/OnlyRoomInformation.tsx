@@ -26,15 +26,18 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
     const [newFacility, setNewFacility] = useState<string>('');
 
     useEffect(() => {
-        const token = localStorage.getItem('auth_token');
         axios.get('http://localhost/api/v1/rooms/option-choices/', {
             headers: {
                 'accept': 'application/json',
-                'Authorization': `Bearer ${token}`,
             }
         })
         .then(response => {
-            setInitialFacilities(response.data);
+            console.log("받아온 데이터:", response.data); // 전체 데이터 확인
+            // 각 시설의 id와 이름을 출력
+            response.data.forEach((facility: { id: number; name: string }) => {
+                console.log("Facility ID:", facility.id, "Name:", facility.name);
+            });
+            setInitialFacilities(response.data.map((facility: { id: number; name: string }) => facility.name)); 
         })
         .catch(error => {
             console.error('GET 오류', error);

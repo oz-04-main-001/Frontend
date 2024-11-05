@@ -37,7 +37,7 @@ const StructureType: React.FC = () => {
   const handleBuildingClick = (building: string) => {
     if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {
       // 독체 관련 옵션을 선택한 경우
-      const independentBuilding = `독체${building}`;
+      const independentBuilding = `독채${building}`;
       setSelectedBuilding(independentBuilding);
     } else {
       // 일반 건물 타입을 선택한 경우
@@ -47,7 +47,7 @@ const StructureType: React.FC = () => {
 
   const handleNextClick = () => {
     if (selectedOption === '하나의 숙소를 한팀이 전부 사용해요.') {
-      navigate('/onlyhost/only-starterroom', { state: { selectedBuilding } });
+      navigate('/onlyhost/only-accommodation', { state: { selectedBuilding } });
     } else if (selectedOption === '하나의 숙소에 객실이 여러개 있어요.') {
       navigate('/onlyhost/multi-accommodations', { state: { selectedBuilding } });
     }

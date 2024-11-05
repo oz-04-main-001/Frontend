@@ -20,14 +20,13 @@ import Reservations from './pages/reservations';
 import HostDocument from './pages/host/setAccommodations/HostDocument';
 import EditMultiAccommodations from './pages/host/setAccommodations/EditMultiAccommodations';
 import EditMultiRoom from './pages/host/setAccommodations/EditMultiRoom';
-import EditOnlyRoom from './pages/host/setAccommodations/EditOnlyRoom';
 import OnlyAccommodation from './pages/host/setAccommodations/OnlyAccommodation';
 import Popup from './components/Popup';
 import MembershipWithdrawal from './pages/user/MembershipWithdrawal';
 import HostMain from './pages/host/HostMain';
 import SignOut from './pages/user/SignOut';
 import EmailVerification from './pages/user/EmailVerification';
-import SignUpSuccessful from './pages/user/SignUpSuccessful';
+
 
 function App() {
   return (
@@ -52,7 +51,6 @@ function App() {
           <Route path="verify-email" element={<EmailVerification onClose={function (): void {
             throw new Error('Function not implemented.');
           } } />} />
-          <Route path="signup-successful" element={<SignUpSuccessful />} />
         </Route>
         {/* 호스트관련 */}
         <Route path="/host" element={<Host />}>
@@ -71,10 +69,7 @@ function App() {
           />
           <Route path="multi-staterroom" element={<MultiStaterRoom />} />
           {/* <Route path="edit-Onlyroom" element={<EditOnlyRoom />} /> */}
-          <Route
-            path="edit-Onlyroom/:accommodationId"
-            element={<EditOnlyRoom />}
-          />
+
           {/* <Route path="edit-multiroom" element={<EditMultiRoom />} /> */}
           <Route
             path="edit-multiroom/:accomodationId"

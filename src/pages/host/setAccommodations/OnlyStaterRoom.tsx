@@ -64,7 +64,7 @@ const OnlyStaterRoom: React.FC = () => {
 
     const options = {
       new:[{
-          name:roomData.selectedFacilities,
+          name:"string",
           category: 'extra',
           is_custom: true,
         }],
@@ -116,7 +116,7 @@ const OnlyStaterRoom: React.FC = () => {
       <Header
         labels={[
           { title: '게스트 메인', link: '/guest' },
-          { title: '서비스 등록', link: '/register' },
+          { title: '새 숙소 등록하기', link: '/host/select-type' },
           { title: '로그아웃', link: '/logout' },
         ]}
       />

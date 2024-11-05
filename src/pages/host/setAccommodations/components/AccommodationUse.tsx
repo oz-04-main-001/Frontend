@@ -21,12 +21,11 @@ const AccommodationUse: React.FC<AccommodationUseProps> = ({ onStateChange }) =>
 
     useEffect(() => {
         const fetchAmenities = async () => {
-            const token = localStorage.getItem('auth_token');
             try {
                 const response = await axios.get('http://localhost/api/v1/accommodations/amenity-choices/', {
                     headers: {
                         accept: 'application/json',
-                        Authorization: `Bearer ${token}` , 
+ 
                     },
                 });
                 setAmenities(response.data.map((name: string, index: number) => ({ id: index, name })));
