@@ -16,7 +16,6 @@ const SignIn = () => {
 
       navigate('/');
     } catch (error) {
-      console.error('로그인 실패:', error);
       setErrorMessage(
         '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.'
       );
@@ -26,7 +25,7 @@ const SignIn = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
       <div className="mb-6">
-        <img src="/public/staynest.svg" alt="로고" width="120" />
+        <img src="/staynest.svg" alt="로고" width="120" />
       </div>
       <div className="w-full max-w-[400px] flex flex-col">
         <label className="mt-4 text-sm text-left font-regular">이메일</label>
