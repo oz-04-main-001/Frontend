@@ -32,8 +32,7 @@ const OnlyRoomInformation: React.FC<OnlyRoomInformationProps> = ({ onStateChange
             }
         })
         .then(response => {
-            console.log("받아온 데이터:", response.data); // 전체 데이터 확인
-            // 각 시설의 id와 이름을 출력
+            console.log("받아온 데이터:", response.data); 
             response.data.forEach((facility: { id: number; name: string }) => {
                 console.log("Facility ID:", facility.id, "Name:", facility.name);
             });

@@ -20,7 +20,7 @@ const MultiAccommodations: React.FC = () => {
     accommodationInfo: { name: '', address: '', description: '', sido: '', sigungu: '', roadname: '', latitude: '', longitude: '' },
     accommodationUse: { amenities: [], rules: '' },
   });
-  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [, setSelectedRoom] = useState<string | null>(null);
 
   useEffect(() => {
     const savedData = localStorage.getItem('multiAccommodationData');

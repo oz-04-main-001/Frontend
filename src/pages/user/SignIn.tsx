@@ -10,12 +10,10 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // 로그인 핸들러
   const handleLogin = async () => {
     try {
       await getUserLogin({ email, password });
 
-      // 로그인 성공 후 메인 페이지로 이동
       navigate('/');
     } catch (error) {
       console.error('로그인 실패:', error);
@@ -62,12 +60,6 @@ const SignIn = () => {
       <div className="mt-4">
         <Link to="/user/join" className="mr-4 text-sm text-primary-300">
           회원가입
-        </Link>
-        <Link to="#" className="text-sm text-primary-300">
-          아이디 /
-        </Link>
-        <Link to="#" className="text-sm text-primary-300">
-          비밀번호 찾기
         </Link>
       </div>
     </div>

@@ -57,7 +57,7 @@ const OnlyStaterRoom: React.FC = () => {
         name: 'room_quantity'
       }
     };
-
+    
     const inventory = {
       count_room: 1,
     };
@@ -93,7 +93,7 @@ const OnlyStaterRoom: React.FC = () => {
 
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
-    }
+}
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/rooms/`, formData, {

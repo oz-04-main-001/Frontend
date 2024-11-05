@@ -12,26 +12,20 @@ const SignOut = () => {
   
 
     try {
-      // 서버에 로그아웃 요청
       await client.post('/api/v1/auth/logout/');
     } catch (error) {
       console.error('로그아웃 요청 오류:', error);
     }
 
     try {
-      // 서버에 로그아웃 요청
       await client.post('/api/v1/auth/logout/'); 
     } catch (error) {
       console.error('로그아웃 요청 오류:', error);
     }
-    // 로컬 스토리지에서 통합된 auth_token 및 refresh_token 삭제
     localStorage.removeItem('auth_token');
     localStorage.removeItem('refresh_token');
 
-    // Zustand 스토어 초기화
     clearAuth();
-
-
 
     closePopup();
     navigate('/');
@@ -49,8 +43,8 @@ const SignOut = () => {
         subTitle=""
         onClose={handleCancel}
         buttonText={{ text1: '취소', text2: '로그아웃' }}
-        onClickLogic1={handleCancel} // 취소 클릭 시 handleCancel 호출
-        onClickLogic2={handleLogout} // 로그아웃 클릭 시 handleLogout 호출
+        onClickLogic1={handleCancel} 
+        onClickLogic2={handleLogout}
         titleClass="font-bold text-2xl"
         subTitleClass="hidden"
       />

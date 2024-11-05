@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Button, { BtnType } from '../../../assets/buttons/Button';
+// import Button, { BtnType } from '../../../assets/buttons/Button';
 import close from '../../../assets/icons/icon.svg';
 import HostAccommodationAPI from '../../../axios/HostAccommodationAPI';
 import logo from '/staynest.svg';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 interface AccommodationProp {
   handleDeletePopupClick: (id: number) => void;
@@ -11,7 +11,7 @@ interface AccommodationProp {
 export default function HostAccommoList({
   handleDeletePopupClick,
 }: AccommodationProp) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [isShow, setIsShow] = useState(false);
   const { accommoData } = HostAccommodationAPI();
 
@@ -35,7 +35,7 @@ export default function HostAccommoList({
         {accommoData?.map(acco => (
           <div
             key={acco.id}
-            className="relative flex flex-col justify-between w-64 h-auto p-2 bg-white shadow-md"
+            className="border-x-gray-200 mb-4 rounded-md relative flex flex-col justify-between w-64 h-auto p-2 bg-white shadow-md"
           >
             <img
               src={close}
@@ -56,11 +56,13 @@ export default function HostAccommoList({
                 />
               </div>
             )}
+
             <h3 className="text-base">{acco.name}</h3>
             <p className="flex flex-wrap text-xs">
               <span>{acco.address}</span>
             </p>
-            <div>
+
+            {/* <div>
               <Button
                 text="수정"
                 type={BtnType.line}
@@ -70,7 +72,7 @@ export default function HostAccommoList({
                     : navigate(`/onlyhost/edit-multiroom/${acco.id}`);
                 }}
               />
-            </div>
+            </div> */}
           </div>
         ))}
       </div>

@@ -39,7 +39,12 @@ export default function Management({
     reservation => reservation.status === 'confirmed'
   );
   const uniqueNameFilteredPending = [
+<<<<<<< HEAD
     ...new Set(pendingBooking?.map(item => item.accommodation_name)),]
+=======
+    ...new Set(pendingBooking?.map(item => item.accommodation_name)),
+  ];
+>>>>>>> 7c7ca64fef65a23cd57f51007e1a5c9e1d03b1ce
 
   const filteredConcirmed = confirmedBooking?.filter(confirm =>
     accommoData?.filter(acco => acco.name === confirm.accommodation_name)
