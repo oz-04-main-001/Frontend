@@ -50,7 +50,6 @@ const Header: React.FC<HeaderProps> = ({
         </>
       );
     }
-  
     return (
       <span className="text-gray-600">
         <Link to="/user/login">로그인</Link>

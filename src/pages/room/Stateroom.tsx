@@ -6,7 +6,6 @@ import Layout from '../../layouts/Layout1';
 import { DetailType } from '../../components/DetailInfo';
 import Button from '../../assets/buttons/Button';
 import { BtnSize, BtnType } from '../../assets/buttons/Button';
-import { useEffect } from 'react';
 import { getStateRoomLoad } from '../../axios/roomApi';
 import { AxiosError } from 'axios';
 import { useStateroomStore } from '../../stores/useStateroomStore';
@@ -16,6 +15,9 @@ import Header from '../../assets/Header';
 import useTimeFormet from '../../customHooks/useTimeFormet';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import usePriceFormet from '../../customHooks/usePriceFormet';
+import { useEffect } from 'react';
+import { postBooking } from '../../axios/orderApi';
+import useDateDashFormet from '../../customHooks/useDateDashFormet';
 
 export default function Stateroom() {
   const navigate = useNavigate();
@@ -30,6 +32,9 @@ export default function Stateroom() {
           Number(stateroomId)
         );
         actions.setStateRoomInfo(loadCard);
+        navigate(
+          `/reservation/stateroom/order/${accommodationId}/${stateroomId}`
+        );
       } catch (err) {
         const axiosError = err as AxiosError;
         if (axiosError.response) {
@@ -47,6 +52,39 @@ export default function Stateroom() {
     };
     fetchGetLoad();
   }, []);
+  const checkInDate = useDateDashFormet(search.date.checkIn);
+  const checkOutDate = useDateDashFormet(search.date.checkOut);
+  const guestsCount = search.personnel.adult;
+
+  const fetchGetLoad = async () => {
+    if (accommodationId && stateroomId) {
+      try {
+        const order = await postBooking(
+          accommodationId,
+          stateroomId,
+          checkInDate,
+          checkOutDate,
+          guestsCount
+        );
+        console.log('예약이 성공적으로 완료되었습니다!', order);
+        await navigate(`/mypage`);
+      } catch (err) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response) {
+          const statusCode = axiosError.response.status;
+          switch (statusCode) {
+            case 401:
+              navigate('/user/login');
+              break;
+            default:
+              console.log('요청 에러');
+              break;
+          }
+        }
+      }
+    }
+  };
+
   const dateCount = useDateCount(search.date.checkIn, search.date.checkOut);
   const priceFormet = usePriceFormet(
     stateRoom.room.price,
@@ -118,11 +156,7 @@ export default function Stateroom() {
             size={BtnSize.l}
             text="예약하기"
             type={BtnType.normal}
-            onClick={() => {
-              navigate(
-                `/reservation/stateroom/order/${accommodationId}/${stateroomId}`
-              );
-            }}
+            onClick={() => fetchGetLoad}
           />
         </div>
       </div>
