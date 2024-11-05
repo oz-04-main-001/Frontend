@@ -16,8 +16,6 @@ import useTimeFormet from '../../customHooks/useTimeFormet';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import usePriceFormet from '../../customHooks/usePriceFormet';
 import { useEffect } from 'react';
-import { postBooking } from '../../axios/orderApi';
-import useDateDashFormet from '../../customHooks/useDateDashFormet';
 
 export default function Stateroom() {
   const navigate = useNavigate();
