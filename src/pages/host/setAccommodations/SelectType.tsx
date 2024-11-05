@@ -43,8 +43,6 @@ const SelectType: React.FC = () => {
               onClick={() => handleOptionClick('하나의 숙소를 한팀이 전부 사용해요.')}
               className={`p-4 rounded-lg cursor-pointer ${
                 currentSelection === '하나의 숙소를 한팀이 전부 사용해요.'
-                  ? 'border border-gray-300 bg-[#f0f0f0]'  // 선택된 경우: 테두리와 배경색
-                  : ''  // 선택되지 않은 경우: 스타일 없음
               }`}
             >
               <Chips text="하나의 숙소를 한팀이 전부 사용해요." />
@@ -54,8 +52,6 @@ const SelectType: React.FC = () => {
               onClick={() => handleOptionClick('하나의 숙소에 객실이 여러개 있어요.')}
               className={`p-4 rounded-lg cursor-pointer ${
                 currentSelection === '하나의 숙소에 객실이 여러개 있어요.'
-                  ? 'border border-gray-300 bg-[#f0f0f0]'  // 선택된 경우: 테두리와 배경색
-                  : ''  // 선택되지 않은 경우: 스타일 없음
               }`}
             >
               <Chips text="하나의 숙소에 객실이 여러개 있어요." />
