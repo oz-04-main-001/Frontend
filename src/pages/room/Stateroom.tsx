@@ -15,33 +15,71 @@ import Header from '../../assets/Header';
 import useTimeFormet from '../../customHooks/useTimeFormet';
 import useDateDotFormet from '../../customHooks/useDateDotFormet';
 import usePriceFormet from '../../customHooks/usePriceFormet';
+import { useEffect } from 'react';
+import { postBooking } from '../../axios/orderApi';
+import useDateDashFormet from '../../customHooks/useDateDashFormet';
 
 export default function Stateroom() {
   const navigate = useNavigate();
   const { accommodationId, stateroomId } = useParams();
   const { search } = useSearchStore();
   const { stateRoom, actions } = useStateroomStore();
+  useEffect(() => {
+    const fetchGetLoad = async () => {
+      try {
+        const loadCard = await getStateRoomLoad(
+          Number(accommodationId),
+          Number(stateroomId)
+        );
+        actions.setStateRoomInfo(loadCard);
+        navigate(
+          `/reservation/stateroom/order/${accommodationId}/${stateroomId}`
+        );
+      } catch (err) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response) {
+          const statusCode = axiosError.response.status;
+          switch (statusCode) {
+            case 401:
+              navigate('/user/login');
+              break;
+            default:
+              console.log('요청 에러');
+              break;
+          }
+        }
+      }
+    };
+    fetchGetLoad();
+  }, []);
+  const checkInDate = useDateDashFormet(search.date.checkIn);
+  const checkOutDate = useDateDashFormet(search.date.checkOut);
+  const guestsCount = search.personnel.adult;
+
   const fetchGetLoad = async () => {
-    try {
-      const loadCard = await getStateRoomLoad(
-        Number(accommodationId),
-        Number(stateroomId)
-      );
-      actions.setStateRoomInfo(loadCard);
-      navigate(
-        `/reservation/stateroom/order/${accommodationId}/${stateroomId}`
-      );
-    } catch (err) {
-      const axiosError = err as AxiosError;
-      if (axiosError.response) {
-        const statusCode = axiosError.response.status;
-        switch (statusCode) {
-          case 401:
-            navigate('/user/login');
-            break;
-          default:
-            console.log('요청 에러');
-            break;
+    if (accommodationId && stateroomId) {
+      try {
+        const order = await postBooking(
+          accommodationId,
+          stateroomId,
+          checkInDate,
+          checkOutDate,
+          guestsCount
+        );
+        console.log('예약이 성공적으로 완료되었습니다!', order);
+        await navigate(`/mypage`);
+      } catch (err) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response) {
+          const statusCode = axiosError.response.status;
+          switch (statusCode) {
+            case 401:
+              navigate('/user/login');
+              break;
+            default:
+              console.log('요청 에러');
+              break;
+          }
         }
       }
     }
