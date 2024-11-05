@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   const renderUserLinks = () => {
-    if (usertype === 'guest' || usertype === 'host') {
+    if (usertype === 'guest' || usertype === 'host' || usertype === 'admin') {
       return (
         <>
           <span className="text-gray-600">
